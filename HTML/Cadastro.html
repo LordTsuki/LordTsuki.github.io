@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content = "Lord 月青, Foleninha Games, Conris, Rage, Kote">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        body
+        {
+            background-size: auto;
+            background-color: #01401c;
+            text-align: center;
+            font-family: utopia-std-headline,serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        form
+        {
+            background-color: #593c19;
+            border-radius: 10px;
+            margin: 50px 700px;
+            padding: 1px;
+            border: 3px solid;
+            text-align: center;
+        }
+        h1
+        {
+            background-size: auto;
+            background-color: #025918;
+            text-align: center;
+            font-family: utopia-std-headline,serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>
+            Cadastro
+        </h1>
+
+        <form action="cadastros.php" method="POST">
+            <div class="form-col">
+                <div class="form-group col-md-12">
+                    <label for="idemail">E-mail</label>
+                    <input class="form-control" type="email" name="email" id="idemail" required autofocus placeholder="Informe seu e-mail">
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="inputPassword6">Senha</label>
+                    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" required autofocus placeholder="Senha">
+                    <small id="passwordHelpInline" class="text-muted">
+                      Máximo de 8-20 caracteres.
+                    </small>
+                </div>
+            </div>
+
+            <input class="btn btn-outline-success" type="submit" value="Cadastrar">
+        </form>
+    </div>
+</body>
+</html>
