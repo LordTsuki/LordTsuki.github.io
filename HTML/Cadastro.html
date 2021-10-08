@@ -50,6 +50,10 @@
                             else if(document.getElementById('inputPassword6').value == '' || document.getElementById('idemail').value == ''){
                                 alert("Pelo menos um dos campos está vazio\nFavor preencher todos os campos.");
                             }
+                            else if(document.getElementById('inputPassword6').value.length < "8" || document.getElementById('inputPassword6').value.length > "20"){
+                                alert("Sua senha é muito grande ou muito pequena\nFavor preencher no tamanho solicitado(8-20 caracteres).");
+                                
+                            }
                             else{
                                 document.cadastros.submit();
                             }
