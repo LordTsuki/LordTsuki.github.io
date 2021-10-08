@@ -37,6 +37,21 @@
         }
 
     </style>
+            <script>
+                    function validarSenha(){
+                        NovaSenha = document.getElementById('inputPassword6').value;
+                        CNovaSenha = document.getElementById('inputPassword7').value;
+                            if (NovaSenha != CNovaSenha) {
+                                alert("Senhas não coincidem!\nDigite novamente.");
+                                document.getElementById('inputPassword6').value = '';
+                                document.getElementById('inputPassword7').value = '';
+      
+                            }
+                            else{
+                                document.cadastros.submit();
+                            }
+}
+            </script>
 </head>
 
 <body>
@@ -45,23 +60,38 @@
             Cadastro
         </h1>
 
-        <form action="cadastros.php" method="POST">
-            <div class="form-col">
-                <div class="form-group col-md-12">
+        <form action="cadastros.php" method="POST" id="cadastros" name="cadastros">
+            <div class="form-row">
+                <div class="form-group col-md-3"></div>
+                <div class="form-group col-md-6" >
                     <label for="idemail">E-mail</label>
                     <input class="form-control" type="email" name="email" id="idemail" required autofocus placeholder="Informe seu e-mail">
                 </div>
-
-                <div class="form-group col-md-12">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3"></div>
+                <div class="form-group col-md-6">
                     <label for="inputPassword6">Senha</label>
-                    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" required autofocus placeholder="Senha">
+                    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" minlength="8" maxlength="20" required placeholder="Senha">
                     <small id="passwordHelpInline" class="text-muted">
                       Máximo de 8-20 caracteres.
                     </small>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-3"></div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword7  ">Confirme a senha</label>
+                    <input type="password" id="inputPassword7" class="form-control" aria-describedby="passwordHelpInline" minlength="8" maxlength="20" required placeholder="Senha">
+                    <small id="passwordHelpInline1" class="text-muted">
+                      Máximo de 8-20 caracteres.
+                    </small>
+                </div>
+            </div>
 
-            <input class="btn btn-outline-success" type="submit" value="Cadastrar">
+
+
+            <button type="button" class="btn btn-outline-success" onclick="validarSenha()">Cadastrar</button>
         </form>
     </div>
 </body>
