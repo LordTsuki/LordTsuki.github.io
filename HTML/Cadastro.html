@@ -43,16 +43,21 @@
     </style>
             <script>
                     function validarSenha(){
-                        NovaSenha = document.getElementById('inputPassword6').value;
-                        CNovaSenha = document.getElementById('inputPassword7').value;
+                        let NovaSenha = document.getElementById('inputPassword6').value;
+                        let CNovaSenha = document.getElementById('inputPassword7').value;
                             if (NovaSenha != CNovaSenha) {
                                 alert("Senhas não coincidem!\nDigite novamente.");
                                 document.getElementById('inputPassword6').value = '';
                                 document.getElementById('inputPassword7').value = '';
       
                             }
-                            else if(document.getElementById('inputPassword6').value == '' || document.getElementById('idemail').value == ''){
+                            else if(NovaSenha == '' || CNovaSenha == ''){
                                 alert("Pelo menos um dos campos está vazio\nFavor preencher todos os campos.");
+                            }
+                            else if(NovaSenha.length < "8" || CNovaSenha.length > "20"){
+                                alert("Sua senha é muito grande ou muito pequena\nFavor preencher no tamanho solicitado(8-20 caracteres).");
+                                document.getElementById('inputPassword6').value = '';
+                                document.getElementById('inputPassword7').value = '';
                             }
                             else{
                                 document.cadastros.submit();
@@ -89,7 +94,7 @@
                 <div class="form-group col-md-3"></div>
                 <div class="form-group col-md-6">
                     <label for="inputPassword7  ">Confirme a senha</label>
-                    <input type="password" id="inputPassword7" class="form-control" aria-describedby="passwordHelpInline" minlength="8" maxlength="20" required placeholder="Senha">
+                    <input type="password" id="inputPassword7" class="form-control" aria-describedby="passwordHelpInline" minlength="8"  required placeholder="Senha">
                     <small id="passwordHelpInline1" class="text-muted">
                       Entre 8-20 caracteres.
                     </small>
