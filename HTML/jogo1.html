@@ -1,0 +1,128 @@
+<!DOCTYPE html> <!--TENTATIVA DO JOGO, ALGUEM ME AJUDA-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    .main-section .standard-card {
+    border: 1px solid blue;
+  }
+  
+  .standard-card {
+    height: 35%;
+    cursor: pointer;
+    font-size: 6em;
+    text-align: center;
+    position: relative;
+    transition: height 1s, left 1s, top 1s, font-size 1s, position 1s;
+  }
+  
+  .selected-card {
+    position: fixed;
+    height: 80%;
+    /* 			left: 100px; */
+    top: 10%;
+    font-size: 12em;
+    z-index: 10;
+  }
+</style>
+<script>
+    $("body").velocity({
+        opacity: 0.7
+      });
+      
+      function card_select() {
+        $('.standard-card').on('click', function() {
+          $('.standard-card').not(this).removeClass('selected-card col s5');
+          $(this).toggleClass('selected-card col s5');
+        });
+      };
+      card_select();
+</script>
+</head>
+<body>
+    <div class="row">
+        <div class="col s7 main-section">
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">1</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">2</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">3</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">4</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">5</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">6</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">7</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">8</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">9</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">10</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">11</div>
+            </div>
+          </div>
+    
+          <div class="col s4">
+            <div class="card blue-grey darken-1 standard-card">
+              <div class="card-content white-text">12</div>
+            </div>
+          </div>
+    
+        </div>
+    
+        <div class="col s5">
+    
+        </div>
+      </div>
+</body>
+</html>
