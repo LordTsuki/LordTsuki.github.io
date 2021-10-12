@@ -1,78 +1,96 @@
-body {
-	background-color: lightgray;
+body 
+{
+	background-color: #050218;
 }
 
-h1 {
+h1 
+{
 	text-align: center;
 }
 
-a {
-	color: #000000;
+a 
+{
+	color: whitesmoke;
 }
 
-a:hover {
-	color: #000000;
+a:hover 
+{
+	color: whitesmoke;
 }
 
-#corpo {
+#corpo 
+{
 	margin-left: auto;
 	margin-right: auto;
 	width: 700px;
 	height: 500px;
 	background-color: #050218;
-	border: medium dashed black;
+	border: medium dashed whitesmoke;
+	border-radius: 15px;
 }
 
-#corpo2 {
+#corpo2 
+{
 	margin-left: auto;
 	margin-right: auto;
 	width: 700px;
 	height: 1050px;
 	background-color: #050218;
-	border: medium dashed black;
+	border: medium dashed whitesmoke;
+	border-radius: 15px;
 }
 
-#tela {
+#tela 
+{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 65px;
 	width: 500px;
 	height: 100px;
-	background-color: white;
-	border: medium solid black;
+	background-color: whitesmoke;
+	border: medium solid whitesmoke;
+	border-radius: 15px;
 }
 
-#botoes {
+#botoes 
+{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 85px;
 	width: 460px;
 }
 
-#creditos_txt {
+#creditos_txt 
+{
 	margin-left: 80px;
 	margin-top: 30px;
 	font-weight: bold;
 	float: left;
+	color: whitesmoke
 }
 
-#creditos {
+#creditos 
+{
 	clear: left;
 	margin-left: 75px;
 	float: left;
 }
 
-#valor_txt {
-	margin-left: 530px;
+#valor_txt 
+{
+	margin-left: 520px;
 	margin-top: 30px;
 	font-weight: bold;
+	color: whitesmoke
 }
 
-#valor {
+#valor 
+{
 	margin-left: 560px;
 }
 
-#slot1 {
+#slot1 
+{
 	margin-top: 5px;
 	padding-left: 17px;
 	padding-right: 17px;
@@ -83,7 +101,8 @@ a:hover {
 	vertical-align: middle;
 }
 
-#slot2 {
+#slot2 
+{
 	margin-top: 5px;
 	padding-left: 17px;
 	padding-right: 17px;
@@ -94,7 +113,8 @@ a:hover {
 	vertical-align: middle;
 }
 
-#slot3 {
+#slot3 
+{
 	margin-top: 5px;
 	padding-left: 17px;
 	padding-right: 17px;
@@ -105,7 +125,8 @@ a:hover {
 	vertical-align: middle;
 }
 
-#slot4 {
+#slot4 
+{
 	margin-top: 5px;
 	padding-left: 17px;
 	padding-right: 17px;
@@ -115,11 +136,13 @@ a:hover {
 	vertical-align: middle;
 }
 
-#rodapé {
-	margin-left: 113px
+#rodapé 
+{
+	margin-left: 500px
 }
 
-#tabela {
+#tabela 
+{
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
