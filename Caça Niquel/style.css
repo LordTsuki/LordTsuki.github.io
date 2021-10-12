@@ -9,6 +9,11 @@ h1
 	color: whitesmoke
 }
 
+h4
+{
+	color: whitesmoke
+}
+
 a 
 {
 	color: whitesmoke;
@@ -151,11 +156,11 @@ a:hover
 	color: whitesmoke
 }
 
-#li 
+li 
 {
 	margin-left: auto;
 	margin-right: auto;
-	text-align: center;
+	text-align: left;
 	font-weight: bold;
 	color: whitesmoke
 }
