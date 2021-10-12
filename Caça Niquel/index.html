@@ -22,14 +22,14 @@
 				return parseInt(inferior) + aleat;
 			}
 			
-			function apostaMenos() {
+			function diminuir_aposta() {
 				if (aposta > 1) {
 					aposta--;
 					document.getElementById('aposta').value = 'R$ ' + aposta;					
 				}
 			}
 			
-			function apostaMais() {
+			function aumentar_aposta() {
 				if (aposta < 10) {
 					aposta ++;
 					document.getElementById('aposta').value = 'R$ ' + aposta;
@@ -240,7 +240,7 @@
 				//fim dos prêmios maiores
 			}
 			
-			function jogar() {
+			function iniciar_aposta() {
 				if (credito < 1 || credito < aposta) {
 					aux = window.prompt("Coloque mais creditos, digite a quantidade em R$:","1");
 					aux = parseInt(aux);
@@ -252,28 +252,28 @@
 					if(credito > 0 && credito >= aposta){
 						credito = credito - aposta;
 						document.getElementById('credito').value = 'R$ ' + credito;
-						document.getElementById('escud1').src = 'img/roleta.gif';
-						document.getElementById('escud2').src = 'img/roleta.gif';
-						document.getElementById('escud3').src = 'img/roleta.gif';
-						document.getElementById('escud4').src = 'img/roleta.gif';
+						document.getElementById('laranja').src = 'img/roleta.gif';
+						document.getElementById('uva').src = 'img/roleta.gif';
+						document.getElementById('cereja').src = 'img/roleta.gif';
+						document.getElementById('sete').src = 'img/roleta.gif';
 						
 						//processamento do slot1
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('escud1').src = 'img/botafogo.png'", 4000);
+							cont=setTimeout("document.getElementById('laranja').src = 'img/Laranja.png'", 4000);
 							slt1 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('escud1').src = 'img/flamengo.png'", 4000);
+							cont=setTimeout("document.getElementById('laranja').src = 'img/uva.png'", 4000);
 							slt1 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('escud1').src = 'img/fluminense.png'", 4000);
+							cont=setTimeout("document.getElementById('laranja').src = 'img/cereja.png'", 4000);
 							slt1 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('escud1').src = 'img/vasco.png'", 4000);
+							cont=setTimeout("document.getElementById('laranja').src = 'img/sete.png'", 4000);
 							slt1 = 4;
 							break;
 						}
@@ -282,19 +282,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('escud2').src = 'img/botafogo.png'", 6000);
+							cont=setTimeout("document.getElementById('uva').src = 'img/Laranja.png'", 6000);
 							slt2 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('escud2').src = 'img/flamengo.png'", 6000);
+							cont=setTimeout("document.getElementById('uva').src = 'img/uva.png'", 6000);
 							slt2 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('escud2').src = 'img/fluminense.png'", 6000);
+							cont=setTimeout("document.getElementById('uva').src = 'img/cereja.png'", 6000);
 							slt2 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('escud2').src = 'img/vasco.png'", 6000);
+							cont=setTimeout("document.getElementById('uva').src = 'img/sete.png'", 6000);
 							slt2 = 4;
 							break;
 						}
@@ -303,19 +303,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('escud3').src = 'img/botafogo.png'", 7000);
+							cont=setTimeout("document.getElementById('cereja').src = 'img/Laranja.png'", 7000);
 							slt3 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('escud3').src = 'img/flamengo.png'", 7000);
+							cont=setTimeout("document.getElementById('cereja').src = 'img/uva.png'", 7000);
 							slt3 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('escud3').src = 'img/fluminense.png'", 7000);
+							cont=setTimeout("document.getElementById('cereja').src = 'img/cereja.png'", 7000);
 							slt3 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('escud3').src = 'img/vasco.png'", 7000);
+							cont=setTimeout("document.getElementById('cereja').src = 'img/sete.png'", 7000);
 							slt3 = 4;
 							break;
 						}
@@ -324,19 +324,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('escud4').src = 'img/botafogo.png'", 8000);
+							cont=setTimeout("document.getElementById('sete').src = 'img/Laranja.png'", 8000);
 							slt4 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('escud4').src = 'img/flamengo.png'", 8000);
+							cont=setTimeout("document.getElementById('sete').src = 'img/uva.png'", 8000);
 							slt4 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('escud4').src = 'img/fluminense.png'", 8000);
+							cont=setTimeout("document.getElementById('sete').src = 'img/cereja.png'", 8000);
 							slt4 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('escud4').src = 'img/vasco.png'", 8000);
+							cont=setTimeout("document.getElementById('sete').src = 'img/sete.png'", 8000);
 							slt4 = 4;
 							break;
 						}
@@ -373,23 +373,23 @@
 			
 			<div id = "tela">
 				<div id = "slot1">
-					<img id = "escud1" src = "img/botafogo.png" />
+					<img id = "laranja" src = "img/Laranja.png" />
 				</div>
 				<div id = "slot2">
-					<img id = "escud2" src = "img/flamengo.png" />
+					<img id = "uva" src = "img/uva.png" />
 				</div>
 				<div id = "slot3">
-					<img id = "escud3" src = "img/fluminense.png" />
+					<img id = "cereja" src = "img/cereja.png" />
 				</div>
 				<div id = "slot4">
-					<img id = "escud4" src = "img/vasco.png" />
+					<img id = "sete" src = "img/sete.png" />
 				</div>
 			</div>
 			
 			<div id = "botoes">
-				<img src = "img/apostamenos.gif" onMouseDown="this.src='img/apostamenos_p.gif';" onMouseUp="this.src='img/apostamenos.gif';" onclick = "apostaMenos();" />
-				<img src = "img/apostamais.gif" onMouseDown="this.src='img/apostamais_p.gif';" onMouseUp="this.src='img/apostamais.gif';" onclick = "apostaMais();"/>
-				<img src = "img/jogar.gif" onMouseDown="this.src='img/jogar_p.gif';" onMouseUp="this.src='img/jogar.gif';" onclick = "jogar();"/>
+				<img src = "img/diminuir_aposta.gif" onMouseDown="this.src='img/diminuir_aposta_1.gif';" onMouseUp="this.src='img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
+				<img src = "img/iniciar_aposta.gif" onMouseDown="this.src='img/iniciar_aposta_1.gif';" onMouseUp="this.src='img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
+				<img src = "img/aumentar_aposta.gif" onMouseDown="this.src='img/aumentar_aposta_1.gif';" onMouseUp="this.src='img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
 			</div>
 			
 			<div id = "rodapé">
