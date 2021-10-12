@@ -19,7 +19,7 @@ a:hover {
 	margin-right: auto;
 	width: 700px;
 	height: 500px;
-	background-color: lightblue;
+	background-color: #050218;
 	border: medium dashed black;
 }
 
@@ -28,7 +28,7 @@ a:hover {
 	margin-right: auto;
 	width: 700px;
 	height: 1050px;
-	background-color: lightblue;
+	background-color: #050218;
 	border: medium dashed black;
 }
 
@@ -115,7 +115,7 @@ a:hover {
 	vertical-align: middle;
 }
 
-#rodapé {
+#rodapÃ© {
 	margin-left: 113px
 }
 
