@@ -150,3 +150,12 @@ a:hover
 	font-weight: bold;
 	color: whitesmoke
 }
+
+#li 
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-weight: bold;
+	color: whitesmoke
+}
