@@ -244,15 +244,12 @@
 			{
 				aux = window.prompt("Coloque mais creditos, digite a quantidade em R$:","1");
 					aux = parseInt(aux);
-			}
-			
-			function iniciar_aposta() {
-				if (credito < 1 || credito < aposta) {
 					credito = parseInt(credito);
 					credito = credito + aux;
 					document.getElementById('credito').value = 'R$ ' + credito
-				}
-				else {
+			}
+			
+			function iniciar_aposta() {
 					if(credito > 0 && credito >= aposta){
 						credito = credito - aposta;
 						document.getElementById('credito').value = 'R$ ' + credito;
@@ -347,7 +344,6 @@
 						cont=setTimeout("verificaPremio()", 9000);
 					}
 				}
-			}
 		</script>
 	</head>
 	
@@ -394,7 +390,7 @@
 				<img src = "img/diminuir_aposta.gif" onMouseDown="this.src='img/diminuir_aposta_1.gif';" onMouseUp="this.src='img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
 				<img src = "img/iniciar_aposta.gif" onMouseDown="this.src='img/iniciar_aposta_1.gif';" onMouseUp="this.src='img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
 				<img src = "img/aumentar_aposta.gif" onMouseDown="this.src='img/aumentar_aposta_1.gif';" onMouseUp="this.src='img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
-				
+				<img src = "img/botao.gif" onmousedown="this.src='img/botao_apertado.gif';" onmouseup="this.src='img/botao.gif';" onclick="colocar_credito();"/>
 			</div>
 			
 			<div id = "rodapé">
