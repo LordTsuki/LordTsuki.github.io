@@ -240,10 +240,14 @@
 				//fim dos prêmios maiores
 			}
 			
+			function colocar_credito()
+			{
+				aux = window.prompt("Coloque mais creditos, digite a quantidade em R$:","1");
+					aux = parseInt(aux);
+			}
+			
 			function iniciar_aposta() {
 				if (credito < 1 || credito < aposta) {
-					aux = window.prompt("Coloque mais creditos, digite a quantidade em R$:","1");
-					aux = parseInt(aux);
 					credito = parseInt(credito);
 					credito = credito + aux;
 					document.getElementById('credito').value = 'R$ ' + credito
@@ -390,12 +394,15 @@
 				<img src = "img/diminuir_aposta.gif" onMouseDown="this.src='img/diminuir_aposta_1.gif';" onMouseUp="this.src='img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
 				<img src = "img/iniciar_aposta.gif" onMouseDown="this.src='img/iniciar_aposta_1.gif';" onMouseUp="this.src='img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
 				<img src = "img/aumentar_aposta.gif" onMouseDown="this.src='img/aumentar_aposta_1.gif';" onMouseUp="this.src='img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
+				
 			</div>
 			
 			<div id = "rodapé">
-				<a href = "tabela.html" target='_blank'>Tabela de prêmios</a>
+				<a href = "tabela.html" target='_blank'>
+					<img src="img/premios.png">
+				</a>
 			</div>
-		
+
 		</div>
 	
 	</body>
