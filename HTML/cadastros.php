@@ -1,14 +1,11 @@
 <?php
 
-$host = "localhost";
-$usuario = "root";
-$senha = "";
-$bd = "cassino";
+include_once('conexao.php')
 
-$mysqli = new mysqli($host, $usuario, $senha, $bd);
-if ($mysqli->connect_errno)
-echo "Falha na conexão: (".$mysqli->connect_errno.") ".$mysqli->connect_error;
-
+if ($conn->connect_errno)
+{
+echo "Falha na conexão: (".$conn->connect_errno.") ".$conn->connect_error;
+}
     if(isset($_POST['save']))
     {
         $nome = $_POST['nome'];

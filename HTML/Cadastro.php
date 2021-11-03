@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +18,7 @@
         body
         {
             background-size: auto;
-            background-color: rgb(12, 12, 12);
+            background-image: url('/imagens/fundo_moeda.gif');;
             text-align: center;
             font-family: utopia-std-headline,serif;
             font-weight: 400;
@@ -23,17 +26,17 @@
         }
         form
         {
-            background-color: #000000;
+            background-color: #000000b4;
             border-radius: 10px;
             margin: 50px 350px;
             padding: 1px;
-            border: 3px solid;
+            border: 2px solid;
             text-align: center;
         }
         h1
         {
             background-size: auto;
-            background-color:#c6c914;
+            background-color:#c6c91400;
             text-align: center;
             font-family: utopia-std-headline,serif;
             font-weight: 600;
@@ -42,7 +45,8 @@
 
     </style>
             <script>
-                    function validarSenha(){
+                    function validarSenha()
+                    {
                         let NovaSenha = document.getElementById('inputPassword6').value;
                         let CNovaSenha = document.getElementById('inputPassword7').value;
                             if (NovaSenha != CNovaSenha) {
@@ -62,13 +66,14 @@
                             else{
                                 document.cadastros.submit();
                             }
-}
+                    }
             </script>
 </head>
 
 <body>
+    
     <div class="container-fluid">
-        <h1 style="color: rgb(22, 21, 21);">
+        <h1 style="color: rgb(39, 37, 37);">
             Cadastro
         </h1>
 
@@ -77,7 +82,7 @@
                 <div class="form-group col-md-3"></div>
                 <div class="form-group col-md-6" >
                     <label for="idnome">Nome</label>
-                    <input class="form-control" type="nome" name="nome" id="idnome" required autofocus placeholder="Informe seu primeiro nome">
+                    <input class="form-control" type="nome" name="save" id="idnome" required autofocus placeholder="Informe seu primeiro nome">
                 </div>
             </div>
             <div class="form-row">
@@ -111,7 +116,7 @@
                 <div class="form-group col-md-3"></div>
                 <div class="form-group col-md-6" >
                     <label for="idcredito">Créditos</label>
-                    <input class="form-control" type="number" step="0.01" min="1" max="10000"  name="credito" id="idcredito" required autofocus placeholder="Informe seu crédito inicial">
+                    <input class="form-control" type="number" min="1" max="10000" step="0.01" name="credito" id="idcredito" required autofocus placeholder="Informe seu crédito inicial (máximo R$ 10.000,00)">
                 </div>
             </div>
 
