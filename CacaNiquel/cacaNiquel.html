@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="author" content = "Lord 月青, Foleninha Games, Conris, Rage, Kote">
+		<meta name="author" content = "Lord 月青, Folena, Conris, Rage, Kote">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Caça Níqueis Computação (SLOTS)</title>
 		<link type="text/css" rel="stylesheet" href="style.css">
@@ -30,7 +30,7 @@
 			}
 			
 			function aumentar_aposta() {
-				if (aposta < 10) {
+				if (aposta < 50) {
 					aposta ++;
 					document.getElementById('aposta').value = 'R$ ' + aposta;
 				}
@@ -262,19 +262,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('laranja').src = 'img/Laranja.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = 'img/Laranja.png'", 4000);
 							slt1 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('laranja').src = 'img/uva.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = 'img/uva.png'", 4000);
 							slt1 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('laranja').src = 'img/cereja.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = 'img/cereja.png'", 4000);
 							slt1 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('laranja').src = 'img/sete.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = 'img/sete.png'", 4000);
 							slt1 = 4;
 							break;
 						}
@@ -283,19 +283,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('uva').src = 'img/Laranja.png'", 6000);
+							count=setTimeout("document.getElementById('uva').src = 'img/Laranja.png'", 6000);
 							slt2 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('uva').src = 'img/uva.png'", 6000);
+							count=setTimeout("document.getElementById('uva').src = 'img/uva.png'", 6000);
 							slt2 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('uva').src = 'img/cereja.png'", 6000);
+							count=setTimeout("document.getElementById('uva').src = 'img/cereja.png'", 6000);
 							slt2 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('uva').src = 'img/sete.png'", 6000);
+							count=setTimeout("document.getElementById('uva').src = 'img/sete.png'", 6000);
 							slt2 = 4;
 							break;
 						}
@@ -304,19 +304,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('cereja').src = 'img/Laranja.png'", 7000);
+							count=setTimeout("document.getElementById('cereja').src = 'img/Laranja.png'", 7000);
 							slt3 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('cereja').src = 'img/uva.png'", 7000);
+							count=setTimeout("document.getElementById('cereja').src = 'img/uva.png'", 7000);
 							slt3 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('cereja').src = 'img/cereja.png'", 7000);
+							count=setTimeout("document.getElementById('cereja').src = 'img/cereja.png'", 7000);
 							slt3 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('cereja').src = 'img/sete.png'", 7000);
+							count=setTimeout("document.getElementById('cereja').src = 'img/sete.png'", 7000);
 							slt3 = 4;
 							break;
 						}
@@ -325,23 +325,23 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							cont=setTimeout("document.getElementById('sete').src = 'img/Laranja.png'", 8000);
+							count=setTimeout("document.getElementById('sete').src = 'img/Laranja.png'", 8000);
 							slt4 = 1;
 							break;
 							case 2:
-							cont=setTimeout("document.getElementById('sete').src = 'img/uva.png'", 8000);
+							count=setTimeout("document.getElementById('sete').src = 'img/uva.png'", 8000);
 							slt4 = 2;
 							break;
 							case 3:
-							cont=setTimeout("document.getElementById('sete').src = 'img/cereja.png'", 8000);
+							count=setTimeout("document.getElementById('sete').src = 'img/cereja.png'", 8000);
 							slt4 = 3;
 							break;
 							case 4:
-							cont=setTimeout("document.getElementById('sete').src = 'img/sete.png'", 8000);
+							count=setTimeout("document.getElementById('sete').src = 'img/sete.png'", 8000);
 							slt4 = 4;
 							break;
 						}
-						cont=setTimeout("verificaPremio()", 9000);
+						count=setTimeout("verificaPremio()", 9000);
 					}
 				}
 		</script>

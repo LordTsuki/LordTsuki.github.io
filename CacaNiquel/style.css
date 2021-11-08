@@ -24,6 +24,12 @@ a:hover
 	color: whitesmoke;
 }
 
+body
+{
+	background-image:url("img/moedas.gif");
+	background-size: cover;
+}
+
 #corpo 
 {
 	margin-left: auto;
@@ -35,7 +41,7 @@ a:hover
 	border-radius: 15px;
 }
 
-#corpo2 
+/*#corpo2 
 {
 	margin-left: auto;
 	margin-right: auto;
@@ -45,7 +51,7 @@ a:hover
 	border: medium dashed whitesmoke;
 	border-radius: 15px;
 }
-
+*/
 #tela 
 {
 	margin-left: auto;
