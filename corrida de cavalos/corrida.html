@@ -13,6 +13,18 @@
 	var aposta = 1;
 	var nSort = 0;
     var cav1, cav2, cav3, cav4, cav5, cav6;
+    var cavalo1 = 1;
+    var cavalo1_1 = 2;
+    var cavalo2 = 3;
+    var cavalo2_1 = 4;
+    var cavalo3 = 5;
+    var cavalo3_1 = 6;
+    var cavalo4 = 7;
+    var cavalo4_1 = 8;
+    var cavalo5 = 9;
+    var cavalo5_1 = 10;
+    var cavalo6 = 11;
+    var cavalo6_1 = 12;
 
     function aleatorio(inferior,superior){ 
 				numPossibilidades = superior - inferior; 
@@ -20,6 +32,13 @@
 				aleat = Math.floor(aleat);
 				return parseInt(inferior) + aleat;
 			}
+
+    function random()
+        {
+            aleatorio(1,13);
+            
+
+        }
 			
 			function diminuir_aposta() {
 				if (aposta > 1) {
@@ -93,13 +112,18 @@
 				document.getElementById('credito').value = 'R$ ' + credito
 			}
             
-        function iniciar_aposta() 
+        function trocar_img()
+        {
+           
+        }
+
+            function iniciar_aposta() 
         {
 			if(credito > 0 && credito >= aposta)
             {
 				credito = credito - aposta;
                 document.getElementById('credito').value = 'R$ ' + credito;
-                document.getElementById('imgcav').src = 'videos/cav1-1.mp4';
+                
             }
         }
 
@@ -129,8 +153,8 @@
         </div>
     
         <div id = "tela">
-            <img id = "imgcav" src="img/cavalos.png"/>
-            <video id = "cav1-1" controls src="videos/cav1-1.mp4"/>
+            <video id = "cav1" src="videos/cav1-1.mp4" onmousedown="this.src='videos/cav1-2.mp4'"/>
+            <video id = "cav1-2" src="videos/cav1-2.mp4" onmousedown="this.src='videos/cav1-1.mp4'"/>
         </div>
 
         <div id = "botoes">
