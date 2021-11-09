@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content = "Lord 月青, Folena, Conris, Rage, Kote">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Corrida dos cavalos</title>
 <script>
     var credito = 0;
@@ -91,6 +92,16 @@
 				credito = credito + aux;
 				document.getElementById('credito').value = 'R$ ' + credito
 			}
+            
+        function iniciar_aposta() 
+        {
+			if(credito > 0 && credito >= aposta)
+            {
+				credito = credito - aposta;
+                document.getElementById('credito').value = 'R$ ' + credito;
+                document.getElementById('imgcav').src = 'videos/cav1-1.mp4';
+            }
+        }
 
 </script>
 </head>
@@ -117,8 +128,17 @@
             </form>
         </div>
     
-    
-    
+        <div id = "tela">
+            <img id = "imgcav" src="img/cavalos.png"/>
+            <video id = "cav1-1" controls src="videos/cav1-1.mp4"/>
+        </div>
+
+        <div id = "botoes">
+            <img src = "img/diminuir_aposta.gif" onMouseDown="this.src='img/diminuir_aposta_1.gif';" onMouseUp="this.src='img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
+            <img src = "img/iniciar_aposta.gif" onMouseDown="this.src='img/iniciar_aposta_1.gif';" onMouseUp="this.src='img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
+            <img src = "img/aumentar_aposta.gif" onMouseDown="this.src='img/aumentar_aposta_1.gif';" onMouseUp="this.src='img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
+            <img src = "img/botao.gif" onmousedown="this.src='img/botao_apertado.gif';" onmouseup="this.src='img/botao.gif';" onclick="colocar_credito();"/>
+        </div>
     
     </div>
 </body>
