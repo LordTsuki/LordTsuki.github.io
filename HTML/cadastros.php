@@ -1,10 +1,15 @@
 <?php
 
-include_once('conexao.php')
+$servername = "localhost";
+$usuario = "root";
+$senha = "";
+$bd = "cassino";
 
-if ($conn->connect_errno)
+$conn = mysqli_connect($host, $usuario, $senha, $bd);
+//checar conexao:
+if (!$conn)
 {
-echo "Falha na conexão: (".$conn->connect_errno.") ".$conn->connect_error;
+    die("Falha na conexão:" . mysqli_connect());
 }
     if(isset($_POST['save']))
     {
@@ -13,7 +18,7 @@ echo "Falha na conexão: (".$conn->connect_errno.") ".$conn->connect_error;
         $senha = $_POST['senha'];
         $credito = $_POST['credito'];
 
-        $sql_query = "INSERT INTO usuario (nome, email, senha, credito)
+        $sql_query = "INSERT INTO `usuario` (nome, email, senha, credito)
         VALUES ('$nome', '$email', '$senha', '$credito')";
 
         if (mysql_query($conn, $sql_query))
