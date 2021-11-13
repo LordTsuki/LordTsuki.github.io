@@ -158,7 +158,7 @@ grava(p);
 void grava2(dados2 *p2)
 {
 FILE *fptr=NULL;
-if((fptr=fopen("estoque.bin","ab"))==NULL)
+if((fptr=fopen("estoque2.bin","ab"))==NULL)
   printf("\nErro ao abrir o arquivo");
 else
   fwrite(p2,sizeof(dados2),1,fptr);
