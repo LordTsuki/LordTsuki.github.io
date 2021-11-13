@@ -21,6 +21,7 @@ void aloca2(dados2 **p2, int tam);
 void cadastro2(dados2 *p2, int tam);
 void grava2(dados2 *p2);
 void mostra2(dados2 *p2, int qtde);
+int verifica2();
 void aloca(dados **p,int tam);
 int verifica();
 void cadastro(dados *p,int qtde);
@@ -57,7 +58,7 @@ case 1:
 
 case 2:
 		aloca2(&pd2,1);
-	qtde=verifica();
+	qtde=verifica2();
 	do
 	{
 		cadastro2(pd2, qtde+1);
@@ -91,6 +92,21 @@ void aloca(dados **p,int tam)
 if((*p=(dados*)realloc(*p,tam*sizeof(dados)))==NULL)
   exit(1);
 }//aloca
+
+int verifica2()
+{
+long int cont=0;
+FILE *fptr=NULL;
+if((fptr=fopen("estoque2.bin","rb"))==NULL)
+  return cont;
+else
+  {
+  	fseek(fptr,0,2);  //posiciona o fptr no fim do arquivo
+  	cont=ftell(fptr)/sizeof(dados);
+  	fclose(fptr);   //dentro do else - por conta do rb
+  	return cont;
+  }//else
+}// Verifica
 
 int verifica()
 {
