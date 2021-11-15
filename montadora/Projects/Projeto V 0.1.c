@@ -66,7 +66,7 @@ void alloc_car(montadora **p2, int tam);
 int verify_car();
 void register_car(montadora *p2, int tam);
 void save_car(montadora *p2);
-void show_car(montadora *p2, int qtde);
+void show_car(montadora *p2, int qtt);
 
 int main()
 {
@@ -188,7 +188,7 @@ int verify_store()
 {
     long int cont=0;
     FILE *fptr = NULL;
-    if((fptr = fopen("conssecionaria.bin", "rb")) == NULL)
+    if((fptr = fopen("concessionaria.bin", "rb")) == NULL)
     {
         return cont;
     }// If - Case Data ERROR
@@ -244,12 +244,12 @@ void register_store(loja *p1, int qtt)
     gets(p1->end.email);
     fflush(stdin);
     system("cls");
-    for ( i = 0; i < 3; i++)
-    {
-        p1->tabela[i].reservado.regcarro = 'L';
-    }
     p1->sold=0;
     p1->reserved=0;
+    for ( i = 0; i < 3; i++)
+    {
+        p1->tabela[i].sigla = 'L';
+    }
     save_store(p1);
 }//Function register_store
 
@@ -262,40 +262,51 @@ void save_store(loja *p1)
     }// If - Data ERROR
     else
     {
-        fwrite(p1,sizeof(loja), 1, fptr);
+        fwrite(p1, sizeof(loja), 1, fptr);
     }// Else - Data OK
     fclose(fptr);
 }// Function save_store
 
-
 void show_store(loja *p1, int qtt)
 {
-    int i;
+    int i=0;
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
+    fseek(fptr, i*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr);
+    if(p1->reserved == 0)
+    {
+  	    for(i=0; i<qtt; i++)
+  	    {
+  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
+	    }// For - Show Data
+	    fclose(fptr);
+    }// If - Data OK and Reserved == 0
     else
     {
   	    for(i=0; i<qtt; i++)
   	    {
-  	  	    fseek(fptr, i*sizeof(loja), 0);
-  	  	    fread(p1, sizeof(loja), 1, fptr);
-  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %s\nTable 1: %s\nTable 2: %s\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.regcarro);
+  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
 	    }// For - Show Data
 	    fclose(fptr);
     }// Else - Data OK
     printf("\n\n\n");
-
     system("pause");
+    system("cls");
 }// Function show_store
 
 void alloc_car(montadora **p2, int tam)
 {
 if((*p2=(montadora*)realloc(*p2,tam*sizeof(montadora)))==NULL)
-  exit(1);
+{
+    printf("Not able to alloc");
+    system("pause");
+    exit(1);
+}
 }// Function alloc_car
 
 int verify_car()
@@ -333,7 +344,7 @@ void register_car(montadora *p2, int qtt)
     scanf("%f", &(p2->valor));
     fflush(stdin);
     system("cls");
-    p2->status.reserva.sigla = 'L';
+    p2->status.sigla = 'L';
     save_car(p2);
 }//Function register_car
 
@@ -353,23 +364,32 @@ void save_car(montadora *p2)
 
 void show_car(montadora *p2, int qtt)
 {
-    int i;
+    int i=0;
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("carro.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
+    fseek(fptr, i*sizeof(montadora), 0);
+  	fread(p2, sizeof(montadora), 1, fptr);
+    if(p2->status.sigla == 'L')
+    {
+  	    for(i=0; i<qtt; i++)
+  	    {
+  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+	    }// For - Show Data
+	    fclose(fptr);
+    }// If - Data OK and Status.Sigla == L
     else
     {
-  	    for(i=0; i<qtt; i++, p2++)
+  	    for(i=0; i<qtt; i++)
   	    {
-  	  	    fseek(fptr, i*sizeof(loja), 0);
-  	  	    fread(p2, sizeof(loja), 1, fptr);
-  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.CNPJ);
+  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
 	    }// For - Show Data
 	    fclose(fptr);
     }// Else - Data OK
     printf("\n\n\n");
     system("pause");
+    system("cls");
 }// Function show_car
