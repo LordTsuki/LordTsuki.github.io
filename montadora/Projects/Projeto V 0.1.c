@@ -61,6 +61,7 @@ int verify_store();
 void register_store(loja *p1, int tam);
 void save_store(loja *p1);
 void show_store(loja *p1, int qtt);
+void show_CNPJ(loja *p1, int tam, char aux[19]);
 
 void alloc_car(montadora **p2, int tam);
 int verify_car();
@@ -74,7 +75,7 @@ int main()
     montadora *pc=NULL;
     alloc_store(&ps, 1);
     alloc_car(&pc, 1);
-    //char op;
+    char aux[19];
     int qtt=0, menu_base, menu_store, menu_assembler, menu_check;
 menu_base:
     printf("1 - Store\n2 - Car\n0 - Exit\n");
@@ -114,8 +115,11 @@ menu_base:
                     switch (menu_check)
                     {
                     case 1:
-                        printf("Out of Order\n");
+                        qtt=verify_store();//AQUII AQUII AQUIII
                         system("cls");
+                        printf("Write wanted CNPJ number: \n");
+                        gets(aux);
+                        show_CNPJ(ps, qtt, aux);    
                     goto menu_check;// Case 1 - Check per CNPJ
                     
                     case 2:
@@ -159,7 +163,7 @@ menu_base:
                 break;// Case 1 - Register
 
                 case 2:
-                    qtt= verify_car();
+                    qtt = verify_car();
                     system("cls");
                     show_car(pc, qtt);
                 goto menu_assembler;// Case 2 - Check
@@ -282,6 +286,8 @@ void show_store(loja *p1, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
+            fseek(fptr, i*sizeof(loja), 0);
+            fread(p1, sizeof(loja), 1,  fptr);
   	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -290,6 +296,8 @@ void show_store(loja *p1, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
+            fseek(fptr, i*sizeof(loja), 0);
+            fread(p1, sizeof(loja), 1,  fptr);
   	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -377,6 +385,8 @@ void show_car(montadora *p2, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
+        fseek(fptr, i*sizeof(montadora), 0);
+  	    fread(p2, sizeof(montadora), 1, fptr);
   	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -385,6 +395,8 @@ void show_car(montadora *p2, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
+        fseek(fptr, i*sizeof(montadora), 0);
+  	    fread(p2, sizeof(montadora), 1, fptr);
   	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -393,3 +405,49 @@ void show_car(montadora *p2, int qtt)
     system("pause");
     system("cls");
 }// Function show_car
+
+void show_CNPJ(loja *p1, int tam, char aux[19])
+{
+    int i=0;
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    fflush(stdin);
+    system("cls");
+    for (i = 0; i < tam; i++)
+    {
+        fseek(fptr, i*sizeof(loja), 0);
+        fread(p1, sizeof(loja), 1,  fptr);
+        if (aux==p1->CNPJ)
+        {
+            if (p1->reserved==0)
+            {
+                printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
+            }
+            if (p1->reserved==1)
+            {
+                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
+            }
+            if (p1->reserved==2)
+            {
+                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
+            }
+            if (p1->reserved==3)
+            {
+                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+            fclose(fptr);
+        }
+        else
+        {
+            printf("No matching found");
+            fclose(fptr);
+        }
+    }
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}
