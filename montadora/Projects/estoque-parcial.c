@@ -22,6 +22,7 @@ void cadastro2(dados2 *p2, int tam);
 void grava2(dados2 *p2);
 void mostra2(dados2 *p2, int qtde);
 int verifica2();
+
 void aloca(dados **p,int tam);
 int verifica();
 void cadastro(dados *p,int qtde);
