@@ -21,7 +21,7 @@ typedef struct infocarro
 typedef union dadoscarro 
 {
     char sigla; 
-    struct infocarro reservado; 
+    infocarro reservado; 
 }dadoscarro; 
 
 typedef struct loja
@@ -32,12 +32,12 @@ typedef struct loja
     endereco end;
     int sold;
     int reserved;
-    dadoscarro tabela[3]; 
+    dadoscarro tabela[3];
 }loja;
 
 typedef struct infoloja
 { 
-    char sigla; 
+    char sigla;
     char CNPJ[19];
 }infoloja; 
  
@@ -107,28 +107,27 @@ menu_base:
                 break;// Case 1 - Register
 
                 case 2:
-                    qtt = verify_store();
-                    show_store(ps, qtt);
-                    goto menu_store;
-                    /*system("cls");
+                    system("cls");
                 menu_check:
-                    printf("1 - Check per CNPJ\n2 - Check All\n0 - Back");
+                    printf("1 - Check per CNPJ\n2 - Check All\n0 - Back\n");
                     scanf("%i", &menu_check);
                     switch (menu_check)
                     {
                     case 1:
-                        printf("Out of Order");
-                        goto menu_check;
-                    break;// Case 1 - Check per CNPJ
+                        printf("Out of Order\n");
+                        system("cls");
+                    goto menu_check;// Case 1 - Check per CNPJ
                     
                     case 2:
-                        
-                    break;// Case 2 - Ckeck All
+                        qtt = verify_store();
+                        system("cls");
+                        show_store(ps, qtt);
+                    goto menu_store;// Case 2 - Ckeck All
                     
                     case 0:
                         system("cls");
                     goto menu_store;
-                    }// Switch Menu Check*/
+                    }// Switch Menu Check
                 break;// Case 2 - Check
 
                 case 0:
@@ -148,7 +147,6 @@ menu_base:
                     qtt = verify_car();
                     if(qtt < 50)
                     {
-                        
                         register_car(pc, qtt+1);
                         qtt++;
                         goto menu_assembler;
@@ -164,8 +162,7 @@ menu_base:
                     qtt= verify_car();
                     system("cls");
                     show_car(pc, qtt);
-                    goto menu_assembler;
-                break;// Case 2 - Check
+                goto menu_assembler;// Case 2 - Check
 
                 case 0:
                     system("cls");
@@ -249,7 +246,7 @@ void register_store(loja *p1, int qtt)
     system("cls");
     for ( i = 0; i < 3; i++)
     {
-        p1->tabela[i].sigla = 'L';
+        p1->tabela[i].reservado.regcarro = 'L';
     }
     p1->sold=0;
     p1->reserved=0;
@@ -261,7 +258,7 @@ void save_store(loja *p1)
     FILE *fptr=NULL;
     if((fptr=fopen("concessionaria.bin", "ab"))==NULL)
     {
-        printf("\nErro ao abrir o arquivo");
+        printf("\nError to open archive");
     }// If - Data ERROR
     else
     {
@@ -286,7 +283,7 @@ void show_store(loja *p1, int qtt)
   	    {
   	  	    fseek(fptr, i*sizeof(loja), 0);
   	  	    fread(p1, sizeof(loja), 1, fptr);
-  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %i\nTable 1: %i\nTable 2: %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0], p1->tabela[1], p1->tabela[2]);
+  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %s\nTable 1: %s\nTable 2: %s\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.regcarro);
 	    }// For - Show Data
 	    fclose(fptr);
     }// Else - Data OK
@@ -336,7 +333,7 @@ void register_car(montadora *p2, int qtt)
     scanf("%f", &(p2->valor));
     fflush(stdin);
     system("cls");
-    p2->status.sigla = 'L';
+    p2->status.reserva.sigla = 'L';
     save_car(p2);
 }//Function register_car
 
@@ -345,7 +342,7 @@ void save_car(montadora *p2)
     FILE *fptr=NULL;
     if((fptr=fopen("carro.bin","ab"))==NULL)
     {
-        printf("\nErro ao abrir o arquivo");
+        printf("\nError to open archive");
     }// If - Data ERROR
     else
     {
@@ -369,7 +366,7 @@ void show_car(montadora *p2, int qtt)
   	    {
   	  	    fseek(fptr, i*sizeof(loja), 0);
   	  	    fread(p2, sizeof(loja), 1, fptr);
-  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %i\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.CNPJ);
 	    }// For - Show Data
 	    fclose(fptr);
     }// Else - Data OK
