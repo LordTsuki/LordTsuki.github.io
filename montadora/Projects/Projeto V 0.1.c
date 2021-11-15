@@ -35,11 +35,32 @@ typedef struct loja
     dadoscarro tabela[3]; 
 }loja;
 
-void aloc_shop(loja **p1, int tam);
-void register_shop(loja **p1, int tam);
-void save_shop(loja *p1);
-void show_shop(loja *p1, int qtde);
-int verify_shop();
+typedef struct infoloja
+{ 
+    char sigla; 
+    char CNPJ[19]; 
+}infoloja; 
+ 
+typedef union dadosloja
+{ 
+    char sigla; 
+    infoloja reserva; 
+}dadosloja; 
+ 
+typedef struct montadora
+{ 
+    int regcarro;
+    char modelo[20]; 
+    char cor[10]; 
+    float valor; 
+    dadosloja status; 
+}montadora;
+
+void aloc_store(loja **p1, int tam);
+void register_store(loja *p1, int tam);
+void save_store(loja *p1);
+void show_store(loja *p1, int qtde);
+int verify_store();
 
 //void aloc_assembler(assembler **p2, int tam);
 //void register_assembler(assembler **p2, int tam);
@@ -50,11 +71,12 @@ int verify_shop();
 main()
 {
     loja *ps=NULL;
+
     //assembler *pa=NULL;
     char op;
-    int qtt, menu_base, menu_shop, menu_assembler;
+    int qtt, menu_base, menu_store, menu_assembler;
 menu_base:
-    printf("1 - Shop\n2 - Assembler\n0 - Exit\n");
+    printf("1 - store\n2 - Assembler\n0 - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
     switch (menu_base)
@@ -62,16 +84,24 @@ menu_base:
         case 1:
             system("cls");
             printf("1 - Register\n2 - Check\n0 - Back\n");
-            scanf("%i", &menu_shop);
+            scanf("%i", &menu_store);
             fflush(stdin);
-            switch (menu_shop)
+            switch (menu_store)
             {
                 case 1:
-                    aloc_shop(&ps, 1);
-                    qtt = verify_shop();
-
                     system("cls");
-
+                    aloc_store(&ps, 1);
+                    qtt = verify_store();
+                    if(qtt < 5)
+                    {
+                        register_store(ps, qtt+1);
+                        qtt++;
+                    }
+                    else
+                    {
+                        printf("Maximum of five stores reached.");
+                        goto menu_base;
+                    }
                 break; 
 
                 case 2:
@@ -96,7 +126,7 @@ menu_base:
 
                 break;
 
-                case 2:
+                case 2://realizar consulta atraves do CPNJ
                     system("cls");
 
                 break;
@@ -110,13 +140,13 @@ menu_base:
     }
 }
 
-void aloc_shop(loja **p1, int tam)
+void aloc_store(loja **p1, int tam)
 {
 if((*p1=(loja*)realloc(*p1,tam*sizeof(loja)))==NULL)
   exit(1);
 }//aloca
 
-int verify_shop()
+int verify_store()
 {
     long int cont=0;
     FILE *fptr = NULL;
@@ -128,13 +158,98 @@ int verify_shop()
     {
         fseek(fptr,0,2);  //posiciona o fptr no fim do arquivo
   	    cont=ftell(fptr)/sizeof(loja);
-  	    fclose(fptr);   //dentro do else - por conta do rb
+  	    fclose(fptr);
   	    return cont;
     }//else
-}//verify_shop
+}//verify_store
 
+void register_store(loja *p1, int tam)
+{
+    int i;
+    p1->regloja=tam;
+    system("cls");
+    printf("\nRegistro: %i",p1->regloja);
+    system("cls");
+    printf("\nNome da concessionaria: \n");
+    gets(p1->nome);
+    fflush(stdin);
+    system("cls");
+    printf("CNPJ: \n");
+    gets(p1->CNPJ);
+    fflush(stdin);
+    system("cls");
+    printf("Logradouro:\n");
+    gets(p1->end.logradouro);
+    fflush(stdin);
+    system("cls");
+    printf("bairro:\n");
+    gets(p1->end.bairro);
+    fflush(stdin);
+    system("cls");
+    printf("CEP:\n");
+    gets(p1->end.CEP);
+    fflush(stdin);
+    system("cls");
+    printf("cidade:\n");
+    gets(p1->end.cidade);
+    fflush(stdin);
+    system("cls");
+    printf("estado:\n");
+    gets(p1->end.estado);
+    fflush(stdin);
+    system("cls");
+    printf("telefone:\n");
+    gets(p1->end.fone);
+    fflush(stdin);
+    system("cls");
+    printf("e-mail:\n");
+    gets(p1->end.email);
+    fflush(stdin);
+    system("cls");
+    for ( i = 0; i < 3; i++)
+    {
+        p1->tabela[i].sigla = 'L';
+    }
+    p1->sold=0;
+    p1->reserved=0;
+    save_store(p1);
+}//register_store
 
+void save_store(loja *p1)
+{
+    FILE *fptr=NULL;
+    if((fptr=fopen("concessionaria.bin","ab"))==NULL)
+    {
+        printf("\nErro ao abrir o arquivo");
+    }
+    else
+    {
+        fwrite(p1,sizeof(loja),1,fptr);
+    }
+    fclose(fptr);
+}//save_store
 
+/*typedef struct loja
+{ 
+    int regloja;
+    char nome[30];
+    char CNPJ[19];
+    endereco end;
+    int sold;
+    int reserved;
+    dadoscarro tabela[3]; 
+}loja;
+typedef struct infocarro
+{
+    char sigla; 
+    int regcarro; 
+}infocarro; 
+ 
+typedef union dadoscarro 
+{
+    char sigla; 
+    infocarro reservado; 
+}dadoscarro; 
 
 
 

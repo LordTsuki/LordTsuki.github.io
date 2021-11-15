@@ -139,7 +139,14 @@ scanf("%f",&(p2->preco));
 fflush(stdin);
 grava(p2);
 }//cadastro
-
+/*typedef struct dados
+{
+    int    reg;
+    char   produto[20];
+    int    qtde;
+    float  preco;
+} dados;
+*/
 void cadastro(dados *p,int qtde)
 {
 p->reg=qtde;
