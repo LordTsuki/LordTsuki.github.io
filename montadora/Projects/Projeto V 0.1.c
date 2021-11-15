@@ -78,6 +78,7 @@ menu_base:
 
                 case 0:
                     system("cls");
+                    //pastel
                 goto menu_base;
             }
         case 2:
@@ -105,8 +106,6 @@ menu_base:
             exit(1);
     }
 }
-
-
 
 
 
