@@ -53,60 +53,59 @@ main()
     //assembler *pa=NULL;
     char op;
     int qtt, menu_base, menu_shop, menu_assembler;
-    menu_base:
+menu_base:
     printf("1 - Shop\n2 - Assembler\n0 - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
-    switch(menu_base)
+    switch (menu_base)
     {
         case 1:
             system("cls");
             printf("1 - Verify\n2 - Register\n0 - Back\n");
+            scanf("%i", &menu_shop);
+            fflush(stdin);
             switch (menu_shop)
             {
-            case 1:
-                system("cls");
+                case 1:
+                    system("cls");
+
+                break; 
+
+                case 2:
+                    system("cls");
 
                 break;
 
-            case 2:
-                system("cls");
-
-                break;
-
-            case 0:
-                system("cls");
+                case 0:
+                    system("cls");
                 goto menu_base;
-
-            default:
-                break;
             }
         case 2:
             system("cls");
             printf("1 - Verify\n2 - Register\n0 - Back\n");
+            scanf("%i", &menu_assembler);
+            fflush(stdin);
             switch (menu_assembler)
             {
-            case 1:
-                system("cls");
+                case 1:
+                    system("cls");
 
                 break;
 
-            case 2:
-                system("cls");
+                case 2:
+                    system("cls");
 
                 break;
 
-            case 0:
-                system("cls");
+                case 0:
+                    system("cls");
                 goto menu_base;
-
-            default:
-                break;
             }
+        case 0:
+            exit(1);
     }
 }
 
-void aloc_shop()
 
 
 
