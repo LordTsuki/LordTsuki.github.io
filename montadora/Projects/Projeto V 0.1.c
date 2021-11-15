@@ -60,34 +60,44 @@ main()
     switch(menu_base)
     {
         case 1:
+            system("cls");
             printf("1 - Verify\n2 - Register\n0 - Back\n");
             switch (menu_shop)
             {
             case 1:
+                system("cls");
 
                 break;
 
             case 2:
+                system("cls");
 
                 break;
 
             case 0:
+                system("cls");
                 goto menu_base;
 
             default:
                 break;
             }
         case 2:
+            system("cls");
             printf("1 - Verify\n2 - Register\n0 - Back\n");
             switch (menu_assembler)
             {
             case 1:
+                system("cls");
+
                 break;
 
             case 2:
+                system("cls");
+
                 break;
 
             case 0:
+                system("cls");
                 goto menu_base;
 
             default:
@@ -95,6 +105,8 @@ main()
             }
     }
 }
+
+void aloc_shop()
 
 
 
