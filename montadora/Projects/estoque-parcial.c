@@ -44,7 +44,7 @@ switch (menu)
 {
 case 1:
 		aloca(&pd,1);
-	qtde=verifica();
+		qtde=verifica();
 	do
 	{
 		cadastro(pd, qtde+1);

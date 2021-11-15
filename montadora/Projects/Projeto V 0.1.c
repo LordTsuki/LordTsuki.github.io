@@ -61,12 +61,15 @@ menu_base:
     {
         case 1:
             system("cls");
-            printf("1 - Verify\n2 - Register\n0 - Back\n");
+            printf("1 - Register\n2 - Check\n0 - Back\n");
             scanf("%i", &menu_shop);
             fflush(stdin);
             switch (menu_shop)
             {
                 case 1:
+                    aloc_shop(&ps, 1);
+                    qtt = verify_shop();
+
                     system("cls");
 
                 break; 
@@ -83,7 +86,7 @@ menu_base:
             }
         case 2:
             system("cls");
-            printf("1 - Verify\n2 - Register\n0 - Back\n");
+            printf("1 - Register\n2 - Check\n0 - Back\n");
             scanf("%i", &menu_assembler);
             fflush(stdin);
             switch (menu_assembler)
@@ -107,9 +110,28 @@ menu_base:
     }
 }
 
+void aloc_shop(loja **p1, int tam)
+{
+if((*p1=(loja*)realloc(*p1,tam*sizeof(loja)))==NULL)
+  exit(1);
+}//aloca
 
-
-
+int verify_shop()
+{
+    long int cont=0;
+    FILE *fptr = NULL;
+    if((fptr = fopen("conssecionaria.bin", "rb")) == NULL)
+    {
+        return cont;
+    }
+    else
+    {
+        fseek(fptr,0,2);  //posiciona o fptr no fim do arquivo
+  	    cont=ftell(fptr)/sizeof(loja);
+  	    fclose(fptr);   //dentro do else - por conta do rb
+  	    return cont;
+    }//else
+}//verify_shop
 
 
 
