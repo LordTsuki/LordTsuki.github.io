@@ -78,7 +78,7 @@ int main()
     alloc_car(&pc, 1);
     char aux[19];
     int qtt=0, menu_base, menu_store, menu_assembler, menu_check;
-menu_base:
+    menu_base:
     printf("1 - Store\n2 - Car\n0 - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
