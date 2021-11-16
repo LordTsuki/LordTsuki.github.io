@@ -104,6 +104,7 @@ menu_base:
                     else
                     {
                         printf("Maximum of five stores reached.");
+                        system("pause");
                         goto menu_store;
                     }// Else Register exceeded
                 break;// Case 1 - Register
@@ -116,7 +117,7 @@ menu_base:
                     switch (menu_check)
                     {
                     case 1:
-                        qtt=verify_store();//AQUII AQUII AQUIII
+                        qtt=verify_store();
                         system("cls");
                         show_CNPJ(ps, qtt, aux);    
                     goto menu_check;// Case 1 - Check per CNPJ
@@ -125,7 +126,7 @@ menu_base:
                         qtt = verify_store();
                         system("cls");
                         show_store(ps, qtt);
-                    goto menu_store;// Case 2 - Ckeck All
+                    goto menu_check;// Case 2 - Check All
                     
                     case 0:
                         system("cls");
@@ -157,6 +158,7 @@ menu_base:
                     else
                     {
                         printf("Maximum of fifty cars reached.");
+                        system("pause");
                         goto menu_assembler;
                     }// Else Register exceeded
                 break;// Case 1 - Register
@@ -272,6 +274,7 @@ void save_store(loja *p1)
 
 void show_store(loja *p1, int qtt)
 {
+    system("cls");
     int i=0;
     FILE *fptr=NULL;
     system("cls");
@@ -301,6 +304,7 @@ void show_store(loja *p1, int qtt)
 	    }// For - Show Data
 	    fclose(fptr);
     }// Else - Data OK
+    
     printf("\n\n\n");
     system("pause");
     system("cls");
@@ -463,67 +467,3 @@ void show_CNPJ(loja *p1, int tam, char aux[19])
     system("pause");
     system("cls");
 }
-
-/*void show_CNPJ(loja *p1, int tam, char aux[19])
-{
-    int i=0;
-    FILE *fptr=NULL;
-    system("cls");
-    printf("Write wanted CNPJ number: \n");
-    fflush(stdin);
-    gets(aux);
-    fflush(stdin);
-    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
-    {
-        printf("\nError to open archive");
-    }// If - Data ERROR
-    fseek(fptr, i*sizeof(loja), 0);
-    fread(p1, sizeof(loja), 1,  fptr);
-    system("cls");
-    for (i = 0; i < tam; i++)
-    {
-        fseek(fptr, i*sizeof(loja), 0);
-        fread(p1, sizeof(loja), 1,  fptr);
-        printf("\n%s\n", aux);
-        printf("%s\n", p1->CNPJ);
-        if (strcmp(aux, p1->CNPJ)==0)
-        {
-            if(p1->reserved==0)
-            {
-                fseek(fptr, i*sizeof(loja), 0);
-                fread(p1, sizeof(loja), 1,  fptr);
-                printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
-                fclose(fptr);
-            }
-            if (p1->reserved==1)
-            {
-                fseek(fptr, i*sizeof(loja), 0);
-                fread(p1, sizeof(loja), 1,  fptr);
-                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
-                fclose(fptr);
-            }
-            if (p1->reserved==2)
-            {
-                fseek(fptr, i*sizeof(loja), 0);
-                fread(p1, sizeof(loja), 1,  fptr);
-                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
-                fclose(fptr);
-            }
-            if (p1->reserved==3)
-            {
-                fseek(fptr, i*sizeof(loja), 0);
-                fread(p1, sizeof(loja), 1,  fptr);
-                printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
-                fclose(fptr);
-            }
-        }
-        else
-        {
-            printf("No matching found");
-            fclose(fptr);
-        }
-    }
-    printf("\n\n\n");
-    system("pause");
-    system("cls");
-}*/
