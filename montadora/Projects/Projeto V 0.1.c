@@ -181,12 +181,12 @@ menu_base:
 
 void alloc_store(loja **p1, int tam)
 {
-if((*p1=(loja*)realloc(*p1,tam*sizeof(loja)))==NULL)
-{
-    printf("Not able to alloc");
-    system("pause");
-    exit(1);
-}
+    if((*p1=(loja*)realloc(*p1,tam*sizeof(loja)))==NULL)
+    {
+        printf("Not able to alloc");
+        system("pause");
+        exit(1);
+    }
 }// Function alloc_store
 
 int verify_store()
@@ -312,12 +312,12 @@ void show_store(loja *p1, int qtt)
 
 void alloc_car(montadora **p2, int tam)
 {
-if((*p2=(montadora*)realloc(*p2,tam*sizeof(montadora)))==NULL)
-{
-    printf("Not able to alloc");
-    system("pause");
-    exit(1);
-}
+    if((*p2=(montadora*)realloc(*p2,tam*sizeof(montadora)))==NULL)
+    {
+        printf("Not able to alloc");
+        system("pause");
+        exit(1);
+    }
 }// Function alloc_car
 
 int verify_car()
@@ -466,4 +466,4 @@ void show_CNPJ(loja *p1, int tam, char aux[19])
     printf("\n\n\n");
     system("pause");
     system("cls");
-}
+}// Function show_CNPJ
