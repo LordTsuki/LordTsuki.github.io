@@ -57,18 +57,18 @@ typedef struct montadora
     dadosloja status;
 }montadora;
 
-void alloc_store(loja **p1, int tam);
-int verify_store();
-void register_store(loja *p1, int tam);
-void save_store(loja *p1);
-void show_store(loja *p1, int qtt);
-void show_CNPJ(loja *p1, int tam, char aux[19]);
+void alloc_store(loja **p1, int tam);// Line 182
+int verify_store();// Line 192
+void register_store(loja *p1, int tam);// Line 209
+void save_store(loja *p1);// Line 261
+void show_store(loja *p1, int qtt);// Line 275
+void show_CNPJ(loja *p1, int tam, char aux[19]);// Line 313
 
-void alloc_car(montadora **p2, int tam);
-int verify_car();
-void register_car(montadora *p2, int tam);
-void save_car(montadora *p2);
-void show_car(montadora *p2, int qtt);
+void alloc_car(montadora **p2, int tam);// Line 372
+int verify_car();// Line 382
+void register_car(montadora *p2, int tam);// Line 399
+void save_car(montadora *p2);// Line 421
+void show_car(montadora *p2, int qtt);// Line 435
 
 int main()
 {
@@ -78,7 +78,7 @@ int main()
     alloc_car(&pc, 1);
     char aux[19];
     int qtt=0, menu_base, menu_store, menu_assembler, menu_check;
-    menu_base:
+menu_base:
     printf("1 - Store\n2 - Car\n0 - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
@@ -99,13 +99,13 @@ int main()
                     {
                         register_store(ps, qtt+1);
                         qtt++;
-                        goto menu_store;
+                        goto menu_store;// Line 89
                     }// If Register is OK
                     else
                     {
                         printf("Maximum of five stores reached.");
                         system("pause");
-                        goto menu_store;
+                        goto menu_store;// Line 89
                     }// Else Register exceeded
                 break;// Case 1 - Register
 
@@ -120,23 +120,23 @@ int main()
                         qtt=verify_store();
                         system("cls");
                         show_CNPJ(ps, qtt, aux);    
-                    goto menu_check;// Case 1 - Check per CNPJ
+                    goto menu_check;// Case 1 - Check per CNPJ - Line 114
                     
                     case 2:
                         qtt = verify_store();
                         system("cls");
                         show_store(ps, qtt);
-                    goto menu_check;// Case 2 - Check All
+                    goto menu_check;// Case 2 - Check All - Line 114
                     
                     case 0:
                         system("cls");
-                    goto menu_store;
+                    goto menu_store;// Line 89
                     }// Switch Menu Check
                 break;// Case 2 - Check
 
                 case 0:
                     system("cls");
-                goto menu_base;// Case 0 - Return to Start Menu
+                goto menu_base;// Case 0 - Return to Start Menu - Line 81
             }// Switch Menu Store
         case 2:
             system("cls");
@@ -153,13 +153,13 @@ int main()
                     {
                         register_car(pc, qtt+1);
                         qtt++;
-                        goto menu_assembler;
+                        goto menu_assembler;// Line 143
                     }// If Register is OK
                     else
                     {
                         printf("Maximum of fifty cars reached.");
                         system("pause");
-                        goto menu_assembler;
+                        goto menu_assembler;// Line 143
                     }// Else Register exceeded
                 break;// Case 1 - Register
 
@@ -167,11 +167,11 @@ int main()
                     qtt = verify_car();
                     system("cls");
                     show_car(pc, qtt);
-                goto menu_assembler;// Case 2 - Check
+                goto menu_assembler;// Case 2 - Check - Line 143
 
                 case 0:
                     system("cls");
-                goto menu_base;// Case 0 - Return to Start Menu
+                goto menu_base;// Case 0 - Return to Start Menu - Line 81
             }// Switch Menu Assembler
         case 0:
             exit(1);// Case 0 - Exit Program
@@ -310,6 +310,65 @@ void show_store(loja *p1, int qtt)
     system("cls");
 }// Function show_store
 
+void show_CNPJ(loja *p1, int tam, char aux[19])
+{
+    int i=0;
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    fseek(fptr, i*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr);
+    printf("Write wanted CNPJ number: \n");
+    fflush(stdin);
+    gets(aux);
+    fflush(stdin);
+        
+    do
+    {
+        if (i==tam)
+        {
+            break;
+        }// If - Stop Loop
+        fseek(fptr, i*sizeof(loja), 0);
+        fread(p1, sizeof(loja), 1,  fptr);
+        i++;
+    }while(strcmp(aux, p1->CNPJ)!=0);
+
+   
+    if(strcmp(aux, p1->CNPJ)==0)
+    {
+        if(p1->reserved==0)
+        {
+                
+            printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
+        }
+        if (p1->reserved==1)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
+        }
+        if (p1->reserved==2)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
+        }
+        if (p1->reserved==3)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+        }
+    }// If - aux = p1->CNPJ
+    else
+    {
+        printf("No matching found");
+    }// Else - No matching
+    fclose(fptr);
+
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}// Function show_CNPJ
+
 void alloc_car(montadora **p2, int tam)
 {
     if((*p2=(montadora*)realloc(*p2,tam*sizeof(montadora)))==NULL)
@@ -408,62 +467,3 @@ void show_car(montadora *p2, int qtt)
     system("pause");
     system("cls");
 }// Function show_car
-
-void show_CNPJ(loja *p1, int tam, char aux[19])
-{
-    int i=0;
-    FILE *fptr=NULL;
-    system("cls");
-    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
-    {
-        printf("\nError to open archive");
-    }// If - Data ERROR
-    fseek(fptr, i*sizeof(loja), 0);
-    fread(p1, sizeof(loja), 1,  fptr);
-    printf("Write wanted CNPJ number: \n");
-    fflush(stdin);
-    gets(aux);
-    fflush(stdin);
-        
-    do
-    {
-        if (i==tam)
-        {
-            break;
-        }
-        fseek(fptr, i*sizeof(loja), 0);
-        fread(p1, sizeof(loja), 1,  fptr);
-        i++;
-    }while(strcmp(aux, p1->CNPJ)!=0);
-
-   
-    if(strcmp(aux, p1->CNPJ)==0)
-    {
-        if(p1->reserved==0)
-        {
-                
-            printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
-        }
-        if (p1->reserved==1)
-        {
-            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
-        }
-        if (p1->reserved==2)
-        {
-            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
-        }
-        if (p1->reserved==3)
-        {
-            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
-        }
-    }
-    else
-    {
-        printf("No matching found");
-    }
-    fclose(fptr);
-
-    printf("\n\n\n");
-    system("pause");
-    system("cls");
-}// Function show_CNPJ
