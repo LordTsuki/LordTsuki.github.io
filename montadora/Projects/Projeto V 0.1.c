@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct endereco 
 {
@@ -383,8 +384,8 @@ void show_car(montadora *p2, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
-        fseek(fptr, i*sizeof(montadora), 0);
-  	    fread(p2, sizeof(montadora), 1, fptr);
+            fseek(fptr, i*sizeof(montadora), 0);
+  	        fread(p2, sizeof(montadora), 1, fptr);
   	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -393,8 +394,8 @@ void show_car(montadora *p2, int qtt)
     {
   	    for(i=0; i<qtt; i++)
   	    {
-        fseek(fptr, i*sizeof(montadora), 0);
-  	    fread(p2, sizeof(montadora), 1, fptr);
+            fseek(fptr, i*sizeof(montadora), 0);
+  	        fread(p2, sizeof(montadora), 1, fptr);
   	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
 	    }// For - Show Data
 	    fclose(fptr);
@@ -413,58 +414,116 @@ void show_CNPJ(loja *p1, int tam, char aux[19])
     {
         printf("\nError to open archive");
     }// If - Data ERROR
+    fseek(fptr, i*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr);
     printf("Write wanted CNPJ number: \n");
     fflush(stdin);
     gets(aux);
     fflush(stdin);
+        
+    do
+    {
+        if (i==tam)
+        {
+            break;
+        }
+        fseek(fptr, i*sizeof(loja), 0);
+        fread(p1, sizeof(loja), 1,  fptr);
+        i++;
+    }while(strcmp(aux, p1->CNPJ)!=0);
+
+   
+    if(strcmp(aux, p1->CNPJ)==0)
+    {
+        if(p1->reserved==0)
+        {
+                
+            printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
+        }
+        if (p1->reserved==1)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
+        }
+        if (p1->reserved==2)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
+        }
+        if (p1->reserved==3)
+        {
+            printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+        }
+    }
+    else
+    {
+        printf("No matching found");
+    }
+    fclose(fptr);
+
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}
+
+/*void show_CNPJ(loja *p1, int tam, char aux[19])
+{
+    int i=0;
+    FILE *fptr=NULL;
+    system("cls");
+    printf("Write wanted CNPJ number: \n");
+    fflush(stdin);
+    gets(aux);
+    fflush(stdin);
+    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
     fseek(fptr, i*sizeof(loja), 0);
     fread(p1, sizeof(loja), 1,  fptr);
     system("cls");
-    /*for (i = 0; i < tam; i++)
+    for (i = 0; i < tam; i++)
     {
-        printf("\n%s\n", aux);
-        printf("%s\n", p1->CNPJ);
         fseek(fptr, i*sizeof(loja), 0);
         fread(p1, sizeof(loja), 1,  fptr);
-        if (aux==p1->CNPJ)
+        printf("\n%s\n", aux);
+        printf("%s\n", p1->CNPJ);
+        if (strcmp(aux, p1->CNPJ)==0)
         {
-            if (p1->reserved==0)
+            if(p1->reserved==0)
             {
                 fseek(fptr, i*sizeof(loja), 0);
                 fread(p1, sizeof(loja), 1,  fptr);
                 printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
+                fclose(fptr);
             }
             if (p1->reserved==1)
             {
                 fseek(fptr, i*sizeof(loja), 0);
                 fread(p1, sizeof(loja), 1,  fptr);
                 printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
+                fclose(fptr);
             }
             if (p1->reserved==2)
             {
                 fseek(fptr, i*sizeof(loja), 0);
                 fread(p1, sizeof(loja), 1,  fptr);
                 printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
+                fclose(fptr);
             }
             if (p1->reserved==3)
             {
                 fseek(fptr, i*sizeof(loja), 0);
                 fread(p1, sizeof(loja), 1,  fptr);
                 printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+                fclose(fptr);
             }
-            fclose(fptr);
         }
         else
         {
             printf("No matching found");
             fclose(fptr);
         }
-    }*/
-    if (aux == p1->CNPJ[0])
-    {
-        
     }
     printf("\n\n\n");
     system("pause");
     system("cls");
-}
+}*/
