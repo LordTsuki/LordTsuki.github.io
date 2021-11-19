@@ -40,19 +40,22 @@
 
         }
 			
-			function diminuir_aposta() {
-				if (aposta > 1) {
-					aposta--;
-					document.getElementById('aposta').value = 'R$ ' + aposta;					
-				}
-			}
+	function diminuir_aposta() {
+		if (aposta > 1) {
+			aposta--;
+			document.getElementById('aposta').value = 'R$ ' + aposta;					
+		}
+		}
 			
-			function aumentar_aposta() {
-				if (aposta < 50) {
-					aposta ++;
-					document.getElementById('aposta').value = 'R$ ' + aposta;
-				}
+	function aumentar_aposta() {
+		if (aposta < 50) {
+			aposta ++;
+			document.getElementById('aposta').value = 'R$ ' + aposta;
 			}
+		}
+
+        function verificaPremio() {
+            //verifica se ganhou algum prémio
 
             //verificação dos cavalos
         if(cav1 == 1 && cav2 >= 2 && cav3 >= 2 && cav4 >= 2 && cav5 >= 2 && cav6 >= 2)
@@ -103,6 +106,10 @@
 			window.alert("Parabéns, você ganhou um prêmio de R$ " + aposta * 21 + "!!.");
         }
 
+        }
+				
+        
+
         function colocar_credito()
 			{
 				aux = window.prompt("Coloque mais creditos, digite a quantidade em R$:","1");
@@ -114,7 +121,7 @@
             
         function trocar_img()
         {
-           
+
         }
 
             function iniciar_aposta() 
@@ -123,6 +130,116 @@
             {
 				credito = credito - aposta;
                 document.getElementById('credito').value = 'R$ ' + credito;
+                document.getElementById('Cavalo1').src ='videos/cav1-1.mp4'
+                document.getElementById('Cavalo_1').src ='videos/cav1-2.mp4'
+                document.getElementById('Cavalo2').src ='videos/cav2-1.mp4'
+                document.getElementById('Cavalo_2').src ='videos/cav2-2.mp4'
+                document.getElementById('Cavalo3').src ='videos/cav3-1.mp4'
+                document.getElementById('Cavalo_3').src ='videos/cav3-2.mp4'
+                document.getElementById('Cavalo4').src ='videos/cav4-1.mp4'
+                document.getElementById('Cavalo_4').src ='videos/cav4-2.mp4'
+                document.getElementById('Cavalo5').src ='videos/cav5-1.mp4'
+                document.getElementById('Cavalo_5').src ='videos/cav5-2.mp4'
+                document.getElementById('Cavalo6').src ='videos/cav6-1.mp4'
+                document.getElementById('Cavalo_6').src ='videos/cav6-2.mp4'
+
+                //Corrida do cavalo 1
+
+                nSort = aleatorio(1,12);
+						switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo1').src ='videos/cav1-1.mp4'");
+                            cav1 = 1;
+                            break;
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_1').src ='videos/cav1-2.mp4'");
+                            cav1 = 2;
+                            break;
+
+                        }
+
+                //Corrida do cavalo 2
+
+                nSort = aleatorio(1,12);
+                        switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo2').src ='videos/cav2-1.mp4'");
+                            cav2 = 1;
+                            break;
+
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_2').src ='videos/cav2-2.mp4'");
+                            cav2 = 2;
+                            break;
+                        }
+
+                //Corrida do cavalo 3
+
+                nSort = aleatorio(1,12);
+                        switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo3').src ='videos/cav3-1.mp4'");
+                            cav3 = 1;
+                            break;
+
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_3').src ='videos/cav3-2.mp4'");
+                            cav3 = 2;
+                            break;
+                        }
+
+                //Corrida do cavalo 4
+
+                nSort = aleatorio(1,12);
+                        switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo4').src ='videos/cav4-1.mp4'");
+                            cav4 = 1;
+                            break;
+
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_4').src ='videos/cav4-2.mp4'");
+                            cav4 = 2;
+                            break;
+                        }
+
+                //Corrida do cavalo 5
+
+                nSort = aleatorio(1,12);
+                        switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo5').src ='videos/cav5-1.mp4'");
+                            cav5 = 1;
+                            break;
+
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_5').src ='videos/cav5-2.mp4'");
+                            cav5 = 2;
+                            break;
+                        }
+
+                //Corrida do cavalo 6
+
+                nSort = aleatorio(1,12);
+                        switch (nSort)
+                        {
+                            case 1:
+                            count=setTimeout("document.getElementById('Cavalo6').src ='videos/cav6-1.mp4'");
+                            cav6 = 1;
+                            break;
+                            case 2:
+                            count=setTimeout("document.getElementById('Cavalo_6').src ='videos/cav6-2.mp4'");
+                            cav6 = 2;
+                            break;
+                    
+                        }
+                        count=setTimeout(verificaPremio());
+                
                 
             }
         }
@@ -130,6 +247,7 @@
 </script>
 </head>
 <body>
+    
     <div id = "corpo">
         
         <div id = "creditos.txt">
@@ -151,10 +269,30 @@
                 <input id = "aposta" type = "text" size = "text" size = "1" value = "R$ 1" readonly/>
             </form>
         </div>
-    
+    <!--a parte do div ta errada, tem que arrumar-->
+        
         <div id = "tela">
-            <video id = "cav1" src="videos/cav1-1.mp4" onmousedown="this.src='videos/cav1-2.mp4'"/>
-            <video id = "cav1-2" src="videos/cav1-2.mp4" onmousedown="this.src='videos/cav1-1.mp4'"/>
+            <div id = "cav1">
+                <video id = "cav1" src="videos/cav1-1.mp4" onmousedown="this.src='videos/cav1-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav1-2.mp4" onmousedown="this.src='videos/cav1-1.mp4'"/>
+
+                <video id = "cav1" src="videos/cav2-1.mp4" onmousedown="this.src='videos/cav2-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav2-2.mp4" onmousedown="this.src='videos/cav2-1.mp4'"/>
+           
+                <video id = "cav1" src="videos/cav3-1.mp4" onmousedown="this.src='videos/cav3-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav3-2.mp4" onmousedown="this.src='videos/cav3-1.mp4'"/>
+            
+                <video id = "cav1" src="videos/cav4-1.mp4" onmousedown="this.src='videos/cav4-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav4-2.mp4" onmousedown="this.src='videos/cav4-1.mp4'"/>
+           
+                <video id = "cav1" src="videos/cav5-1.mp4" onmousedown="this.src='videos/cav5-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav5-2.mp4" onmousedown="this.src='videos/cav5-1.mp4'"/>
+            
+                <video id = "cav1" src="videos/cav6-1.mp4" onmousedown="this.src='videos/cav6-2.mp4'"/>
+                <video id = "cav1-2" src="videos/cav6-2.mp4" onmousedown="this.src='videos/cav6-1.mp4'"/>
+            </div>
+            
+            
         </div>
 
         <div id = "botoes">
