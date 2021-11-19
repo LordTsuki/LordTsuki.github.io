@@ -73,6 +73,8 @@ void show_car(montadora *p2, int qtt);// Line 435
 void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
 void remove_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
 
+void show_car_model(montadora *p2, int qtt);
+
 int main()
 {
     loja *ps=NULL;
@@ -527,7 +529,7 @@ void show_car(montadora *p2, int qtt)//ESTÁ ERRADO MUDAR
     system("cls");
 }// Function show_car
 
-void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
+/*void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
 {
     FILE *fptr1=NULL;
     FILE *fptr2=NULL;
@@ -552,4 +554,21 @@ void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
   	    grava(p,"rb+",pos);
   	    printf("\nPreco alterado com sucesso\n\n");
     }//else	
-}//altera
+}//altera*/
+
+void show_car_model(montadora *p2, int qtt)
+{
+    int i=0, aux;
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }
+    fseek(fptr, i*sizeof(montadora), 0);
+    fread(p2, sizeof(montadora), 1, fptr);
+    printf("Write wanted model name: \n");
+    fflush(stdin);
+    gets(aux);
+    fflush(stdin);
+}
