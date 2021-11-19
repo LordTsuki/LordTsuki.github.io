@@ -369,7 +369,7 @@ void show_store(loja *p1, int qtt)
     system("cls");
 }// Function show_store
 
-void show_CNPJ(loja *p1, int tam, char aux[19])
+void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
 {
     int i=0;
     FILE *fptr=NULL;
@@ -491,7 +491,7 @@ void save_car(montadora *p2)
     fclose(fptr);
 }// Function save_car
 
-void show_car(montadora *p2, int qtt)
+void show_car(montadora *p2, int qtt)//ESTÁ ERRADO MUDAR
 {
     int i=0;
     FILE *fptr=NULL;
