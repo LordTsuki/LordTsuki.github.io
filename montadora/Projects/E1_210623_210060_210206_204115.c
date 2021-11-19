@@ -70,6 +70,9 @@ void register_car(montadora *p2, int tam);// Line 399
 void save_car(montadora *p2);// Line 421
 void show_car(montadora *p2, int qtt);// Line 435
 
+void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
+void remove_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
+
 int main()
 {
     loja *ps=NULL;
@@ -77,9 +80,9 @@ int main()
     alloc_store(&ps, 1);
     alloc_car(&pc, 1);
     char aux[19];
-    int qtt=0, menu_base, menu_store, menu_assembler, menu_check;
+    int qtt=0, menu_base, menu_store, menu_assembler, menu_check, menu_reserv;
 menu_base:
-    printf("1 - Store\n2 - Car\n0 - Exit\n");
+    printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[0] - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
     switch (menu_base)
@@ -87,7 +90,7 @@ menu_base:
         case 1:
             system("cls");
         menu_store:
-            printf("1 - Register Store\n2 - Check\n0 - Back\n");
+            printf("[1] - Register Store\n[2] - Check\n[0] - Back\n");
             scanf("%i", &menu_store);
             fflush(stdin);
             switch (menu_store)
@@ -112,7 +115,7 @@ menu_base:
                 case 2:
                     system("cls");
                 menu_check:
-                    printf("1 - Check per CNPJ\n2 - Check All\n0 - Back\n");
+                    printf("[1] - Check per CNPJ\n[2] - Check All\n[0] - Back\n");
                     scanf("%i", &menu_check);
                     switch (menu_check)
                     {
@@ -131,17 +134,31 @@ menu_base:
                     case 0:
                         system("cls");
                     goto menu_store;// Line 89
+
+                    default:
+                        system("cls");
+                        printf("Invalid Option");
+                        system("pause");
+                        system("cls");
+                    goto menu_check;
                     }// Switch Menu Check
                 break;// Case 2 - Check
 
                 case 0:
                     system("cls");
                 goto menu_base;// Case 0 - Return to Start Menu - Line 81
+
+                default:
+                    system("cls");
+                    printf("Invalid Option");
+                    system("pause");
+                    system("cls");
+                goto menu_store;
             }// Switch Menu Store
         case 2:
             system("cls");
         menu_assembler:
-            printf("1 - Register Car\n2 - Check\n0 - Back\n");
+            printf("[1] - Register Car\n[2] - Check\n[0] - Back\n");
             scanf("%i", &menu_assembler);
             fflush(stdin);
             switch (menu_assembler)
@@ -172,9 +189,51 @@ menu_base:
                 case 0:
                     system("cls");
                 goto menu_base;// Case 0 - Return to Start Menu - Line 81
+
+                default:
+                    system("cls");
+                    printf("Invalid Option");
+                    system("pause");
+                    system("cls");
+                goto menu_assembler;
             }// Switch Menu Assembler
+
+        case 3:
+            system("cls");
+        menu_reserv:
+            printf("[1] - Add Reservation\n[2] - Finish Reservation\n[0] - Back\n");
+            scanf("%i", &menu_reserv);
+            fflush(stdin);
+            switch (menu_reserv)
+            {
+                case 1:
+
+                goto menu_reserv;
+
+                case 2:
+
+                goto menu_reserv;
+            
+                case 0:
+                goto menu_base;
+
+                default:
+                    system("cls");
+                    printf("Invalid Option");
+                    system("pause");
+                    system("cls");
+                goto menu_reserv;
+            }
+
         case 0:
             exit(1);// Case 0 - Exit Program
+
+        default:
+                system("cls");
+                printf("Invalid Option");
+                system("pause");
+                system("cls");
+                goto menu_base;
     }// Switch Start Menu
     return 0;
 }// Main
@@ -467,3 +526,30 @@ void show_car(montadora *p2, int qtt)
     system("pause");
     system("cls");
 }// Function show_car
+
+void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
+{
+    FILE *fptr1=NULL;
+    FILE *fptr2=NULL;
+    int num_CNPJ, pos, i;
+    i = 0;
+    fseek(fptr1, i*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr1);
+    fseek(fptr2, i*sizeof(montadora), 0);
+    fread(p2, sizeof(montadora), 1,  fptr2);
+    printf("\nRegistro a ser alterado: ");
+    scanf("%i", &num_CNPJ);
+    fflush(stdin);
+    pos=show_CNPJ(p1, num_CNPJ);
+    if(pos==-1)  //nao achou
+        printf("\nRegistro inexistente\n\n");
+    else
+    {
+      	printf("\nRegistro: %i\nProduto: %s\nQtde: %i\nPreco: %.2f\n",p1->reg, p1->produto,p->qtde,p->preco);
+  	    printf("\nNOVO preco: ");
+  	    scanf("%f",&(p->preco));
+  	    fflush(stdin);
+  	    grava(p,"rb+",pos);
+  	    printf("\nPreco alterado com sucesso\n\n");
+    }//else	
+}//altera
