@@ -74,6 +74,7 @@ void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
 void remove_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
 
 void show_car_model(montadora *p2, int qtt);
+void show_car_status(montadora *p2, int qtt);
 
 int main()
 {
@@ -82,7 +83,7 @@ int main()
     alloc_store(&ps, 1);
     alloc_car(&pc, 1);
     char aux[19];
-    int qtt=0, menu_base, menu_store, menu_assembler, menu_check, menu_reserv;
+    int qtt=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
 menu_base:
     printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[0] - Exit\n");
     scanf("%i", &menu_base);
@@ -116,22 +117,22 @@ menu_base:
 
                 case 2:
                     system("cls");
-                menu_check:
+                menu_check_store:
                     printf("[1] - Check per CNPJ\n[2] - Check All\n[0] - Back\n");
-                    scanf("%i", &menu_check);
-                    switch (menu_check)
+                    scanf("%i", &menu_check_store);
+                    switch (menu_check_store)
                     {
                     case 1:
                         qtt=verify_store();
                         system("cls");
                         show_CNPJ(ps, qtt, aux);    
-                    goto menu_check;// Case 1 - Check per CNPJ - Line 114
+                    goto menu_check_store;// Case 1 - Check per CNPJ - Line 114
                     
                     case 2:
                         qtt = verify_store();
                         system("cls");
                         show_store(ps, qtt);
-                    goto menu_check;// Case 2 - Check All - Line 114
+                    goto menu_check_store;// Case 2 - Check All - Line 114
                     
                     case 0:
                         system("cls");
@@ -142,7 +143,7 @@ menu_base:
                         printf("Invalid Option");
                         system("pause");
                         system("cls");
-                    goto menu_check;
+                    goto menu_check_store;
                     }// Switch Menu Check
                 break;// Case 2 - Check
 
@@ -183,9 +184,42 @@ menu_base:
                 break;// Case 1 - Register
 
                 case 2:
-                    qtt = verify_car();
                     system("cls");
-                    show_car(pc, qtt);
+                menu_check_car:
+                    printf("[1] - Check Status\n[2] - Check Model\n[3] - Check All\n[0] - Back\n");
+                    scanf("%i", &menu_check_car);
+                    fflush(stdin);
+                    switch (menu_check_car)
+                    {
+                    case 1:
+                        system("cls");
+                        qtt = verify_car();
+                        show_car_status(pc, qtt);
+                    goto menu_check_car;
+
+                    case 2:
+                        system("cls");
+                        qtt = verify_car();
+                        show_car_model(pc, qtt);
+                    goto menu_check_car;
+
+                    case 3:
+                        qtt = verify_car();
+                        system("cls");
+                        show_car(pc, qtt);
+                    goto menu_check_car;
+
+                    case 0:
+                        system("cls");
+                    goto menu_assembler;
+                    
+                    default:
+                        system("cls");
+                        printf("Invalid Option");
+                        system("pause");
+                        system("cls");
+                    goto menu_check_car;
+                    }
                 goto menu_assembler;// Case 2 - Check - Line 143
 
                 case 0:
@@ -217,6 +251,7 @@ menu_base:
                 goto menu_reserv;
             
                 case 0:
+                    system("cls");
                 goto menu_base;
 
                 default:
@@ -528,7 +563,6 @@ void show_car(montadora *p2, int qtt)//ESTÁ ERRADO MUDAR
     system("pause");
     system("cls");
 }// Function show_car
-
 /*void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
 {
     FILE *fptr1=NULL;
@@ -558,17 +592,112 @@ void show_car(montadora *p2, int qtt)//ESTÁ ERRADO MUDAR
 
 void show_car_model(montadora *p2, int qtt)
 {
-    int i=0, aux;
+    int i=0;
+    char aux[21];
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
     }
+    else
+    {
+        fseek(fptr, i*sizeof(montadora), 0);
+        fread(p2, sizeof(montadora), 1, fptr);
+        printf("Write wanted model name: \n");
+        fflush(stdin);
+        gets(aux);
+        fflush(stdin);
+        for(i=0; i<qtt; i++)
+       {
+            fseek(fptr, i*sizeof(montadora), 0);
+            fread(p2, sizeof(montadora), 1, fptr);
+            if(strcmp(aux, p2->modelo) == 0)
+            {
+                fseek(fptr, i*sizeof(montadora), 0);
+                fread(p2, sizeof(montadora), 1, fptr);
+                if(p2->status.sigla == 'L')
+                {
+                    fseek(fptr, i*sizeof(montadora), 0);
+                    fread(p2, sizeof(montadora), 1, fptr);
+                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+                    system("pause");
+                }
+                else
+                {
+                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla, p2->status.reserva.CNPJ);
+                    system("pause");
+                }
+            }
+            else if (i == qtt - 1)
+            {
+                printf("Can't found model\n");
+                system("pause");
+                system("cls");
+            }
+        }
+        fclose(fptr);
+        system("cls");
+    }
+    
+}
+
+
+
+
+
+
+
+
+void show_car_status(montadora *p2, int qtt)
+{
+    int i=0;
+    char aux[21];
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("carro.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
     fseek(fptr, i*sizeof(montadora), 0);
-    fread(p2, sizeof(montadora), 1, fptr);
-    printf("Write wanted model name: \n");
+  	fread(p2, sizeof(montadora), 1, fptr);
+    do
+    {
+    printf("Write wanted car status [L][R]: \n");
     fflush(stdin);
     gets(aux);
     fflush(stdin);
-}
+    }while(aux!= 'L' || aux != 'R');
+    if(aux=='L')
+    {
+        for(i=0; i<qtt; i++)
+            {
+                if(p2->status.sigla == 'L')
+                {
+                
+                    fseek(fptr, i*sizeof(montadora), 0);
+                    fread(p2, sizeof(montadora), 1, fptr);
+                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+                    fclose(fptr);
+                }// If - Data OK and Status.Sigla == L
+            }
+    }
+    if(aux=='R')
+    {
+        for(i=0; i<qtt; i++)
+        {
+            if(p2->status.reserva.sigla == 'R')
+            {
+                fseek(fptr, i*sizeof(montadora), 0);
+                fread(p2, sizeof(montadora), 1, fptr);
+                printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
+                fclose(fptr);
+            }//if
+        }
+    }
+    
+    
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}// Function show_car
