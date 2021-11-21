@@ -36,22 +36,22 @@ body
 	margin-right: auto;
 	width: 700px;
 	height: 500px;
-	background-color: #04041f;
-	border: medium dashed whitesmoke;
+	background-color: #0c0c0c;
+	border: medium double whitesmoke;
 	border-radius: 15px;
 }
 
-/*#corpo2 
+#corpo2 
 {
 	margin-left: auto;
 	margin-right: auto;
 	width: 700px;
 	height: 1050px;
-	background-color: #050218;
-	border: medium dashed whitesmoke;
+	background-color: #000000;
+	border: medium double whitesmoke;
 	border-radius: 15px;
 }
-*/
+
 #tela 
 {
 	margin-left: auto;
