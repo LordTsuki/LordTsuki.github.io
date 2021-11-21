@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Cassino</title>
     <link rel="stylesheet" href="https://use.typekit.net/wkg4orw.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         body
         {
@@ -38,32 +41,47 @@
             margin-right: 40px;
         }
     </style>
+    <script>
+        function ocultar(id)
+        {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function aparecer(id)
+        {
+            document.getElementById(id).style.display = "inline";
+        }
+        
+        function tutorial(id)
+        {
+            document.getElementById(id).style.display = "inline";
+        }
+        
+    </script>
+
 </head>
 <body>
     <figure>
-        <img src="/imagens/logo_novo.png" width="50%">
+        <img src="/WEB-Design-21-08-09/imagens/logo_novo.png" width="50%">
     </figure>
-    <h1 style="color:white;">Cassino comPUTAÇÃO</h1> 
-    <h3 style="color: white;">O jogo da galera</h3> <!--Favor antes de entregar, PELO AMOR DE DEUS arruma isso-->
     
     <hr>
     <nav>
         <ul>
             <li>
-                <a href="/HTML/jogos.html" title="Nossa lista de jogos para lucrar"style=color:white;>Jogos</a>      
+                <a onclick="aparecer('sumir')" title="Abrir a opção do caça níquel" style="color: white;">Caça Níquel</a>
             </li>
             <li>
-                <a href="Tutoriais" title="Aprenda a como jogar aqui" style=color:white;>Tutoriais</a>
+                <a onclick="ocultar('sumir')" title="Aprenda a como jogar aqui" style=color:white;>Tutorial</a>
             </li>
-            <li>
-                <a href="Apostas" title="Faça aqui as suas apostas !!" style=color:white;>Apostas</a>
-            </li>
-                <a href="/HTML/Cadastro.html" tittle="Faça o login clicando aqui !!" style="color: white;">Login / Cadastro</a>
-        </ul>
+                <a href="HTML/Cadastro.html" tittle="Faça o login clicando aqui !!" style="color: white;">Login / Cadastro</a>
+            </ul>
 
-        <a href="/CacaNiquel/cacaNiquel.html" title="Aposte com o Caça Niquel">
-            <img src="/imagens/baralho.png"  width="150px">
-            <iframe name='google' width="30%" ></iframe>
+            <br>
+            <br>
+
+        <a id = "sumir" href="/WEB-Design-21-08-09/CacaNiquel/cacaNiquel.html" title="Aposte com o Caça Niquel">
+            <img id = "sumir" src="/WEB-Design-21-08-09/imagens/slot.png"  width="150px">
         </a>
     </nav>
 </body>
