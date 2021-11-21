@@ -65,7 +65,7 @@ void show_store(loja *p1, int qtt);// Line 275
 void show_CNPJ(loja *p1, int tam, char aux[19]);// Line 313
 
 void alloc_car(montadora **p2, int tam);// Line 372
-int verify_car();// Line 382
+int  verify_car();// Line 382
 void register_car(montadora *p2, int tam);// Line 399
 void save_car(montadora *p2);// Line 421
 void show_car(montadora *p2, int qtt);// Line 435
@@ -437,19 +437,18 @@ void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
     if(strcmp(aux, p1->CNPJ)==0)
     {
         if(p1->reserved==0)
-        {
-                
+        {  
             printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
         }
-        if (p1->reserved==1)
+        else if (p1->reserved==1)
         {
             printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
         }
-        if (p1->reserved==2)
+        else if (p1->reserved==2)
         {
             printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
         }
-        if (p1->reserved==3)
+        else
         {
             printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i\tTable 2: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
         }
@@ -459,7 +458,6 @@ void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
         printf("No matching found");
     }// Else - No matching
     fclose(fptr);
-
     printf("\n\n\n");
     system("pause");
     system("cls");
@@ -563,96 +561,60 @@ void show_car(montadora *p2, int qtt)//ESTÁ ERRADO MUDAR
     system("pause");
     system("cls");
 }// Function show_car
-/*void add_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car)
-{
-    FILE *fptr1=NULL;
-    FILE *fptr2=NULL;
-    int num_CNPJ, pos, i;
-    i = 0;
-    fseek(fptr1, i*sizeof(loja), 0);
-    fread(p1, sizeof(loja), 1,  fptr1);
-    fseek(fptr2, i*sizeof(montadora), 0);
-    fread(p2, sizeof(montadora), 1,  fptr2);
-    printf("\nRegistro a ser alterado: ");
-    scanf("%i", &num_CNPJ);
-    fflush(stdin);
-    pos=show_CNPJ(p1, num_CNPJ);
-    if(pos==-1)  //nao achou
-        printf("\nRegistro inexistente\n\n");
-    else
-    {
-      	printf("\nRegistro: %i\nProduto: %s\nQtde: %i\nPreco: %.2f\n",p1->reg, p1->produto,p->qtde,p->preco);
-  	    printf("\nNOVO preco: ");
-  	    scanf("%f",&(p->preco));
-  	    fflush(stdin);
-  	    grava(p,"rb+",pos);
-  	    printf("\nPreco alterado com sucesso\n\n");
-    }//else	
-}//altera*/
 
 void show_car_model(montadora *p2, int qtt)
 {
-    int i=0;
+    int i = 0, a = 0;
     char aux[21];
     FILE *fptr=NULL;
     system("cls");
-    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    if((fptr=fopen("carro.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
-    }
-    else
+    }// If - Data ERROR
+    fseek(fptr, i*sizeof(montadora), 0);
+    fread(p2, sizeof(montadora), 1,  fptr);
+    printf("Write wanted model name: \n");
+    fflush(stdin);
+    gets(aux);
+    fflush(stdin);
+do_model:
+    do
     {
+        if (i == qtt)
+        {
+            break;
+        }// If - Stop Loop
         fseek(fptr, i*sizeof(montadora), 0);
-        fread(p2, sizeof(montadora), 1, fptr);
-        printf("Write wanted model name: \n");
-        fflush(stdin);
-        gets(aux);
-        fflush(stdin);
-        for(i=0; i<qtt; i++)
-       {
-            fseek(fptr, i*sizeof(montadora), 0);
-            fread(p2, sizeof(montadora), 1, fptr);
-            if(strcmp(aux, p2->modelo) == 0)
+        fread(p2, sizeof(montadora), 1,  fptr);
+        i++;
+    } 
+    while (strcmp(aux, p2->modelo) != 0);
+    {
+    if (strcmp(aux, p2->modelo) == 0)
+        {
+            printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+            if (i != qtt)
             {
-                fseek(fptr, i*sizeof(montadora), 0);
-                fread(p2, sizeof(montadora), 1, fptr);
-                if(p2->status.sigla == 'L')
-                {
-                    fseek(fptr, i*sizeof(montadora), 0);
-                    fread(p2, sizeof(montadora), 1, fptr);
-                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
-                    system("pause");
-                }
-                else
-                {
-                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla, p2->status.reserva.CNPJ);
-                    system("pause");
-                }
-            }
-            else if (i == qtt - 1)
-            {
-                printf("Can't found model\n");
-                system("pause");
-                system("cls");
+                a = 1;
+                goto do_model;
             }
         }
-        fclose(fptr);
-        system("cls");
     }
     
+    if (strcmp(aux, p2->modelo) != 0 && a != 1)
+    {
+        printf("Can't found model\n");
+    }
+    fclose(fptr);
+    system("pause");
+    system("cls");
 }
-
-
-
-
-
-
-
 
 void show_car_status(montadora *p2, int qtt)
 {
-    int i=0;
-    char aux[21];
+    int i=0, a=0;
+    char aux;
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("carro.bin", "rb"))==NULL)
@@ -663,38 +625,61 @@ void show_car_status(montadora *p2, int qtt)
   	fread(p2, sizeof(montadora), 1, fptr);
     do
     {
-    printf("Write wanted car status [L][R]: \n");
-    fflush(stdin);
-    gets(aux);
-    fflush(stdin);
-    }while(aux!= 'L' || aux != 'R');
+        printf("Write wanted car status [L][R]: \n");
+        fflush(stdin);
+        scanf("%c", &aux);
+        fflush(stdin);
+    }while(aux != 'L' && aux != 'R');
     if(aux=='L')
     {
-        for(i=0; i<qtt; i++)
+        do_status:
+            do
             {
-                if(p2->status.sigla == 'L')
+                if (i == qtt)
                 {
-                
-                    fseek(fptr, i*sizeof(montadora), 0);
-                    fread(p2, sizeof(montadora), 1, fptr);
-                    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
-                    fclose(fptr);
-                }// If - Data OK and Status.Sigla == L
-            }
+                    break;
+                }// If - Stop Loop
+                fseek(fptr, i*sizeof(montadora), 0);
+                fread(p2, sizeof(montadora), 1,  fptr);
+                i++;
+        }
+        while (p2->status.sigla != 'L');
+
+            
+            if(p2->status.sigla == 'L')
+            {
+                printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+                if (i != qtt)
+                {
+                    a=1;
+                    goto do_status;
+                }
+            }// If - Data OK and Status.Sigla == L
     }
-    if(aux=='R')
+    else if(aux=='R')
     {
-        for(i=0; i<qtt; i++)
+        do_status1:
+        do
         {
+            if (i == qtt)
+            {
+                break;
+            }// If - Stop Loop
+            fseek(fptr, i*sizeof(montadora), 0);
+            fread(p2, sizeof(montadora), 1,  fptr);
+            i++;
+        }while(p2->status.reserva.sigla != 'R');
             if(p2->status.reserva.sigla == 'R')
             {
-                fseek(fptr, i*sizeof(montadora), 0);
-                fread(p2, sizeof(montadora), 1, fptr);
                 printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
-                fclose(fptr);
+                if (i != qtt)
+                {
+                    a=1;
+                    goto do_status1;
+                }
             }//if
-        }
     }
+    fclose(fptr);
     
     
     printf("\n\n\n");
