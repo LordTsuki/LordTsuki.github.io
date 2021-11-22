@@ -76,6 +76,10 @@ void remove_reserv(loja *p1, montadora *p2, int qtt_store, int qtt_car);
 void show_car_model(montadora *p2, int qtt);
 void show_car_status(montadora *p2, int qtt);
 
+int search_store(loja *p1, char reg, int qtt);
+int search_car(montadora *p2, int reg, int qtt);
+void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_ass);
+
 int main()
 {
     loja *ps=NULL;
@@ -651,7 +655,7 @@ void show_car_status(montadora *p2, int qtt)
                 printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
                 if (i != qtt)
                 {
-                    a=1;
+                    a = 1;
                     goto do_status;
                 }
             }// If - Data OK and Status.Sigla == L
@@ -686,3 +690,79 @@ void show_car_status(montadora *p2, int qtt)
     system("pause");
     system("cls");
 }// Function show_car
+
+int search_store(loja *p1, char reg, int qtt)
+{
+FILE *fptr=NULL;
+int achou=-1, i;
+system("cls");
+if((fptr=fopen("concessionaria.bin","rb"))==NULL)
+  printf("\nErro");
+else
+  {
+  	for(i=0;i<qtt;i++)
+  	  {
+  	  	fseek(fptr,i*sizeof(loja),0);
+  	  	fread(p1,sizeof(loja),1,fptr);
+  	  	if(strcpy(p1->CNPJ, reg) == 0)
+  	  	  {
+  	  	  	achou=i;
+  	  	  	i=qtt;
+		  }//if
+	  }//for
+  fclose(fptr);  
+  }//else
+return achou;
+}//busca
+
+int search_car(montadora *p2, int reg, int qtt)
+{
+FILE *fptr=NULL;
+int achou=-1, i;
+system("cls");
+if((fptr=fopen("carro.bin","rb"))==NULL)
+  printf("\nErro");
+else
+  {
+  	for(i=0;i<qtt;i++)
+  	  {
+  	  	fseek(fptr,i*sizeof(montadora),0);
+  	  	fread(p2,sizeof(montadora),1,fptr);
+  	  	if(p2->regcarro == reg)
+  	  	  {
+  	  	  	achou=i;
+  	  	  	i=qtt;
+		  }//if
+	  }//for
+  fclose(fptr);  
+  }//else
+return achou;
+}//busca
+
+void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_ass)
+{
+    int i_store = 0, i_car = 0, aux_reg;
+    char CNPJ[19];
+    FILE *fptr1=NULL;
+    FILE *fptr2=NULL;
+    printf("Type CNPJ: \n");
+    gets(CNPJ);
+    i_store = search_store(p2, CNPJ, qtt_ass);
+    fseek(fptr1,i_store*sizeof(loja),0);
+	fread(p1,sizeof(loja),1,fptr1);
+    if(p1->reserved <= 2)
+    {
+        printf("Number of register");
+        scanf("%i", &aux_reg);
+        if(p2->regcarro == aux_reg)
+        {
+            if(p2->status.sigla != 'R');
+            {
+                
+            }
+        }
+    }
+    fseek(fptr2,i_car*sizeof(montadora),0);
+	fread(p2,sizeof(montadora),1,fptr2);
+
+}
