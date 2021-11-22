@@ -30,9 +30,9 @@
             border: 2px solid;
             text-align: center;
         }
-        h1
+        h1 
         {
-            background-size: auto;
+            background-size: auto; 
             background-color:#c6c91400;
             text-align: center;
             font-family: utopia-std-headline,serif;
@@ -42,7 +42,7 @@
 
     </style>
             <script>
-                    function validarSenha()
+                    function validarSenha() //verifica se a senha é igual
                     {
                         let NovaSenha = document.getElementById('inputPassword6').value;
                         let CNovaSenha = document.getElementById('inputPassword7').value;
@@ -61,7 +61,8 @@
                                 document.getElementById('inputPassword7').value = '';
                             }
                             else{
-                                document.cadastros.submit();
+                                window.location.href = "/WEB-Design-21-08-09/HTML/cadastrado.html";
+                                
                             }
                     }
             </script>
@@ -118,8 +119,8 @@
             </div>
 
 
-
             <button type="button" name="save" class="btn btn-outline-success" onclick="validarSenha()">Cadastrar</button>
+            
         </form>
     </div>
 </body>
