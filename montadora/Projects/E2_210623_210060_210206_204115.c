@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct endereco 
 {
@@ -60,17 +61,16 @@ typedef struct montadora
 void alloc_store(loja **p1, int tam);// Line 182
 int verify_store();// Line 192
 void register_store(loja *p1, int tam);// Line 209
-void save_store(loja *p1);// Line 261
+void save_store(loja *p1, char *str, int pos);// Line 261
 void show_store(loja *p1, int qtt);// Line 275
 void show_CNPJ(loja *p1, int tam, char aux[19]);// Line 313
 
 void alloc_car(montadora **p2, int tam);// Line 372
 int  verify_car();// Line 382
 void register_car(montadora *p2, int tam);// Line 399
-void save_car(montadora *p2);// Line 421
+void save_car(montadora *p2, char *str, int pos);// Line 421
 void show_car(montadora *p2, int qtt);// Line 435
 
-void grava(dados *p,char *str,int pos);
 
 void show_car_model(montadora *p2, int qtt);
 void show_car_status(montadora *p2, int qtt);
@@ -359,25 +359,31 @@ void register_store(loja *p1, int qtt)
     for ( i = 0; i < 3; i++)
     {
         p1->tabela[i].sigla = 'L';
+        //p1->tabela[i].reservado.sigla='R'
+        //p1->tabela[i].reservado.regcarro = 'numero do registro do carro'
     }
-    save_store(p1);
+    save_store(p1, "ab", 0);
 }//Function register_store
 
-void save_store(loja *p1)
+void save_store(loja *p1, char *str, int pos)
 {
     FILE *fptr=NULL;
-    if((fptr=fopen("concessionaria.bin", "ab"))==NULL)
+    if((fptr=fopen("concessionaria.bin", str))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
     else
     {
+        if(strcmp(str, "rb+")==0)
+        {
+            fseek(fptr, pos*sizeof(loja), 0);
+        }
         fwrite(p1, sizeof(loja), 1, fptr);
     }// Else - Data OK
     fclose(fptr);
 }// Function save_store
 
-void show_store(loja *p1, int qtt)
+void show_store(loja *p1, int qtt)//mudar a combinação dos ifs
 {
     system("cls");
     int i=0;
@@ -387,26 +393,20 @@ void show_store(loja *p1, int qtt)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    fseek(fptr, i*sizeof(loja), 0);
-    fread(p1, sizeof(loja), 1,  fptr);
-    if(p1->reserved == 0)
+    for(i=0; i<qtt; i++)
     {
-  	    for(i=0; i<qtt; i++)
+        fseek(fptr, i*sizeof(loja), 0);
+        fread(p1, sizeof(loja), 1,  fptr);
+  	    if(p1->reserved == 0)
   	    {
-            fseek(fptr, i*sizeof(loja), 0);
-            fread(p1, sizeof(loja), 1,  fptr);
   	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
-	    }// For - Show Data
-	    fclose(fptr);
-    }// If - Data OK and Reserved == 0
+	    }// If - Data OK and Reserved == 0
+    }// For - Show Data
+    fclose(fptr);
     else
     {
-  	    for(i=0; i<qtt; i++)
-  	    {
-            fseek(fptr, i*sizeof(loja), 0);
-            fread(p1, sizeof(loja), 1,  fptr);
-  	  	    printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
-	    }// For - Show Data
+        if(p1->reserved == 1)
+  	        printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
 	    fclose(fptr);
     }// Else - Data OK
     
@@ -518,18 +518,22 @@ void register_car(montadora *p2, int qtt)
     fflush(stdin);
     system("cls");
     p2->status.sigla = 'L';
-    save_car(p2);
+    save_car(p2, "ab", 0);
 }//Function register_car
 
-void save_car(montadora *p2)
+void save_car(montadora *p2, char *str, int pos)
 {
     FILE *fptr=NULL;
-    if((fptr=fopen("carro.bin","ab"))==NULL)
+    if((fptr=fopen("carro.bin",str))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
     else
     {
+        if(strcmp(str, "rb+")==0)
+        {
+            fseek(fptr, pos*sizeof(montadora),0);
+        }
         fwrite(p2, sizeof(montadora), 1, fptr);
     }// Else - Data OK
     fclose(fptr);
@@ -761,8 +765,6 @@ inicial_switch:
             system("cls");
             break;
 
-        case 'n':
-            break;
         case 'N':
             break;
     default:
@@ -818,35 +820,30 @@ register_CNPJ:
                 system("pause");
                 p1->reserved++;
                 //strcpy(p2->status.sigla, 'R');
-                p2->status.sigla = 'R';
+                p2->status.reserva.sigla = 'R';
                 strcpy(p2->status.reserva.CNPJ, p1->CNPJ);
                 //p2->status.reserva.CNPJ = p1->CNPJ;
-                //save_store(p1);
-                //save_car(p2);
+                for (size_t i = 0; i < 3; i++)
+                {
+                    if(p1->tabela[i].reservado.sigla !='R')
+                    {
+                        p1->tabela[i].reservado.sigla ='R';
+                        p1->tabela[i].reservado.regcarro = p2->regcarro;
+                        save_store(p1, "rb+", i_store);
+                        save_car(p2, "rb+", i_car);
+                        i=3;
+                    }
+                }
             }
         }
+        fclose(fptr1);
+        fclose(fptr2);
     }
     else
     {
         printf("Maximum number of cars reserved");
+        system("pause");
     }
     //fseek(fptr2,i_car*sizeof(montadora),0);
 	//fread(p2,sizeof(montadora),1,fptr2);
-//fclose(fptr1);
-//fclose(fptr2);
 }
-
-void grava(dados *p,char *str,int pos)
-{
-FILE *fptr=NULL;
-
-if((fptr=fopen("estoque.bin",str))==NULL)	
-  printf("\nErro ao abrir o arquivo");
-else
-  {
-  	if(strcmp(str,"rb+")==0)
-  		fseek(fptr,pos*sizeof(dados),0);
-  	fwrite(p,sizeof(dados),1,fptr);
-  }//else
-fclose(fptr);		//fora do ELSE por conta do ab ou rb+
-}//grava
