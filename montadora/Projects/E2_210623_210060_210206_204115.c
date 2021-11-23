@@ -792,8 +792,6 @@ register_CNPJ:
     }
     if((fptr2=fopen("carro.bin","rb"))==NULL)
     printf("\nErro");
-    //fseek(fptr1,i_store*sizeof(loja),0);
-	//fread(p1,sizeof(loja),1,fptr1);
     if(p1->reserved <= 2)
     {
     register_number:
@@ -823,6 +821,7 @@ register_CNPJ:
                 system("pause");
                 p1->reserved++;
                 //strcpy(p2->status.sigla, 'R');
+                p2->status.sigla = 'R';
                 p2->status.reserva.sigla = 'R';
                 strcpy(p2->status.reserva.CNPJ, p1->CNPJ);
                 //p2->status.reserva.CNPJ = p1->CNPJ;
@@ -847,6 +846,51 @@ register_CNPJ:
         printf("Maximum number of cars reserved");
         system("pause");
     }
-    //fseek(fptr2,i_car*sizeof(montadora),0);
-	//fread(p2,sizeof(montadora),1,fptr2);
+}
+
+void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
+{
+    int i_store = 0, i_car = 0, aux_reg;
+    char op;
+    FILE *fptr1=NULL;
+    FILE *fptr2=NULL;
+    system("cls");
+    if((fptr2=fopen("carro.bin","rb"))==NULL)
+    printf("\nErro");
+    if(p1->reserved <= 2)
+    {
+    register_number1:
+        printf("Number of register:\n");
+        scanf("%i", &aux_reg);
+        i_car = search_car(p2, aux_reg, qtt_car);
+        printf("%i\n", i_car);
+        system("pause");
+        if(i_car == -1)
+        {
+            printf("\nType an existing register number");
+            system("pause");
+            system("cls");
+            goto register_number1;
+        }
+    }
+    fseek(fptr2,i_car*sizeof(montadora),0);
+	fread(p2,sizeof(montadora),1,fptr2);
+    verify_reserved:
+    if(p2->status.sigla=='R')
+    {
+        printf("Will the chosen car be [s]old or [r]eleased\n");
+        scanf("%c", op);
+        fflush(stdin);
+        switch (toupper(op))
+        {
+            case 'S':
+            
+            case 'R':
+        }
+    }
+    else
+    {
+        printf("\n Carro selecionado está livre");
+        system("pause");
+    }
 }
