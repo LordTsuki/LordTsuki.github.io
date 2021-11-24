@@ -78,7 +78,7 @@ void show_car_status(montadora *p2, int qtt);
 int search_store(loja *p1, char reg[19], int qtt);
 int search_car(montadora *p2, int reg, int qtt);
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
-
+void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
 int main()
 {
     loja *ps=NULL;
@@ -857,6 +857,9 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     system("cls");
     if((fptr2=fopen("carro.bin","rb"))==NULL)
     printf("\nErro");
+    if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
+    printf("\nErro");
+    
     if(p1->reserved <= 2)
     {
     register_number1:
@@ -875,17 +878,37 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     }
     fseek(fptr2,i_car*sizeof(montadora),0);
 	fread(p2,sizeof(montadora),1,fptr2);
-    verify_reserved:
+    fseek(fptr1,i_store*sizeof(loja),0);
+	fread(p1,sizeof(loja),1,fptr1);
+    //verify_reserved:
     if(p2->status.sigla=='R')
     {
         printf("Will the chosen car be [s]old or [r]eleased\n");
-        scanf("%c", op);
+        scanf("%c", &op);
         fflush(stdin);
         switch (toupper(op))
         {
             case 'S':
-            
+                strcpy(p2->modelo, "vago");
+                strcpy(p2->cor, "vago");
+                p2->valor = 0;
+                p2->status.sigla = 'L';
+                p1->reserved--;
+                p1->sold++;
             case 'R':
+                p2->status.sigla = 'L';
+                p1->reserved--;
+                for (size_t i = 0; i < 3; i++)
+                {
+                    if(p1->tabela[i].reservado.sigla =='R')
+                    {
+                        p1->tabela[i].sigla ='L';
+                        p1->tabela[i].reservado.regcarro = p2->regcarro;
+                        save_store(p1, "rb+", i_store);
+                        save_car(p2, "rb+", i_car);
+                        i=3;
+                    }
+                }
         }
     }
     else
