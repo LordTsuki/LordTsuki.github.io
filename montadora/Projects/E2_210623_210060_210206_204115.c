@@ -256,7 +256,10 @@ menu_base:
                 goto menu_reserv;
 
                 case 2:
-
+                    qtt = verify_car();
+                    qtt1 = verify_store();
+                    finish_reserv(ps, pc, qtt, qtt1);
+                    system("cls");
                 goto menu_reserv;
             
                 case 0:
@@ -553,7 +556,7 @@ void show_car(montadora *p2, int qtt)
     }// If - Data ERROR
     fseek(fptr, i*sizeof(montadora), 0);
   	fread(p2, sizeof(montadora), 1, fptr);
-    if(p2->status.sigla == 'L')
+    if(p2->status.sigla == 'L')//IF COM ERRO VAMOS ALTERAR (INVERTER O IF COM O FOR)
     {
   	    for(i=0; i<qtt; i++)
   	    {
@@ -819,9 +822,9 @@ register_CNPJ:
                 printf("%c", p2->status.sigla);
                 printf("teste2\n");
                 system("pause");
-                p1->reserved++;
+                (p1->reserved)++;
                 //strcpy(p2->status.sigla, 'R');
-                p2->status.sigla = 'R';
+                //p2->status.sigla = 'R';
                 p2->status.reserva.sigla = 'R';
                 strcpy(p2->status.reserva.CNPJ, p1->CNPJ);
                 //p2->status.reserva.CNPJ = p1->CNPJ;
@@ -847,10 +850,13 @@ register_CNPJ:
         system("pause");
     }
 }
-
+/*
+FUNÇÃO COM ERRO. APÓS O TÉRMINO DA RESERVA,
+FUNÇÃO ESTÁ DELETANDO UM DOS REGISTROS. 
+*/
 void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
 {
-    int i_store = 0, i_car = 0, aux_reg;
+    int i_store = 0, i_car = 0, aux_reg, cont, i=0;
     char op;
     FILE *fptr1=NULL;
     FILE *fptr2=NULL;
@@ -859,7 +865,6 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     printf("\nErro");
     if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
     printf("\nErro");
-    
     if(p1->reserved <= 2)
     {
     register_number1:
@@ -878,12 +883,24 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     }
     fseek(fptr2,i_car*sizeof(montadora),0);
 	fread(p2,sizeof(montadora),1,fptr2);
-    fseek(fptr1,i_store*sizeof(loja),0);
+
+    
+
+    for ( i = 0; i < qtt_str; i++)
+    {
+        if(strcmp(p2->status.reserva.CNPJ, p1->CNPJ)==0)
+        {
+            cont=i;
+            break;
+        }
+    }
+    fseek(fptr1,cont*sizeof(loja),0);
 	fread(p1,sizeof(loja),1,fptr1);
     //verify_reserved:
     if(p2->status.sigla=='R')
     {
         printf("Will the chosen car be [s]old or [r]eleased\n");
+        fflush(stdin);
         scanf("%c", &op);
         fflush(stdin);
         switch (toupper(op))
@@ -893,8 +910,9 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                 strcpy(p2->cor, "vago");
                 p2->valor = 0;
                 p2->status.sigla = 'L';
-                p1->reserved--;
-                p1->sold++;
+                (p1->reserved)--;
+                (p1->sold)++;
+                break;
             case 'R':
                 p2->status.sigla = 'L';
                 p1->reserved--;
@@ -904,16 +922,20 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                     {
                         p1->tabela[i].sigla ='L';
                         p1->tabela[i].reservado.regcarro = p2->regcarro;
-                        save_store(p1, "rb+", i_store);
-                        save_car(p2, "rb+", i_car);
                         i=3;
                     }
                 }
+                
+                break;
         }
+        save_store(p1, "rb+", i_store);
+        save_car(p2, "rb+", i_car);
     }
     else
     {
-        printf("\n Carro selecionado está livre");
+        printf("\n Selected car is free\n");
         system("pause");
     }
+    fclose(fptr1);
+    fclose(fptr2);
 }
