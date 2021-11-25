@@ -890,11 +890,11 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     {
         if(strcmp(p2->status.reserva.CNPJ, p1->CNPJ)==0)
         {
-            cont=i;
+            i_store=i;
             break;
         }
     }
-    fseek(fptr1,cont*sizeof(loja),0);
+    fseek(fptr1,i_store*sizeof(loja),0);
 	fread(p1,sizeof(loja),1,fptr1);
     //verify_reserved:
     if(p2->status.sigla=='R')
@@ -912,16 +912,25 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                 p2->status.sigla = 'L';
                 (p1->reserved)--;
                 (p1->sold)++;
+                for (size_t i = 0; i < 3; i++)
+                {
+                    if((p1->tabela+i)->reservado.sigla =='R')
+                    {
+                        (p1->tabela+i)->sigla ='L';
+                        (p1->tabela+i)->reservado.regcarro = p2->regcarro;
+                        i=3;
+                    }
+                }
                 break;
             case 'R':
                 p2->status.sigla = 'L';
                 p1->reserved--;
                 for (size_t i = 0; i < 3; i++)
                 {
-                    if(p1->tabela[i].reservado.sigla =='R')
+                    if((p1->tabela+i)->reservado.sigla =='R')
                     {
-                        p1->tabela[i].sigla ='L';
-                        p1->tabela[i].reservado.regcarro = p2->regcarro;
+                        (p1->tabela+i)->sigla ='L';
+                        (p1->tabela+i)->reservado.regcarro = p2->regcarro;
                         i=3;
                     }
                 }
