@@ -94,6 +94,8 @@ n sei mais kkkk
 1.1Consulta do historico atraves do cnpj da concessionaria->mostra os carros
 1.2Consulta do historico atraves do modelo do carro
                 da conssecionaria->mostra as concessionarias
+1.3Até pode fazer uma consulta que mostra td o historico
+mas nao precisa
 2.Alteracao de cadastro de concessionaria
 3.Altercacao de cadastro dos carros
 */
