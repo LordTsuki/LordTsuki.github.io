@@ -554,28 +554,22 @@ void show_car(montadora *p2, int qtt)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    fseek(fptr, i*sizeof(montadora), 0);
-  	fread(p2, sizeof(montadora), 1, fptr);
-    if(p2->status.sigla == 'L')//IF COM ERRO VAMOS ALTERAR (INVERTER O IF COM O FOR)
+    //fseek(fptr, i*sizeof(montadora), 0);
+  	//fread(p2, sizeof(montadora), 1, fptr);
+    for(i=0; i<qtt; i++)
     {
-  	    for(i=0; i<qtt; i++)
+        fseek(fptr, i*sizeof(montadora), 0);
+  	    fread(p2, sizeof(montadora), 1, fptr);
+  	    if(p2->status.sigla == 'L')
   	    {
-            fseek(fptr, i*sizeof(montadora), 0);
-  	        fread(p2, sizeof(montadora), 1, fptr);
   	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
-	    }// For - Show Data
-	    fclose(fptr);
-    }// If - Data OK and Status.Sigla == L
-    else
-    {
-  	    for(i=0; i<qtt; i++)
-  	    {
-            fseek(fptr, i*sizeof(montadora), 0);
-  	        fread(p2, sizeof(montadora), 1, fptr);
-  	  	    printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
-	    }// For - Show Data
-	    fclose(fptr);
-    }// Else - Data OK
+	    }// If - Data OK and Status.Sigla == L
+        else
+        {
+            printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
+        }// Else - Data OK
+    }// For - Show Data
+    fclose(fptr);
     printf("\n\n\n");
     system("pause");
     system("cls");
@@ -852,7 +846,7 @@ register_CNPJ:
 }
 /*
 FUNÇÃO COM ERRO. APÓS O TÉRMINO DA RESERVA,
-FUNÇÃO ESTÁ DELETANDO UM DOS REGISTROS. 
+FUNÇÃO ESTÁ DELETANDO UM DOS REGISTROS.
 */
 void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
 {
@@ -934,7 +928,6 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                         i=3;
                     }
                 }
-                
                 break;
         }
         save_store(p1, "rb+", i_store);
