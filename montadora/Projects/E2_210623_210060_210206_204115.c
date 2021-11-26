@@ -58,6 +58,38 @@ typedef struct montadora
     dadosloja status;
 }montadora;
 
+//structs da proxima etapa a seguir
+typedef struct data
+{ 
+int dia;  
+int mes;  
+int ano;  
+}data;
+ 
+typedef struct historicoVendas
+{ 
+int reghist; 
+int regcarro; 
+char modelo[20]; 
+char cor[10]; 
+float valor;  
+int regloja; 
+char nome[30]; 
+char cnpj[19]; 
+struct data dataVenda; 
+}historicoVendas;
+
+/*Ewis disse que que para a proxima etapa precisamos criar
+mais 7 funções.
+Uma nova alloc
+Uma nova verify
+Uma nova save
+Uma nova register (?)
+Uma nova show (?)
+Uma nova search (?)
+n sei mais kkkk
+*/
+
 void alloc_store(loja **p1, int tam);// Line 182
 int verify_store();// Line 192
 void register_store(loja *p1, int tam);// Line 209
