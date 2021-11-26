@@ -88,6 +88,14 @@ Uma nova register (?)
 Uma nova show (?)
 Uma nova search (?)
 n sei mais kkkk
+3 coisas novas pra fazer:
+1.Historico de vendas(alterar a funcao terminaReserva para salvar
+                        os dados no historico e salvar o dia da venda)
+1.1Consulta do historico atraves do cnpj da concessionaria->mostra os carros
+1.2Consulta do historico atraves do modelo do carro
+                da conssecionaria->mostra as concessionarias
+2.Alteracao de cadastro de concessionaria
+3.Altercacao de cadastro dos carros
 */
 
 void alloc_store(loja **p1, int tam);// Line 182
