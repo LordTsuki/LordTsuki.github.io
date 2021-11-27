@@ -45,7 +45,7 @@ if((*p=(dados*)realloc(*p,tam*sizeof(dados)))==NULL)
   exit(1);
 }//aloca
 
-int  verifica()
+int verifica()
 {
 long int cont=0;
 FILE *fptr=NULL;
@@ -133,7 +133,7 @@ if((fptr=fopen("estoque.bin",str))==NULL)
 else
   {
   	if(strcmp(str,"rb+")==0)
-  	  fseek(fptr,pos*sizeof(dados),0);
+  		fseek(fptr,pos*sizeof(dados),0);
   	fwrite(p,sizeof(dados),1,fptr);
   }//else
 fclose(fptr);		//fora do ELSE por conta do ab ou rb+
