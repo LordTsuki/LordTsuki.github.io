@@ -120,14 +120,16 @@ int search_store(loja *p1, char reg[19], int qtt);
 int search_car(montadora *p2, int reg, int qtt);
 
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
-void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist);
+void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist, char *cnpj, int regcarro);
 
 void alloc_history(historicoVendas **p3, int tam);
 int verify_history();
-void register_history(historicoVendas *p3, int qtt);
+void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj);
 void save_history(historicoVendas *p3, char *str, int pos);
+void show_history(historicoVendas *p3, int qtt);
+//void change_car(montadora *p2, int qtt);
 
-int main()
+main()
 {
     loja *ps=NULL;
     montadora *pc=NULL;
@@ -136,7 +138,7 @@ int main()
     alloc_car(&pc, 1);
     alloc_history(&ph, 1);
     char aux[19];
-    int qtt=0, qtt1=0, qtt2=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
+    int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
 menu_base:
     printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[0] - Exit\n");
     scanf("%i", &menu_base);
@@ -219,77 +221,82 @@ menu_base:
             fflush(stdin);
             switch (menu_assembler)
             {
+            case 1:
+                system("cls");
+                qtt = verify_car();
+                if(qtt < 50)
+                {
+                    register_car(pc, qtt+1);
+                    qtt++;
+                    goto menu_assembler;// Line 143
+                }// If Register is OK
+                else
+                {
+                    printf("Maximum of fifty cars reached.");
+                    system("pause");
+                    goto menu_assembler;// Line 143
+                }// Else Register exceeded
+            break;// Case 1 - Register
+
+            case 2:
+                system("cls");
+            menu_check_car:
+                printf("[1] - Check Status\n[2] - Check Model\n[3] - Check All\n[0] - Back\n");
+                scanf("%i", &menu_check_car);
+                fflush(stdin);
+                switch (menu_check_car)
+                {
                 case 1:
                     system("cls");
                     qtt = verify_car();
-                    if(qtt < 50)
-                    {
-                        register_car(pc, qtt+1);
-                        qtt++;
-                        goto menu_assembler;// Line 143
-                    }// If Register is OK
-                    else
-                    {
-                        printf("Maximum of fifty cars reached.");
-                        system("pause");
-                        goto menu_assembler;// Line 143
-                    }// Else Register exceeded
-                break;// Case 1 - Register
+                    show_car_status(pc, qtt);
+                    printf("\n\n\n");
+                    system("pause");
+                    system("cls");
+                goto menu_check_car;
 
                 case 2:
                     system("cls");
-                menu_check_car:
-                    printf("[1] - Check Status\n[2] - Check Model\n[3] - Check All\n[0] - Back\n");
-                    scanf("%i", &menu_check_car);
-                    fflush(stdin);
-                    switch (menu_check_car)
-                    {
-                    case 1:
-                        system("cls");
-                        qtt = verify_car();
-                        show_car_status(pc, qtt);
-                        printf("\n\n\n");
-                        system("pause");
-                        system("cls");
-                    goto menu_check_car;
+                    qtt = verify_car();
+                    show_car_model(pc, qtt);
+                goto menu_check_car;
 
-                    case 2:
-                        system("cls");
-                        qtt = verify_car();
-                        show_car_model(pc, qtt);
-                    goto menu_check_car;
-
-                    case 3:
-                        qtt = verify_car();
-                        system("cls");
-                        show_car(pc, qtt);
-                    goto menu_check_car;
-
-                    case 0:
-                        system("cls");
-                    goto menu_assembler;
-                    
-                    default:
-                        system("cls");
-                        printf("Invalid Option");
-                        system("pause");
-                        system("cls");
-                    goto menu_check_car;
-                    }
-                goto menu_assembler;// Case 2 - Check - Line 143
+                case 3:
+                    qtt = verify_car();
+                    system("cls");
+                    show_car(pc, qtt);
+                goto menu_check_car;
 
                 case 0:
                     system("cls");
-                goto menu_base;// Case 0 - Return to Start Menu - Line 81
-
+                goto menu_assembler;
+                    
                 default:
                     system("cls");
                     printf("Invalid Option");
                     system("pause");
                     system("cls");
-                goto menu_assembler;
-            }// Switch Menu Assembler
+                goto menu_check_car;
+                }
+            goto menu_assembler;// Case 2 - Check - Line 143
 
+            case 3:
+                system("cls");
+                qtt=verify_car();
+                //change_car(pc);
+                system("cls");
+            goto menu_assembler;
+
+            case 0:
+                system("cls");
+            goto menu_base;// Case 0 - Return to Start Menu - Line 81
+
+            default:                    system("cls");
+                printf("Invalid Option");
+                system("pause");
+                system("cls");
+            goto menu_assembler;
+            }// Switch Menu Assembler
         case 3:
             system("cls");
         menu_reserv:
@@ -298,44 +305,43 @@ menu_base:
             fflush(stdin);
             switch (menu_reserv)
             {
-                case 1:
-                    qtt = verify_car();
-                    qtt1 = verify_store();
-                    reserv(ps, pc, qtt, qtt1);//AQUI
-                    system("cls");
-                goto menu_reserv;
+            case 1:
+                qtt = verify_car();
+                qtt1 = verify_store();
+                reserv(ps, pc, qtt, qtt1);//AQUI
+                system("cls");
+            goto menu_reserv;
 
-                case 2:
-                    qtt = verify_car();
-                    qtt1 = verify_store();
-                    qtt2 = verify_history();
-                    finish_reserv(ps, pc, ph, qtt, qtt1, qtt2);
-                    system("cls");
-                goto menu_reserv;
+            case 2:
+                qtt = verify_car();
+                qtt1 = verify_store();
+                qtt2 = verify_history();
+                finish_reserv(ps, pc, ph, qtt, qtt1, qtt2, aux, qtt3);
+                system("cls");
+            goto menu_reserv;
             
-                case 0:
-                    system("cls");
-                goto menu_base;
+            case 0:
+                system("cls");
+            goto menu_base;
 
-                default:
-                    system("cls");
-                    printf("Invalid Option");
-                    system("pause");
-                    system("cls");
-                goto menu_reserv;
+            default:
+                system("cls");
+                printf("Invalid Option");
+                system("pause");
+                system("cls");
+            goto menu_reserv;
             }
 
         case 0:
             exit(1);// Case 0 - Exit Program
 
         default:
-                system("cls");
-                printf("Invalid Option\n");
-                system("pause");
-                system("cls");
-                goto menu_base;
+            system("cls");
+            printf("Invalid Option\n");
+            system("pause");
+            system("cls");
+        goto menu_base;
     }// Switch Start Menu
-    return 0;
 }// Main
 
 void alloc_store(loja **p1, int tam)
@@ -893,10 +899,11 @@ register_CNPJ:
     }
 }
 
-void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist)
+void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist, char *cnpj, int regcarro)
 {
-    int i_store = 0, i_car = 0, aux_reg, i=0, i_history=0;
-    char op;
+    int bckp_regcar, bckp_regstr, i_store = 0, i_car = 0, aux_reg, i=0;
+    float bckp_valor;
+    char bckp_model[20], bckp_color[10], bckp_name[30], bckp_cnpj[19], op;
     FILE *fptr1=NULL;
     FILE *fptr2=NULL;
     FILE *fptr3=NULL;
@@ -906,8 +913,8 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
         printf("\nErro");
     if((fptr3=fopen("historico.bin","rb"))==NULL)
-        register_history(p3, qtt_hist+1);
-    
+        printf("\nErro");
+
     if(p1->reserved <= 2)
     {
     register_number1:
@@ -926,8 +933,6 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     }
     fseek(fptr2,i_car*sizeof(montadora),0);
 	fread(p2,sizeof(montadora),1,fptr2);
-
-    
 
     for ( i = 0; i < qtt_str; i++)
     {
@@ -950,6 +955,13 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
         {
             case 'S':
             {
+                strcpy(p1->nome, bckp_name);
+                strcpy(p2->modelo, bckp_model);
+                strcpy(p1->CNPJ, bckp_cnpj);
+                strcpy(p2->cor, bckp_color);
+                bckp_regstr = p1->regloja;
+                bckp_valor = p2->valor;
+                bckp_regcar = p2->regcarro;
                 strcpy(p2->modelo, "vago");
                 strcpy(p2->cor, "vago");
                 p2->valor = 0;
@@ -965,6 +977,7 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
                         i=3;
                     }
                 }
+                register_history(p3, p2, p1, qtt_hist, qtt_str, qtt_car, cnpj, regcarro, bckp_regcar, bckp_model, bckp_color, bckp_valor, bckp_regstr, bckp_name, bckp_cnpj);
             break;
             }
             
@@ -986,7 +999,6 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
         }
         save_store(p1, "rb+", i_store);
         save_car(p2, "rb+", i_car);
-        save_history(p3, "rb+", i_history);
     }
     else
     {
@@ -1043,21 +1055,118 @@ void save_history(historicoVendas *p3, char *str, int pos)
     fclose(fptr);
 }
 
-void register_history(historicoVendas *p3, int qtt)
+void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj)
 {
-    p3->reghist=qtt;
-    p3->regcarro = 0;
-    strcpy(p3->modelo, "");
-    strcpy(p3->cor, "");
-    p3->valor = 0;
-    p3->regloja = 0;
-    strcpy(p3->nome, "");
-    strcpy(p3->cnpj, "");
-    p3->dataVenda.dia = 0;
-    p3->dataVenda.mes = 0;
-    p3->dataVenda.ano = 0;
+    int i1 = 0, i2 = 0, day, month, year;
+    FILE *fptr1=NULL;
+    FILE *fptr2=NULL;
+
+    if((fptr1=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+
+    if((fptr2=fopen("carro.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+
+    fseek(fptr1, i1*sizeof(loja), 0);
+  	fread(p1, sizeof(loja), 1, fptr1);
+    fseek(fptr2, i2*sizeof(montadora), 0);
+  	fread(p2, sizeof(montadora), 1, fptr2);
+
+    i1 = search_store(p1, cnpj, qtt_str);
+
+    i2 = search_car(p2, regcarro, qtt_car);
+
+    p3->reghist=qtt_hist;
+    p3->regcarro = bckp_regcar;
+    strcpy(p3->modelo, bckp_model);
+    strcpy(p3->cor, bckp_color);
+    p3->valor = bckp_valor;
+    p3->regloja = bckp_regstr;
+    strcpy(p3->nome, bckp_name);
+    strcpy(p3->cnpj, bckp_cnpj);
+    printf("\nDay: ");
+    scanf("%i", &day);
+    fflush(stdin);
+    printf("\nMonth: ");
+    scanf("%i", &month);
+    fflush(stdin);
+    printf("\nYear: ");
+    scanf("%i", &year);
+    fflush(stdin);
+    p3->dataVenda.dia = day;
+    p3->dataVenda.mes = month;
+    p3->dataVenda.ano = year;
     
     save_history(p3, "ab", 0);
+    fclose(fptr1);
+    fclose(fptr2);
 }
+
+void show_history(historicoVendas *p3, int qtt)
+{
+    int i=0;
+    char cnpj;
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("carro.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    //fseek(fptr, i*sizeof(montadora), 0);
+  	//fread(p2, sizeof(montadora), 1, fptr);
+    printf("\nType CNPJ: \n");
+    scanf("%c", &cnpj);
+    for(i=0; i<qtt; i++)
+    {
+        fseek(fptr, i*sizeof(montadora), 0);
+  	    fread(p3, sizeof(montadora), 1, fptr);
+  	    if(strcmp(p3->cnpj, cnpj) == 0)
+  	    {
+  	  	    printf("\nRegister History: %i\nRegister Car: %i\nModel: %s\nColor: %s\nPrice: %.2f\nregloja: %i\nName: %c\nCNPJ %c\n", p3->reghist, p3->regcarro, p3->modelo, p3->cor, p3->valor, p3->regloja, p3->nome, p3->cnpj, p3->dataVenda.dia, p3->dataVenda.mes, p3->dataVenda.ano);
+	    }// If - Data OK and Status.Sigla == L
+        else
+        {
+            printf("CNPJ can't be found");
+        }// Else - Data OK
+    }// For - Show Data
+    fclose(fptr);
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}
+
+/*void change_car(montadora *p2, int qtt)
+{
+    int aux, pos;
+    show_car(p2, qtt);
+    printf("\nType the car register: ");
+    scanf("%i", &aux);
+    fflush(stdin);
+    pos=busca(p2, aux);
+    if(pos==-1)
+        {
+        printf("\nCan't found register\n");
+        }
+    else
+        {
+            printf("\nRegister: %i\nModel: %c\nColor: %c\nPrice: %.2f\n",p2->regcarro,p2->modelo,p2->cor,p2->valor);
+            printf("\nNew model: ");
+            scanf("%c",&(p2->modelo));
+            fflush(stdin);
+            printf("\nNew color: ");
+            scanf("%c",&(p2->cor));
+            fflush(stdin);
+            printf("\nNew price: ");
+            scanf("%f",&(p2->valor));
+            fflush(stdin);
+            save_car(p2,"rb+",pos);
+            printf("\nSuccess\n");
+            system("pause");
+        }//else	
+}//change_car*/
 
 //Function register_store
