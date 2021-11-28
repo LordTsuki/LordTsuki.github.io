@@ -139,7 +139,7 @@ int main()
     alloc_car(&pc, 1);
     alloc_history(&ph, 1);
     char aux[19];
-    int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
+    int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car, menu_history;
 menu_base:
     printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[4] - History\n[0] - Exit\n");
     scanf("%i", &menu_base);
@@ -335,10 +335,35 @@ menu_base:
             }
 
         case 4:
+        menu_history:
             system("cls");
-            qtt2 = verify_history();
-            show_history_CNPJ(ph, qtt2);
-        goto menu_base;
+            printf("[1] - search by CNPJ\n[2] - Search by model\n[0] - Back\n");
+            scanf("%i", &menu_history);
+            fflush(stdin);
+            switch (menu_history)
+            {
+                case 1:
+                    qtt2 = verify_history();
+                    show_history_CNPJ(ph, qtt2);
+                goto menu_history;
+
+                case 2:
+                    qtt2 = verify_history();
+                    show_history_model(ph, qtt2);
+                goto menu_history;
+
+                case 0:
+                system("cls");
+            goto menu_base;
+
+                default:
+                    system("cls");
+                    printf("Invalid Option");
+                    system("pause");
+                    system("cls");
+                goto menu_history;
+            }
+            
 
         case 0:
             exit(1);// Case 0 - Exit Program
