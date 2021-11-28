@@ -61,38 +61,24 @@ typedef struct montadora
 //structs da proxima etapa a seguir
 typedef struct data
 { 
-int dia;  
-int mes;  
-int ano;  
+    int dia;  
+    int mes;  
+    int ano;  
 }data;
  
 typedef struct historicoVendas
 { 
-int reghist; 
-int regcarro; 
-char modelo[20]; 
-char cor[10]; 
-float valor;  
-int regloja; 
-char nome[30]; 
-char cnpj[19]; 
-struct data dataVenda; 
+    int reghist; 
+    int regcarro; 
+    char modelo[20]; 
+    char cor[10]; 
+    float valor;  
+    int regloja; 
+    char nome[30]; 
+    char cnpj[19]; 
+    struct data dataVenda; 
 }historicoVendas;
 
-/*Ewis disse que que para a proxima etapa precisamos criar
-mais 7 funções.
-Uma nova alloc
-Uma nova verify
-Uma nova save
-Uma nova register (?)
-Uma nova show (?)
-Uma nova search (?)
-n sei mais kkkk
-2 coisas novas pra fazer:
-
-1.Alteracao de cadastro de concessionaria
-2.Altercacao de cadastro dos carros
-*/
 
 void alloc_store(loja **p1, int tam);// Line 182
 int verify_store();// Line 192
@@ -122,7 +108,9 @@ void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist
 void save_history(historicoVendas *p3, char *str, int pos);
 void show_history_CNPJ(historicoVendas *p3, int qtt);
 void show_history_model(historicoVendas *p3, int qtt);
+
 void change_store(loja *p1, int qtt);
+void change_car(montadora *p2, int qtt);
 
 int main()
 {
@@ -816,50 +804,50 @@ void show_car_status(montadora *p2, int qtt)
 
 int search_store(loja *p1, char reg[19], int qtt)
 {
-FILE *fptr=NULL;
-int achou=-1, i;
-system("cls");
-if((fptr=fopen("concessionaria.bin","rb"))==NULL)
-  printf("\nErro");
-else
-  {
-  	for(i=0;i<qtt;i++)
-  	  {
-  	  	fseek(fptr,i*sizeof(loja),0);
-  	  	fread(p1,sizeof(loja),1,fptr);
-  	  	if(strcmp(p1->CNPJ, reg) == 0)
-  	  	  {
-  	  	  	achou=i;
-  	  	  	i=qtt;
-		  }//if
-	  }//for
-  fclose(fptr);  
-  }//else
-return achou;
+    FILE *fptr=NULL;
+    int achou=-1, i;
+    system("cls");
+    if((fptr=fopen("concessionaria.bin","rb"))==NULL)
+    printf("\nErro");
+    else
+    {
+        for(i=0;i<qtt;i++)
+        {
+            fseek(fptr,i*sizeof(loja),0);
+            fread(p1,sizeof(loja),1,fptr);
+            if(strcmp(p1->CNPJ, reg) == 0)
+            {
+                achou=i;
+                i=qtt;
+            }//if
+        }//for
+    fclose(fptr);  
+    }//else
+    return achou;
 }//busca
 
 int search_car(montadora *p2, int reg, int qtt)
 {
-FILE *fptr=NULL;
-int achou=-1, i;
-system("cls");
-if((fptr=fopen("carro.bin","rb"))==NULL)
-    printf("\nErro");
-else
-{
-  	for(i=0;i<qtt;i++)
-  	{
-  	  	fseek(fptr,i*sizeof(montadora),0);
-  	  	fread(p2,sizeof(montadora),1,fptr);
-  	  	if(p2->regcarro == reg)
-  	  	{
-  	  	    achou=i;
-  	  	  	i=qtt;
-		}//if
-	}//for
-    fclose(fptr);  
-}//else
-return achou;
+    FILE *fptr=NULL;
+    int achou=-1, i;
+    system("cls");
+    if((fptr=fopen("carro.bin","rb"))==NULL)
+        printf("\nErro");
+    else
+    {
+        for(i=0;i<qtt;i++)
+        {
+            fseek(fptr,i*sizeof(montadora),0);
+            fread(p2,sizeof(montadora),1,fptr);
+            if(p2->regcarro == reg)
+            {
+                achou=i;
+                i=qtt;
+            }//if
+        }//for
+        fclose(fptr);  
+    }//else
+    return achou;
 }//busca
 
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
@@ -891,8 +879,8 @@ inicial_switch:
         
         goto inicial_switch;
     }
-if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
-    printf("\nErro");
+    if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
+        printf("\nErro");
 register_CNPJ:
     printf("Type CNPJ: \n");
     gets(CNPJ);
