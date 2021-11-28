@@ -126,10 +126,11 @@ void alloc_history(historicoVendas **p3, int tam);
 int verify_history();
 void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj);
 void save_history(historicoVendas *p3, char *str, int pos);
-void show_history(historicoVendas *p3, int qtt);
+void show_history_CNPJ(historicoVendas *p3, int qtt);
+void show_history_model(historicoVendas *p3, int qtt);
 //void change_car(montadora *p2, int qtt);
 
-main()
+int main()
 {
     loja *ps=NULL;
     montadora *pc=NULL;
@@ -140,7 +141,7 @@ main()
     char aux[19];
     int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
 menu_base:
-    printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[0] - Exit\n");
+    printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[4] - History\n[0] - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
     switch (menu_base)
@@ -291,7 +292,8 @@ menu_base:
                 system("cls");
             goto menu_base;// Case 0 - Return to Start Menu - Line 81
 
-            default:                    system("cls");
+            default:
+                system("cls");
                 printf("Invalid Option");
                 system("pause");
                 system("cls");
@@ -335,7 +337,7 @@ menu_base:
         case 4:
             system("cls");
             qtt2 = verify_history();
-            show_history(ph, qtt2);
+            show_history_CNPJ(ph, qtt2);
         goto menu_base;
 
         case 0:
@@ -348,6 +350,7 @@ menu_base:
             system("cls");
         goto menu_base;
     }// Switch Start Menu
+    return 0;
 }// Main
 
 void alloc_store(loja **p1, int tam)
@@ -961,13 +964,15 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
         {
             case 'S':
             {
-                strcpy(p1->nome, bckp_name);
-                strcpy(p2->modelo, bckp_model);
-                strcpy(p1->CNPJ, bckp_cnpj);
-                strcpy(p2->cor, bckp_color);
+                strcpy(bckp_name, p1->nome);
+                strcpy(bckp_model, p2->modelo);
+                strcpy(bckp_cnpj, p1->CNPJ);
+                strcpy(cnpj, p1->CNPJ);
+                strcpy(bckp_color, p2->cor);
                 bckp_regstr = p1->regloja;
                 bckp_valor = p2->valor;
                 bckp_regcar = p2->regcarro;
+                regcarro = p2->regcarro;
                 strcpy(p2->modelo, "vago");
                 strcpy(p2->cor, "vago");
                 p2->valor = 0;
@@ -983,6 +988,8 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
                         i=3;
                     }
                 }
+                save_store(p1, "rb+", i_store);
+                save_car(p2, "rb+", i_car);
                 register_history(p3, p2, p1, qtt_hist, qtt_str, qtt_car, cnpj, regcarro, bckp_regcar, bckp_model, bckp_color, bckp_valor, bckp_regstr, bckp_name, bckp_cnpj);
             break;
             }
@@ -1000,11 +1007,11 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
                         i=3;
                     }
                 }
+                save_store(p1, "rb+", i_store);
+                save_car(p2, "rb+", i_car);
             break;
             }
         }
-        save_store(p1, "rb+", i_store);
-        save_car(p2, "rb+", i_car);
     }
     else
     {
@@ -1077,22 +1084,27 @@ void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist
         printf("\nError to open archive");
     }// If - Data ERROR
 
+    i1 = search_store(p1, cnpj, qtt_str);
+    i2 = search_car(p2, regcarro, qtt_car);
+
     fseek(fptr1, i1*sizeof(loja), 0);
   	fread(p1, sizeof(loja), 1, fptr1);
     fseek(fptr2, i2*sizeof(montadora), 0);
   	fread(p2, sizeof(montadora), 1, fptr2);
 
-    i1 = search_store(p1, cnpj, qtt_str);
-
-    i2 = search_car(p2, regcarro, qtt_car);
-
-    p3->reghist=qtt_hist;
+    p3->reghist=qtt_hist+1;
     p3->regcarro = bckp_regcar;
+    printf("\n%i", p3->regcarro);
     strcpy(p3->modelo, bckp_model);
+    printf("\n%s", p3->modelo);
     strcpy(p3->cor, bckp_color);
+    printf("\n%s", p3->cor);
     p3->valor = bckp_valor;
+    printf("\n%f", p3->valor);
     p3->regloja = bckp_regstr;
+    printf("\n%i", p3->regloja);
     strcpy(p3->nome, bckp_name);
+    printf("\n%s", p3->nome);
     strcpy(p3->cnpj, bckp_cnpj);
     printf("\nDay: ");
     scanf("%i", &day);
@@ -1112,27 +1124,27 @@ void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist
     fclose(fptr2);
 }
 
-void show_history(historicoVendas *p3, int qtt)
+void show_history_CNPJ(historicoVendas *p3, int qtt)
 {
     int i=0;
     char cnpj[19];
     FILE *fptr=NULL;
     system("cls");
-    if((fptr=fopen("carro.bin", "rb"))==NULL)
+    if((fptr=fopen("historico.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    //fseek(fptr, i*sizeof(montadora), 0);
-  	//fread(p2, sizeof(montadora), 1, fptr);
+    //fseek(fptr, i*sizeof(historicoVendas), 0);
+  	//fread(p3, sizeof(historicoVendas), 1, fptr);
     printf("\nType CNPJ: \n");
     gets(cnpj);
     for(i=0; i<qtt; i++)
     {
-        fseek(fptr, i*sizeof(montadora), 0);
-  	    fread(p3, sizeof(montadora), 1, fptr);
+        fseek(fptr, i*sizeof(historicoVendas), 0);
+  	    fread(p3, sizeof(historicoVendas), 1, fptr);
   	    if(strcmp(p3->cnpj, cnpj) == 0)
   	    {
-  	  	    printf("\nRegister History: %i\nRegister Car: %i\nModel: %s\nColor: %s\nPrice: %.2f\nregloja: %i\nName: %c\nCNPJ %c\n", p3->reghist, p3->regcarro, p3->modelo, p3->cor, p3->valor, p3->regloja, p3->nome, p3->cnpj, p3->dataVenda.dia, p3->dataVenda.mes, p3->dataVenda.ano);
+  	  	    printf("\nRegister History: %i\nRegister Car: %i\nModel: %s\nColor: %s\nPrice: %.2f\nregloja: %i\nName: %s\nCNPJ %s\nData: %i/%i/%i", p3->reghist, p3->regcarro, p3->modelo, p3->cor, p3->valor, p3->regloja, p3->nome, p3->cnpj, p3->dataVenda.dia, p3->dataVenda.mes, p3->dataVenda.ano);
 	    }// If - Data OK and Status.Sigla == L
         else
         {
@@ -1145,6 +1157,38 @@ void show_history(historicoVendas *p3, int qtt)
     system("cls");
 }
 
+void show_history_model(historicoVendas *p3, int qtt)
+{
+    int i=0;
+    char model[19];
+    FILE *fptr=NULL;
+    system("cls");
+    if((fptr=fopen("historico.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    //fseek(fptr, i*sizeof(historicoVendas), 0);
+  	//fread(p3, sizeof(historicoVendas), 1, fptr);
+    printf("\nType car model: \n");
+    gets(model);
+    for(i=0; i<qtt; i++)
+    {
+        fseek(fptr, i*sizeof(historicoVendas), 0);
+  	    fread(p3, sizeof(historicoVendas), 1, fptr);
+  	    if(strcmp(p3->modelo, model) == 0)
+  	    {
+  	  	    printf("\nRegister History: %i\nRegister Car: %i\nModel: %s\nColor: %s\nPrice: %.2f\nregloja: %i\nName: %s\nCNPJ %s\nData: %i/%i/%i", p3->reghist, p3->regcarro, p3->modelo, p3->cor, p3->valor, p3->regloja, p3->nome, p3->cnpj, p3->dataVenda.dia, p3->dataVenda.mes, p3->dataVenda.ano);
+	    }// If - Data OK and Status.Sigla == L
+        else
+        {
+            printf("CNPJ can't be found");
+        }// Else - Data OK
+    }// For - Show Data
+    fclose(fptr);
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+}
 /*void change_car(montadora *p2, int qtt)
 {
     int aux, pos;
