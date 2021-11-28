@@ -113,22 +113,30 @@ void register_car(montadora *p2, int tam);// Line 399
 void save_car(montadora *p2, char *str, int pos);// Line 421
 void show_car(montadora *p2, int qtt);// Line 435
 
-
 void show_car_model(montadora *p2, int qtt);
 void show_car_status(montadora *p2, int qtt);
 
 int search_store(loja *p1, char reg[19], int qtt);
 int search_car(montadora *p2, int reg, int qtt);
+
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
-void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
+void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist);
+
+void alloc_history(historicoVendas **p3, int tam);
+int verify_history();
+void register_history(historicoVendas *p3, int qtt);
+void save_history(historicoVendas *p3, char *str, int pos);
+
 int main()
 {
     loja *ps=NULL;
     montadora *pc=NULL;
+    historicoVendas *ph=NULL;
     alloc_store(&ps, 1);
     alloc_car(&pc, 1);
+    alloc_history(&ph, 1);
     char aux[19];
-    int qtt=0, qtt1=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
+    int qtt=0, qtt1=0, qtt2=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car;
 menu_base:
     printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[0] - Exit\n");
     scanf("%i", &menu_base);
@@ -300,7 +308,8 @@ menu_base:
                 case 2:
                     qtt = verify_car();
                     qtt1 = verify_store();
-                    finish_reserv(ps, pc, qtt, qtt1);
+                    qtt2 = verify_history();
+                    finish_reserv(ps, pc, ph, qtt, qtt1, qtt2);
                     system("cls");
                 goto menu_reserv;
             
@@ -733,9 +742,6 @@ void show_car_status(montadora *p2, int qtt)
             }//if
     }
     fclose(fptr);
-    
-    
-    
 }// Function show_car
 
 int search_store(loja *p1, char reg[19], int qtt)
@@ -886,21 +892,22 @@ register_CNPJ:
         system("pause");
     }
 }
-/*
-FUNÇÃO COM ERRO. APÓS O TÉRMINO DA RESERVA,
-FUNÇÃO ESTÁ DELETANDO UM DOS REGISTROS.
-*/
-void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
+
+void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist)
 {
-    int i_store = 0, i_car = 0, aux_reg, cont, i=0;
+    int i_store = 0, i_car = 0, aux_reg, i=0, i_history=0;
     char op;
     FILE *fptr1=NULL;
     FILE *fptr2=NULL;
+    FILE *fptr3=NULL;
     system("cls");
     if((fptr2=fopen("carro.bin","rb"))==NULL)
-    printf("\nErro");
+        printf("\nErro");
     if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
-    printf("\nErro");
+        printf("\nErro");
+    if((fptr3=fopen("historico.bin","rb"))==NULL)
+        register_history(p3, qtt_hist+1);
+    
     if(p1->reserved <= 2)
     {
     register_number1:
@@ -942,6 +949,7 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
         switch (toupper(op))
         {
             case 'S':
+            {
                 strcpy(p2->modelo, "vago");
                 strcpy(p2->cor, "vago");
                 p2->valor = 0;
@@ -957,10 +965,13 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                         i=3;
                     }
                 }
-                break;
+            break;
+            }
+            
             case 'R':
+            {
                 p2->status.sigla = 'L';
-                p1->reserved--;
+                (p1->reserved)--;
                 for (size_t i = 0; i < 3; i++)
                 {
                     if((p1->tabela+i)->reservado.sigla =='R')
@@ -970,10 +981,12 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
                         i=3;
                     }
                 }
-                break;
+            break;
+            }
         }
         save_store(p1, "rb+", i_store);
         save_car(p2, "rb+", i_car);
+        save_history(p3, "rb+", i_history);
     }
     else
     {
@@ -982,4 +995,69 @@ void finish_reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
     }
     fclose(fptr1);
     fclose(fptr2);
+    fclose(fptr3);
 }
+
+void alloc_history(historicoVendas **p3, int tam)
+{
+    if((*p3=(historicoVendas*)realloc(*p3,tam*sizeof(historicoVendas)))==NULL)
+    {
+        printf("Not able to alloc");
+        system("pause");
+        exit(1);
+    }
+}//function alloc_history
+
+int verify_history()
+{
+    long int cont=0;
+    FILE *fptr = NULL;
+    if((fptr = fopen("historico.bin", "rb")) == NULL)
+    {
+        return cont;
+    }// If - Case Data ERROR
+    else
+    {
+        fseek(fptr,0,2);
+  	    cont=ftell(fptr)/sizeof(historicoVendas);
+  	    fclose(fptr);
+  	    return cont;
+    }// Else - Case Data OK
+}
+
+void save_history(historicoVendas *p3, char *str, int pos)
+{
+    FILE *fptr=NULL;
+    if((fptr=fopen("historico.bin", str))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    else
+    {
+        if(strcmp(str, "rb+")==0)
+        {
+            fseek(fptr, pos*sizeof(historicoVendas), 0);
+        }
+        fwrite(p3, sizeof(historicoVendas), 1, fptr);
+    }// Else - Data OK
+    fclose(fptr);
+}
+
+void register_history(historicoVendas *p3, int qtt)
+{
+    p3->reghist=qtt;
+    p3->regcarro = 0;
+    strcpy(p3->modelo, "");
+    strcpy(p3->cor, "");
+    p3->valor = 0;
+    p3->regloja = 0;
+    strcpy(p3->nome, "");
+    strcpy(p3->cnpj, "");
+    p3->dataVenda.dia = 0;
+    p3->dataVenda.mes = 0;
+    p3->dataVenda.ano = 0;
+    
+    save_history(p3, "ab", 0);
+}
+
+//Function register_store
