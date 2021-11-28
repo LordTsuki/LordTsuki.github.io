@@ -133,9 +133,9 @@ int main()
     alloc_car(&pc, 1);
     alloc_history(&ph, 1);
     char aux[19];
-    int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car, menu_history;
+    int qtt=0, qtt1=0, qtt2=0, qtt3=0, menu_base, menu_store, menu_assembler, menu_check_store, menu_reserv, menu_check_car, menu_history, menu_change;
 menu_base:
-    printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[4] - History\n[0] - Exit\n");
+    printf("[1] - Store\n[2] - Car\n[3] - Manage Car Reservation\n[4] - History\n[5] - Change Registration\n[0] - Exit\n");
     scanf("%i", &menu_base);
     fflush(stdin);
     switch (menu_base)
@@ -357,7 +357,38 @@ menu_base:
                     system("cls");
                 goto menu_history;
             }
-            
+
+        case 5:
+        menu_change:
+            system("cls");
+            printf("[1] - Change Store Registration\n[2] - Change Car Registration\n[0] - Back\n");
+            scanf("%i", &menu_change);
+            fflush(stdin);
+            switch (menu_change)
+            {
+                case 1:
+                    system("cls");
+                    qtt = verify_store();
+                    change_store(ps, qtt);
+                goto menu_change;
+
+                case 2:
+                    system ("cls");
+                    qtt = verify_car();
+                    //change_car(pc, qtt);
+                goto menu_change;
+
+                case 0:
+                    system("cls");
+                goto menu_base;
+
+            default:
+                    system("cls");
+                    printf("Invalid Option");
+                    system("pause");
+                    system("cls");
+                goto menu_history;
+            }
 
         case 0:
             exit(1);// Case 0 - Exit Program
@@ -1214,7 +1245,7 @@ void show_history_model(historicoVendas *p3, int qtt)
 }
 void change_store(loja *p1, int qtt)
 {
-    int pos, i=0;
+    int pos;
     char aux[19];
     FILE *fptr=NULL;
 type_cnpj:
@@ -1226,56 +1257,48 @@ type_cnpj:
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    for(i=0; i<qtt; i++)
-    {
-        fseek(fptr, i*sizeof(loja), 0);
-        fread(p1, sizeof(loja), 1,  fptr);
-        if(strcmp(aux, p1->CNPJ)==0)
-        {
-            if(p1->reserved==0)
-            {  
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
-            }
-            else if (p1->reserved==1)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
-            }
-            else if (p1->reserved==2)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
-            }
-            if (p1->reserved ==3)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
-            }
-        }// If - aux = p1->CNPJ]
-        else
+    pos=search_store(p1, aux, qtt);
+    fseek(fptr, pos*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr);
+    if(pos==-1)
         {
             system("cls");
             printf("type an existing CNPJ\n");
             system("pause");
             goto type_cnpj;
         }
-    }
+
+        if(strcmp(aux, p1->CNPJ) == 0)
+        {
+            if(p1->reserved == 0)
+            {  
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
+            }
+            else if (p1->reserved == 1)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
+            }
+            else if (p1->reserved == 2)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
+            }
+            if (p1->reserved == 3)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+        }// If - aux = p1->CNPJ]
     fclose(fptr);
     printf("\n\n\n");
     system("pause");
     system("cls");
-    pos=search_store(p1, aux, qtt);
-    if(pos==-1)
-        {
-        printf("\nCan't found register\n");
-        }
-    else
-        {
-            printf("\nNew name: ");
-            gets(p1->nome);
-            fflush(stdin);
-            printf("\nNew CNPJ: ");
-            gets(p1->CNPJ);
-            fflush(stdin);
-            save_store(p1,"rb+",pos);
-            printf("\nSuccess\n");
-            system("pause");
-        }//else	
+    printf("\nNew name: ");
+    gets(p1->nome);
+    fflush(stdin);
+    printf("\nNew CNPJ: ");
+    gets(p1->CNPJ);
+    fflush(stdin);
+    save_store(p1,"rb+",pos);
+    printf("\nSuccess\n");
+    system("pause");
+    fclose(fptr);
 }//change_store
