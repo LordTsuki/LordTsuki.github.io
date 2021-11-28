@@ -275,13 +275,6 @@ menu_base:
                 }
             goto menu_assembler;// Case 2 - Check - Line 143
 
-            case 3:
-                system("cls");
-                qtt=verify_car();
-                //change_store(pc);
-                system("cls");
-            goto menu_assembler;
-
             case 0:
                 system("cls");
             goto menu_base;// Case 0 - Return to Start Menu - Line 81
@@ -375,7 +368,7 @@ menu_base:
                 case 2:
                     system ("cls");
                     qtt = verify_car();
-                    //change_car(pc, qtt);
+                    change_car(pc, qtt);
                 goto menu_change;
 
                 case 0:
@@ -722,11 +715,23 @@ do_model:
     {
     if (strcmp(aux, p2->modelo) == 0)
         {
-            printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
-            if (i != qtt)
+            if(p2->status.sigla == 'L')
             {
-                a = 1;
-                goto do_model;
+                printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+                if (i != qtt)
+                {
+                    a = 1;
+                    goto do_model;
+                }
+            }
+            else if (p2->status.reserva.sigla == 'R')
+            {
+               printf("\nRegister: %i\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->regcarro, p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
+               if (i != qtt)
+                {
+                    a = 1;
+                    goto do_model;
+                }
             }
         }
     }
@@ -1298,6 +1303,60 @@ type_cnpj:
     gets(p1->CNPJ);
     fflush(stdin);
     save_store(p1,"rb+",pos);
+    printf("\nSuccess\n");
+    system("pause");
+    fclose(fptr);
+}//change_store
+
+void change_car(montadora *p2, int qtt)
+{
+    int pos, aux;
+    FILE *fptr=NULL;
+type_regCar:
+    printf("\nType Car Register: ");
+    scanf("%i", &aux);
+    fflush(stdin);
+    system("cls");
+    if((fptr=fopen("carro.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    pos=search_car(p2, aux, qtt);
+    fseek(fptr, pos*sizeof(montadora), 0);
+    fread(p2, sizeof(montadora), 1,  fptr);
+    if(pos==-1)
+        {
+            system("cls");
+            printf("type an existing Car register\n");
+            system("pause");
+            goto type_regCar;
+        }
+
+        if(aux == p2->regcarro)
+        {
+           if(p2->status.sigla == 'L')
+           {
+               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+           }
+           else if (p2->status.reserva.sigla == 'R')
+           {
+               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
+           }
+        }// If - aux = p1->CNPJ]
+    fclose(fptr);
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+    printf("\nNew model: ");
+    gets(p2->modelo);
+    fflush(stdin);
+    printf("\nNew color: ");
+    gets(p2->cor);
+    fflush(stdin);
+    printf("\nNew price: ");
+    scanf("%f", &(p2->valor));
+    fflush(stdin);
+    save_car(p2,"rb+",pos);
     printf("\nSuccess\n");
     system("pause");
     fclose(fptr);
