@@ -332,6 +332,12 @@ menu_base:
             goto menu_reserv;
             }
 
+        case 4:
+            system("cls");
+            qtt2 = verify_history();
+            show_history(ph, qtt2);
+        goto menu_base;
+
         case 0:
             exit(1);// Case 0 - Exit Program
 
@@ -1109,7 +1115,7 @@ void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist
 void show_history(historicoVendas *p3, int qtt)
 {
     int i=0;
-    char cnpj;
+    char cnpj[19];
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("carro.bin", "rb"))==NULL)
@@ -1119,7 +1125,7 @@ void show_history(historicoVendas *p3, int qtt)
     //fseek(fptr, i*sizeof(montadora), 0);
   	//fread(p2, sizeof(montadora), 1, fptr);
     printf("\nType CNPJ: \n");
-    scanf("%c", &cnpj);
+    gets(cnpj);
     for(i=0; i<qtt; i++)
     {
         fseek(fptr, i*sizeof(montadora), 0);
