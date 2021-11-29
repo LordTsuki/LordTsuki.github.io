@@ -11,6 +11,60 @@
 
 body
 {
-    background-image:url(/CacaNiquel/img/moedas.gif);
+    background-image:url(/WEB-Design-21-08-09/imagens/fundo_moeda.gif);
     background-size: cover;
+}
+
+#figuras
+{
+	padding-top: 50px;
+}
+
+h1
+{
+	font-family: roc-grotesk, sans-serif;
+	font-style: italic;
+	font-weight: 400;
+	font-size: 40px;
+	color: black;
+}
+
+#h1_2
+{
+	margin-top: 10px;
+	font-size: 45px;
+}
+
+#t1
+{
+	margin-top: auto;
+	margin-left: 55px;
+	position: absolute;
+}
+
+#t2
+{
+	margin-top: auto;
+	margin-left: 175px;
+	position: absolute;
+}
+
+#t3
+{
+	margin-top: auto;
+	margin-left: 130px;
+	position: absolute;
+}
+
+#t4
+{
+	margin-top: auto;
+	margin-left: 160px;
+	position: absolute;
+}
+
+#botao
+{
+	margin-left: 25px;
+	margin-top: 105px;
 }
