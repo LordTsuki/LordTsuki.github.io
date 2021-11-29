@@ -848,7 +848,7 @@ int search_car(montadora *p2, int reg, int qtt)
         fclose(fptr);  
     }//else
     return achou;
-}//busca
+}//function search_car
 
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
 {
