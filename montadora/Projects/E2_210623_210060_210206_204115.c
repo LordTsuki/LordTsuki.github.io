@@ -960,9 +960,9 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     FILE *fptr2=NULL;
     FILE *fptr3=NULL;
     system("cls");
-    if((fptr2=fopen("carro.bin","rb"))==NULL)
-        printf("\nErro");
     if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
+        printf("\nErro");
+    if((fptr2=fopen("carro.bin","rb"))==NULL)
         printf("\nErro");
     if((fptr3=fopen("historico.bin","rb"))==NULL)
         printf("\nErro");
@@ -1236,6 +1236,7 @@ void show_history_model(historicoVendas *p3, int qtt)
     system("pause");
     system("cls");
 }
+
 void change_store(loja *p1, int qtt)
 {
     int pos;
@@ -1280,7 +1281,6 @@ type_cnpj:
                 printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
             }
         }// If - aux = p1->CNPJ]
-    fclose(fptr);
     printf("\n\n\n");
     system("pause");
     system("cls");
@@ -1331,7 +1331,6 @@ type_regCar:
                printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
            }
         }// If - aux = p1->CNPJ]
-    fclose(fptr);
     printf("\n\n\n");
     system("pause");
     system("cls");
