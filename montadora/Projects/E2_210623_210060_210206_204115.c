@@ -1041,6 +1041,10 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
             {
                 p2->status.sigla = 'L';
                 (p1->reserved)--;
+                fseek(fptr1,i_store*sizeof(loja),0);
+	            fread(p1,sizeof(loja),1,fptr1);
+                fseek(fptr2,i_car*sizeof(montadora),0);
+	            fread(p2,sizeof(montadora),1,fptr2);
                 for (size_t i = 0; i < 3; i++)
                 {
                     if((p1->tabela+i)->reservado.sigla =='R')
