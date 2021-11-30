@@ -78,38 +78,34 @@ typedef struct historicoVendas
     struct data dataVenda; 
 }historicoVendas;
 
+void alloc_store(loja **p1, int tam);//Line 382
+int verify_store();//Line 392
+void register_store(loja *p1, int tam);//Line 409
+void save_store(loja *p1, char *str, int pos);//Line 461
+void show_store(loja *p1, int qtt);//Line 479
+void show_CNPJ(loja *p1, int tam, char aux[19]);//Line 521
+int search_store(loja *p1, char reg[19], int qtt);//Line 562
+void change_store(loja *p1, int qtt);//Line 586
 
-void alloc_store(loja **p1, int tam);// Line 182
-int verify_store();// Line 192
-void register_store(loja *p1, int tam);// Line 209
-void save_store(loja *p1, char *str, int pos);// Line 261
-void show_store(loja *p1, int qtt);// Line 275
-void show_CNPJ(loja *p1, int tam, char aux[19]);// Line 313
+void alloc_car(montadora **p2, int tam);//Line 372
+int  verify_car();//Line 382
+void register_car(montadora *p2, int tam);//Line 399
+void save_car(montadora *p2, char *str, int pos);//Line 421
+void show_car(montadora *p2, int qtt);//Line 435
+void show_car_model(montadora *p2, int qtt);//Line 740
+void show_car_status(montadora *p2, int qtt);//Line 801
+int search_car(montadora *p2, int reg, int qtt);//Line 870
+void change_car(montadora *p2, int qtt);//Line 894
 
-void alloc_car(montadora **p2, int tam);// Line 372
-int  verify_car();// Line 382
-void register_car(montadora *p2, int tam);// Line 399
-void save_car(montadora *p2, char *str, int pos);// Line 421
-void show_car(montadora *p2, int qtt);// Line 435
+void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);//Line 947
+void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist, char *cnpj, int regcarro);//Line 1039
 
-void show_car_model(montadora *p2, int qtt);
-void show_car_status(montadora *p2, int qtt);
-
-int search_store(loja *p1, char reg[19], int qtt);
-int search_car(montadora *p2, int reg, int qtt);
-
-void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str);
-void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist, char *cnpj, int regcarro);
-
-void alloc_history(historicoVendas **p3, int tam);
-int verify_history();
-void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj);
-void save_history(historicoVendas *p3, char *str, int pos);
-void show_history_CNPJ(historicoVendas *p3, int qtt);
-void show_history_model(historicoVendas *p3, int qtt);
-
-void change_store(loja *p1, int qtt);
-void change_car(montadora *p2, int qtt);
+void alloc_history(historicoVendas **p3, int tam);//Line 1174
+int verify_history();//Line 1184
+void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj);//Line 1201
+void save_history(historicoVendas *p3, char *str, int pos);//Line 1252
+void show_history_CNPJ(historicoVendas *p3, int qtt);//Line 1270
+void show_history_model(historicoVendas *p3, int qtt);//Line 1303
 
 int main()
 {
@@ -381,7 +377,7 @@ menu_base:
         goto menu_base;
     }// Switch Start Menu
     return 0;
-}// Main
+}// main
 
 void alloc_store(loja **p1, int tam)
 {
@@ -391,7 +387,7 @@ void alloc_store(loja **p1, int tam)
         system("pause");
         exit(1);
     }
-}// Function alloc_store
+}//alloc_store
 
 int verify_store()
 {
@@ -408,7 +404,7 @@ int verify_store()
   	    fclose(fptr);
   	    return cont;
     }// Else - Case Data OK
-}// Function Verify_store
+}//verify_store
 
 void register_store(loja *p1, int qtt)
 {
@@ -460,7 +456,7 @@ void register_store(loja *p1, int qtt)
         p1->tabela[i].sigla = 'L';
     }
     save_store(p1, "ab", 0);
-}//Function register_store
+}//register_store
 
 void save_store(loja *p1, char *str, int pos)
 {
@@ -478,7 +474,7 @@ void save_store(loja *p1, char *str, int pos)
         fwrite(p1, sizeof(loja), 1, fptr);
     }// Else - Data OK
     fclose(fptr);
-}// Function save_store
+}//save_store
 
 void show_store(loja *p1, int qtt)
 {
@@ -520,19 +516,19 @@ void show_store(loja *p1, int qtt)
     printf("\n\n\n");
     system("pause");
     system("cls");
-}// Function show_store
+}//show_store
 
 void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
 {
-    int i=0, i_store;
+    int i_store;
     FILE *fptr=NULL;
     system("cls");
     if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    //fseek(fptr, i*sizeof(loja), 0);
-    //fread(p1, sizeof(loja), 1,  fptr);
+    
+    
     printf("Write wanted CNPJ number: \n");
     fflush(stdin);
     gets(aux);
@@ -561,7 +557,90 @@ void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
     printf("\n\n\n");
     system("pause");
     system("cls");
-}// Function show_CNPJ
+}//show_CNPJ
+
+int search_store(loja *p1, char reg[19], int qtt)
+{
+    FILE *fptr=NULL;
+    int achou=-1, i;
+    system("cls");
+    if((fptr=fopen("concessionaria.bin","rb"))==NULL)
+    printf("\nErro");
+    else
+    {
+        for(i=0;i<qtt;i++)
+        {
+            fseek(fptr,i*sizeof(loja),0);
+            fread(p1,sizeof(loja),1,fptr);
+            if(strcmp(p1->CNPJ, reg) == 0)
+            {
+                achou=i;
+                i=qtt;
+            }//if
+        }//for
+    fclose(fptr);  
+    }//else
+    return achou;
+}//search_store
+
+void change_store(loja *p1, int qtt)
+{
+    int pos;
+    char aux[19];
+    FILE *fptr=NULL;
+type_cnpj:
+    printf("\nType store CNPJ: ");
+    gets(aux);
+    fflush(stdin);
+    system("cls");
+    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    pos=search_store(p1, aux, qtt);
+    fseek(fptr, pos*sizeof(loja), 0);
+    fread(p1, sizeof(loja), 1,  fptr);
+    if(pos==-1)
+        {
+            system("cls");
+            printf("type an existing CNPJ\n");
+            system("pause");
+            goto type_cnpj;
+        }
+
+        if(strcmp(aux, p1->CNPJ) == 0)
+        {
+            if(p1->reserved == 0)
+            {  
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
+            }
+            else if (p1->reserved == 1)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
+            }
+            else if (p1->reserved == 2)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
+            }
+            if (p1->reserved == 3)
+            {
+                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+        }// If - aux = p1->CNPJ]
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+    printf("\nNew name: ");
+    gets(p1->nome);
+    fflush(stdin);
+    printf("\nNew CNPJ: ");
+    gets(p1->CNPJ);
+    fflush(stdin);
+    save_store(p1,"rb+",pos);
+    printf("\nSuccess\n");
+    system("pause");
+    fclose(fptr);
+}//change_store
 
 void alloc_car(montadora **p2, int tam)
 {
@@ -571,7 +650,7 @@ void alloc_car(montadora **p2, int tam)
         system("pause");
         exit(1);
     }
-}// Function alloc_car
+}//alloc_car
 
 int verify_car()
 {
@@ -588,7 +667,7 @@ int verify_car()
   	    fclose(fptr);
   	    return cont;
     }// Else - Case Data OK
-}// Function verify_car
+}//verify_car
 
 void register_car(montadora *p2, int qtt)
 {
@@ -610,7 +689,7 @@ void register_car(montadora *p2, int qtt)
     system("cls");
     p2->status.sigla = 'L';
     save_car(p2, "ab", 0);
-}//Function register_car
+}//register_car
 
 void save_car(montadora *p2, char *str, int pos)
 {
@@ -628,7 +707,7 @@ void save_car(montadora *p2, char *str, int pos)
         fwrite(p2, sizeof(montadora), 1, fptr);
     }// Else - Data OK
     fclose(fptr);
-}// Function save_car
+}//save_car
 
 void show_car(montadora *p2, int qtt)
 {
@@ -656,7 +735,7 @@ void show_car(montadora *p2, int qtt)
     printf("\n\n\n");
     system("pause");
     system("cls");
-}// Function show_car
+}//show_car
 
 void show_car_model(montadora *p2, int qtt)
 {
@@ -717,7 +796,7 @@ do_model:
     fclose(fptr);
     system("pause");
     system("cls");
-}
+}//show_car_model
 
 void show_car_status(montadora *p2, int qtt)
 {
@@ -786,31 +865,7 @@ void show_car_status(montadora *p2, int qtt)
             }//if
     }
     fclose(fptr);
-}// Function show_car
-
-int search_store(loja *p1, char reg[19], int qtt)
-{
-    FILE *fptr=NULL;
-    int achou=-1, i;
-    system("cls");
-    if((fptr=fopen("concessionaria.bin","rb"))==NULL)
-    printf("\nErro");
-    else
-    {
-        for(i=0;i<qtt;i++)
-        {
-            fseek(fptr,i*sizeof(loja),0);
-            fread(p1,sizeof(loja),1,fptr);
-            if(strcmp(p1->CNPJ, reg) == 0)
-            {
-                achou=i;
-                i=qtt;
-            }//if
-        }//for
-    fclose(fptr);  
-    }//else
-    return achou;
-}//busca
+}//show_car
 
 int search_car(montadora *p2, int reg, int qtt)
 {
@@ -834,7 +889,60 @@ int search_car(montadora *p2, int reg, int qtt)
         fclose(fptr);  
     }//else
     return achou;
-}//function search_car
+}//search_car
+
+void change_car(montadora *p2, int qtt)
+{
+    int pos, aux;
+    FILE *fptr=NULL;
+type_regCar:
+    printf("\nType Car Register: ");
+    scanf("%i", &aux);
+    fflush(stdin);
+    system("cls");
+    if((fptr=fopen("carro.bin", "rb"))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    pos=search_car(p2, aux, qtt);
+    fseek(fptr, pos*sizeof(montadora), 0);
+    fread(p2, sizeof(montadora), 1,  fptr);
+    if(pos==-1)
+        {
+            system("cls");
+            printf("type an existing Car register\n");
+            system("pause");
+            goto type_regCar;
+        }
+
+        if(aux == p2->regcarro)
+        {
+           if(p2->status.sigla == 'L')
+           {
+               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->modelo, p2->cor, p2->valor, p2->status.sigla);
+           }
+           else if (p2->status.reserva.sigla == 'R')
+           {
+               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
+           }
+        }// If - aux = p1->CNPJ]
+    printf("\n\n\n");
+    system("pause");
+    system("cls");
+    printf("\nNew model: ");
+    gets(p2->modelo);
+    fflush(stdin);
+    printf("\nNew color: ");
+    gets(p2->cor);
+    fflush(stdin);
+    printf("\nNew price: ");
+    scanf("%f", &(p2->valor));
+    fflush(stdin);
+    save_car(p2,"rb+",pos);
+    printf("\nSuccess\n");
+    system("pause");
+    fclose(fptr);
+}//change_store
 
 void reserv(loja *p1, montadora *p2, int qtt_car, int qtt_str)
 {
@@ -926,7 +1034,7 @@ register_CNPJ:
         printf("Maximum number of cars reserved");
         system("pause");
     }
-}
+}//reserv
 
 void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, int qtt_str, int qtt_hist, char *cnpj, int regcarro)
 {
@@ -1061,7 +1169,7 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     fclose(fptr1);
     fclose(fptr2);
     fclose(fptr3);
-}
+}//finish_reserv
 
 void alloc_history(historicoVendas **p3, int tam)
 {
@@ -1088,25 +1196,7 @@ int verify_history()
   	    fclose(fptr);
   	    return cont;
     }// Else - Case Data OK
-}
-
-void save_history(historicoVendas *p3, char *str, int pos)
-{
-    FILE *fptr=NULL;
-    if((fptr=fopen("historico.bin", str))==NULL)
-    {
-        printf("\nError to open archive");
-    }// If - Data ERROR
-    else
-    {
-        if(strcmp(str, "rb+")==0)
-        {
-            fseek(fptr, pos*sizeof(historicoVendas), 0);
-        }
-        fwrite(p3, sizeof(historicoVendas), 1, fptr);
-    }// Else - Data OK
-    fclose(fptr);
-}
+}//verify_history
 
 void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist, int qtt_str, int qtt_car, char *cnpj, int regcarro, int bckp_regcar, char *bckp_model, char *bckp_color, float bckp_valor, int bckp_regstr, char *bckp_name, char *bckp_cnpj)
 {
@@ -1157,7 +1247,25 @@ void register_history(historicoVendas *p3, montadora *p2, loja *p1, int qtt_hist
     save_history(p3, "ab", 0);
     fclose(fptr1);
     fclose(fptr2);
-}
+}//register_history
+
+void save_history(historicoVendas *p3, char *str, int pos)
+{
+    FILE *fptr=NULL;
+    if((fptr=fopen("historico.bin", str))==NULL)
+    {
+        printf("\nError to open archive");
+    }// If - Data ERROR
+    else
+    {
+        if(strcmp(str, "rb+")==0)
+        {
+            fseek(fptr, pos*sizeof(historicoVendas), 0);
+        }
+        fwrite(p3, sizeof(historicoVendas), 1, fptr);
+    }// Else - Data OK
+    fclose(fptr);
+}//save_history
 
 void show_history_CNPJ(historicoVendas *p3, int qtt)
 {
@@ -1190,7 +1298,7 @@ void show_history_CNPJ(historicoVendas *p3, int qtt)
     printf("\n\n\n");
     system("pause");
     system("cls");
-}
+}//show_history_CNPJ
 
 void show_history_model(historicoVendas *p3, int qtt)
 {
@@ -1223,116 +1331,4 @@ void show_history_model(historicoVendas *p3, int qtt)
     printf("\n\n\n");
     system("pause");
     system("cls");
-}
-
-void change_store(loja *p1, int qtt)
-{
-    int pos;
-    char aux[19];
-    FILE *fptr=NULL;
-type_cnpj:
-    printf("\nType store CNPJ: ");
-    gets(aux);
-    fflush(stdin);
-    system("cls");
-    if((fptr=fopen("concessionaria.bin", "rb"))==NULL)
-    {
-        printf("\nError to open archive");
-    }// If - Data ERROR
-    pos=search_store(p1, aux, qtt);
-    fseek(fptr, pos*sizeof(loja), 0);
-    fread(p1, sizeof(loja), 1,  fptr);
-    if(pos==-1)
-        {
-            system("cls");
-            printf("type an existing CNPJ\n");
-            system("pause");
-            goto type_cnpj;
-        }
-
-        if(strcmp(aux, p1->CNPJ) == 0)
-        {
-            if(p1->reserved == 0)
-            {  
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].sigla, p1->tabela[1].sigla, p1->tabela[2].sigla);
-            }
-            else if (p1->reserved == 1)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
-            }
-            else if (p1->reserved == 2)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
-            }
-            if (p1->reserved == 3)
-            {
-                printf("\nRegister: %i\nName: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
-            }
-        }// If - aux = p1->CNPJ]
-    printf("\n\n\n");
-    system("pause");
-    system("cls");
-    printf("\nNew name: ");
-    gets(p1->nome);
-    fflush(stdin);
-    printf("\nNew CNPJ: ");
-    gets(p1->CNPJ);
-    fflush(stdin);
-    save_store(p1,"rb+",pos);
-    printf("\nSuccess\n");
-    system("pause");
-    fclose(fptr);
-}//change_store
-
-void change_car(montadora *p2, int qtt)
-{
-    int pos, aux;
-    FILE *fptr=NULL;
-type_regCar:
-    printf("\nType Car Register: ");
-    scanf("%i", &aux);
-    fflush(stdin);
-    system("cls");
-    if((fptr=fopen("carro.bin", "rb"))==NULL)
-    {
-        printf("\nError to open archive");
-    }// If - Data ERROR
-    pos=search_car(p2, aux, qtt);
-    fseek(fptr, pos*sizeof(montadora), 0);
-    fread(p2, sizeof(montadora), 1,  fptr);
-    if(pos==-1)
-        {
-            system("cls");
-            printf("type an existing Car register\n");
-            system("pause");
-            goto type_regCar;
-        }
-
-        if(aux == p2->regcarro)
-        {
-           if(p2->status.sigla == 'L')
-           {
-               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c\n", p2->modelo, p2->cor, p2->valor, p2->status.sigla);
-           }
-           else if (p2->status.reserva.sigla == 'R')
-           {
-               printf("\nModel: %s\nColor: %s\nPrice: %.2f\nStatus: %c %s\n", p2->modelo, p2->cor, p2->valor, p2->status.reserva.sigla, p2->status.reserva.CNPJ);
-           }
-        }// If - aux = p1->CNPJ]
-    printf("\n\n\n");
-    system("pause");
-    system("cls");
-    printf("\nNew model: ");
-    gets(p2->modelo);
-    fflush(stdin);
-    printf("\nNew color: ");
-    gets(p2->cor);
-    fflush(stdin);
-    printf("\nNew price: ");
-    scanf("%f", &(p2->valor));
-    fflush(stdin);
-    save_car(p2,"rb+",pos);
-    printf("\nSuccess\n");
-    system("pause");
-    fclose(fptr);
-}//change_store
+}//show_history_model
