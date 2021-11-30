@@ -1000,11 +1000,11 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     FILE *fptr3=NULL;
     system("cls");
     if((fptr1=fopen("concessionaria.bin","rb"))==NULL)
-        printf("\nErro");
+        printf("\nErro\n");
     if((fptr2=fopen("carro.bin","rb"))==NULL)
-        printf("\nErro");
+        printf("\nErro\n");
     if((fptr3=fopen("historico.bin","rb"))==NULL)
-        printf("\nErro");
+        printf("\nErro\n");
 
     if(p1->reserved <= 2)
     {
