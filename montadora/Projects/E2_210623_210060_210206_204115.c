@@ -504,12 +504,58 @@ void show_store(loja *p1, int qtt)//mudar a combinação dos ifs
     // For - Show Data
         else
         {
-            if(p1->reserved == 1)
+            /*printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved);
+            for (size_t j = 0; j < 3; j++)
+            {
+                if (p1->tabela[j].reservado.sigla == 'L')
+                {
+                    printf("\nTable %i: %c", j, p1->tabela[j].reservado.sigla);
+                }
+                else
+                {
+                    printf("\nTable %i: %c %i", j, p1->tabela[j].reservado.sigla, p1->tabela[j].reservado.regcarro);
+                }
+            }
+            printf("\n");*/
+            if(p1->tabela[0].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'L')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
+            }
+            if(p1->tabela[0].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'L')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
+            }
+            if(p1->tabela[0].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'R')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+            if(p1->tabela[0].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'R')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+            if(p1->tabela[0].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'L')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
+            }
+            if(p1->tabela[0].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'R' && p1->tabela[1].reservado.sigla == 'R')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+            if(p1->tabela[0].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'R')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            }
+            if(p1->tabela[0].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'L' && p1->tabela[1].reservado.sigla == 'L')
+            {
+                printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
+            }
+            /*if(p1->reserved == 1)
                 printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[2].reservado.sigla);
             if(p1->reserved == 2)
                 printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla);
             if(p1->reserved == 3)
                 printf("\nRegister: %i\nName: %s\nCNPJ: %s\nAdress: %s\nSold: %i\nReserved: %i\nTable 0: %c %i\nTable 1: %c %i\nTable 2: %c %i\n", p1->regloja, p1->nome, p1->CNPJ, p1->end.logradouro, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro, p1->tabela[2].reservado.sigla, p1->tabela[2].reservado.regcarro);
+            */
         }// Else - Data OK
     }
     fclose(fptr);
@@ -552,11 +598,11 @@ void show_CNPJ(loja *p1, int tam, char aux[19])//USAR A FUNCAO BUSCA
         {  
             printf("Name: %s\tSold: %i\tReserved: %i", p1->nome, p1->sold, p1->reserved);
         }
-        else if (p1->reserved==1)
+        if (p1->reserved==1)
         {
             printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro);
         }
-        else if (p1->reserved==2)
+        if (p1->reserved==2)
         {
             printf("Name: %s\tSold: %i\tReserved: %i\tTable 0: %c - %i\tTable 1: %c - %i", p1->nome, p1->sold, p1->reserved, p1->tabela[0].reservado.sigla, p1->tabela[0].reservado.regcarro, p1->tabela[1].reservado.sigla, p1->tabela[1].reservado.regcarro);
         }
@@ -972,6 +1018,7 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     register_number1:
         printf("Number of register:\n");
         scanf("%i", &aux_reg);
+        fflush(stdin);
         i_car = search_car(p2, aux_reg, qtt_car);
         printf("%i\n", i_car);
         system("pause");
@@ -986,8 +1033,13 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     fseek(fptr2,i_car*sizeof(montadora),0);
 	fread(p2,sizeof(montadora),1,fptr2);
 
+    system("cls");
+
+
     for ( i = 0; i < qtt_str; i++)
     {
+        fseek(fptr1,i*sizeof(loja),0);
+        fread(p1,sizeof(loja),1,fptr1);
         if(strcmp(p2->status.reserva.CNPJ, p1->CNPJ)==0)
         {
             i_store=i;
@@ -1019,6 +1071,7 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
                 strcpy(p2->modelo, "vago");
                 strcpy(p2->cor, "vago");
                 p2->valor = 0;
+                p2->status.reserva.sigla = 'L';
                 p2->status.sigla = 'L';
                 (p1->reserved)--;
                 (p1->sold)++;
@@ -1039,12 +1092,13 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
             
             case 'R':
             {
+                p2->status.reserva.sigla = 'L';
                 p2->status.sigla = 'L';
                 (p1->reserved)--;
-                fseek(fptr1,i_store*sizeof(loja),0);
-	            fread(p1,sizeof(loja),1,fptr1);
-                fseek(fptr2,i_car*sizeof(montadora),0);
-	            fread(p2,sizeof(montadora),1,fptr2);
+                //fseek(fptr1,i_store*sizeof(loja),0);
+	            //fread(p1,sizeof(loja),1,fptr1);
+                //fseek(fptr2,i_car*sizeof(montadora),0);
+	            //fread(p2,sizeof(montadora),1,fptr2);
                 for (size_t i = 0; i < 3; i++)
                 {
                     if((p1->tabela+i)->reservado.sigla =='R')

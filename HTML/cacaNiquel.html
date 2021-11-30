@@ -7,7 +7,7 @@
 		<meta name="author" content = "Lord 月青, Folena, Conris, Rage, Kote">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Caça Níqueis Computação (SLOTS)</title>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="/CacaNiquel/style.css">
 		
 		
 		<script>
@@ -254,28 +254,28 @@
 					if(credito > 0 && credito >= aposta){
 						credito = credito - aposta;
 						document.getElementById('credito').value = 'R$ ' + credito;
-						document.getElementById('laranja').src = 'img/roleta.gif';
-						document.getElementById('uva').src = 'img/roleta.gif';
-						document.getElementById('cereja').src = 'img/roleta.gif';
-						document.getElementById('sete').src = 'img/roleta.gif';
+						document.getElementById('laranja').src = '/CacaNiquel/img/roleta.gif';
+						document.getElementById('uva').src = '/CacaNiquel/img/roleta.gif';
+						document.getElementById('cereja').src = '/CacaNiquel/img/roleta.gif';
+						document.getElementById('sete').src = '/CacaNiquel/img/roleta.gif';
 						
 						//processamento do slot1
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							count=setTimeout("document.getElementById('laranja').src = 'img/laranja1.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = '/CacaNiquel/img/laranja1.png'", 4000);
 							slot1 = 1;
 							break;
 							case 2:
-							count=setTimeout("document.getElementById('laranja').src = 'img/uva1.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = '/CacaNiquel/img/uva1.png'", 4000);
 							slot1 = 2;
 							break;
 							case 3:
-							count=setTimeout("document.getElementById('laranja').src = 'img/cereja1.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = '/CacaNiquel/img/cereja1.png'", 4000);
 							slot1 = 3;
 							break;
 							case 4:
-							count=setTimeout("document.getElementById('laranja').src = 'img/sete1.png'", 4000);
+							count=setTimeout("document.getElementById('laranja').src = '/CacaNiquel/img/sete1.png'", 4000);
 							slot1 = 4;
 							break;
 						}
@@ -284,19 +284,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							count=setTimeout("document.getElementById('uva').src = 'img/laranja1.png'", 5000);
+							count=setTimeout("document.getElementById('uva').src = '/CacaNiquel/img/laranja1.png'", 5000);
 							slot2 = 1;
 							break;
 							case 2:
-							count=setTimeout("document.getElementById('uva').src = 'img/uva1.png'", 5000);
+							count=setTimeout("document.getElementById('uva').src = '/CacaNiquel/img/uva1.png'", 5000);
 							slot2 = 2;
 							break;
 							case 3:
-							count=setTimeout("document.getElementById('uva').src = 'img/cereja1.png'", 5000);
+							count=setTimeout("document.getElementById('uva').src = '/CacaNiquel/img/cereja1.png'", 5000);
 							slot2 = 3;
 							break;
 							case 4:
-							count=setTimeout("document.getElementById('uva').src = 'img/sete1.png'", 5000);
+							count=setTimeout("document.getElementById('uva').src = '/CacaNiquel/img/sete1.png'", 5000);
 							slot2 = 4;
 							break;
 						}
@@ -305,19 +305,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							count=setTimeout("document.getElementById('cereja').src = 'img/laranja1.png'", 6000);
+							count=setTimeout("document.getElementById('cereja').src = '/CacaNiquel/img/laranja1.png'", 6000);
 							slot3 = 1;
 							break;
 							case 2:
-							count=setTimeout("document.getElementById('cereja').src = 'img/uva1.png'", 6000);
+							count=setTimeout("document.getElementById('cereja').src = '/CacaNiquel/img/uva1.png'", 6000);
 							slot3 = 2;
 							break;
 							case 3:
-							count=setTimeout("document.getElementById('cereja').src = 'img/cereja1.png'", 6000);
+							count=setTimeout("document.getElementById('cereja').src = '/CacaNiquel/img/cereja1.png'", 6000);
 							slot3 = 3;
 							break;
 							case 4:
-							count=setTimeout("document.getElementById('cereja').src = 'img/sete1.png'", 6000);
+							count=setTimeout("document.getElementById('cereja').src = '/CacaNiquel/img/sete1.png'", 6000);
 							slot3 = 4;
 							break;
 						}
@@ -326,19 +326,19 @@
 						nSort = aleatorio(1,5);
 						switch (nSort) {
 							case 1:
-							count=setTimeout("document.getElementById('sete').src = 'img/laranja1.png'", 7000);
+							count=setTimeout("document.getElementById('sete').src = '/CacaNiquel/img/laranja1.png'", 7000);
 							slot4 = 1;
 							break;
 							case 2:
-							count=setTimeout("document.getElementById('sete').src = 'img/uva1.png'", 7000);
+							count=setTimeout("document.getElementById('sete').src = '/CacaNiquel/img/uva1.png'", 7000);
 							slot4 = 2;
 							break;
 							case 3:
-							count=setTimeout("document.getElementById('sete').src = 'img/cereja1.png'", 7000);
+							count=setTimeout("document.getElementById('sete').src = '/CacaNiquel/img/cereja1.png'", 7000);
 							slot4 = 3;
 							break;
 							case 4:
-							count=setTimeout("document.getElementById('sete').src = 'img/sete1.png'", 7000);
+							count=setTimeout("document.getElementById('sete').src = '/CacaNiquel/img/sete1.png'", 7000);
 							slot4 = 4;
 							break;
 						}
@@ -374,29 +374,29 @@
 			
 			<div id = "tela">
 				<div id = "slot1">
-					<img id = "laranja" src = "img/laranja1.png" />
+					<img id = "laranja" src = "/CacaNiquel/img/laranja1.png" />
 				</div>
 				<div id = "slot2">
-					<img id = "uva" src = "img/uva1.png" />
+					<img id = "uva" src = "/CacaNiquel/img/uva1.png" />
 				</div>
 				<div id = "slot3">
-					<img id = "cereja" src = "img/cereja1.png" />
+					<img id = "cereja" src = "/CacaNiquel/img/cereja1.png" />
 				</div>
 				<div id = "slot4">
-					<img id = "sete" src = "img/sete1.png" />
+					<img id = "sete" src = "/CacaNiquel/img/sete1.png" />
 				</div>
 			</div>
 			
 			<div id = "botoes">
-				<img src = "img/diminuir_aposta.gif" onMouseDown="this.src='img/diminuir_aposta_1.gif';" onMouseUp="this.src='img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
-				<img src = "img/iniciar_aposta.gif" onMouseDown="this.src='img/iniciar_aposta_1.gif';" onMouseUp="this.src='img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
-				<img src = "img/aumentar_aposta.gif" onMouseDown="this.src='img/aumentar_aposta_1.gif';" onMouseUp="this.src='img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
-				<img src = "img/botao.gif" onmousedown="this.src='img/botao_apertado.gif';" onmouseup="this.src='img/botao.gif';" onclick="colocar_credito();"/>
+				<img src = "/CacaNiquel/img/diminuir_aposta.gif" onMouseDown="this.src='/CacaNiquel/img/diminuir_aposta_1.gif';" onMouseUp="this.src='/CacaNiquel/img/diminuir_aposta.gif';" onclick = "diminuir_aposta();" />
+				<img src = "/CacaNiquel/img/iniciar_aposta.gif" onMouseDown="this.src='/CacaNiquel/img/iniciar_aposta_1.gif';" onMouseUp="this.src='/CacaNiquel/img/iniciar_aposta.gif';" onclick = "iniciar_aposta();"/>
+				<img src = "/CacaNiquel/img/aumentar_aposta.gif" onMouseDown="this.src='/CacaNiquel/img/aumentar_aposta_1.gif';" onMouseUp="this.src='/CacaNiquel/img/aumentar_aposta.gif';" onclick = "aumentar_aposta();"/>
+				<img src = "/CacaNiquel/img/botao.gif" onmousedown="this.src='/CacaNiquel/img/botao_apertado.gif';" onmouseup="this.src='/CacaNiquel/img/botao.gif';" onclick="colocar_credito();"/>
 			</div>
 			
 			<div id = "rodapé">
-				<a href = "tabela.html">
-					<img src="img/premios.png">
+				<a href = "/CacaNiquel/tabela.html">
+					<img src="/CacaNiquel/img/premios.png">
 				</a>
 			</div>
 
