@@ -459,8 +459,6 @@ void register_store(loja *p1, int qtt)
     for ( i = 0; i < 3; i++)
     {
         p1->tabela[i].sigla = 'L';
-        //p1->tabela[i].reservado.sigla='R'
-        //p1->tabela[i].reservado.regcarro = 'numero do registro do carro'
     }
     save_store(p1, "ab", 0);
 }//Function register_store
@@ -697,8 +695,6 @@ void show_car(montadora *p2, int qtt)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    //fseek(fptr, i*sizeof(montadora), 0);
-  	//fread(p2, sizeof(montadora), 1, fptr);
     for(i=0; i<qtt; i++)
     {
         fseek(fptr, i*sizeof(montadora), 0);
@@ -969,11 +965,8 @@ register_CNPJ:
                 printf("teste2\n");
                 system("pause");
                 (p1->reserved)++;
-                //strcpy(p2->status.sigla, 'R');
-                //p2->status.sigla = 'R';
                 p2->status.reserva.sigla = 'R';
                 strcpy(p2->status.reserva.CNPJ, p1->CNPJ);
-                //p2->status.reserva.CNPJ = p1->CNPJ;
                 for (size_t i = 0; i < 3; i++)
                 {
                     if(p1->tabela[i].reservado.sigla !='R')
@@ -1048,7 +1041,6 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
     }
     fseek(fptr1,i_store*sizeof(loja),0);
 	fread(p1,sizeof(loja),1,fptr1);
-    //verify_reserved:
     if(p2->status.sigla=='R')
     {
         printf("Will the chosen car be [s]old or [r]eleased\n");
@@ -1095,10 +1087,6 @@ void finish_reserv(loja *p1, montadora *p2, historicoVendas *p3, int qtt_car, in
                 p2->status.reserva.sigla = 'L';
                 p2->status.sigla = 'L';
                 (p1->reserved)--;
-                //fseek(fptr1,i_store*sizeof(loja),0);
-	            //fread(p1,sizeof(loja),1,fptr1);
-                //fseek(fptr2,i_car*sizeof(montadora),0);
-	            //fread(p2,sizeof(montadora),1,fptr2);
                 for (size_t i = 0; i < 3; i++)
                 {
                     if((p1->tabela+i)->reservado.sigla =='R')
@@ -1235,8 +1223,6 @@ void show_history_CNPJ(historicoVendas *p3, int qtt)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    //fseek(fptr, i*sizeof(historicoVendas), 0);
-  	//fread(p3, sizeof(historicoVendas), 1, fptr);
     printf("\nType CNPJ: \n");
     gets(cnpj);
     for(i=0; i<qtt; i++)
@@ -1270,8 +1256,6 @@ void show_history_model(historicoVendas *p3, int qtt)
     {
         printf("\nError to open archive");
     }// If - Data ERROR
-    //fseek(fptr, i*sizeof(historicoVendas), 0);
-  	//fread(p3, sizeof(historicoVendas), 1, fptr);
     printf("\nType car model: \n");
     gets(model);
     for(i=0; i<qtt; i++)
