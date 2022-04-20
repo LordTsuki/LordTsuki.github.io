@@ -1,4 +1,4 @@
-#include<stdio.h> //teste
+#include<stdio.h> //teste a
 #include<stdlib.h> 
 #include<math.h>
 
