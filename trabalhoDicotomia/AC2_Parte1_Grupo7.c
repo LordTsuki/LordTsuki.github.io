@@ -4,13 +4,16 @@
 #include <locale.h>
 
 void alloc_lag(float **p2, int tam);
-void make_lag();
-//void receive_values(float *p)
+void receive_values(float *p2, float x[50], float y[50], int point);
+void make_lag(float *p2, float pl, float yp, float p);
 
 int main()
 {
-    int i = 0, menu;
+    float *p2 = NULL, x_l[50], y_l[50], pl_l, yp_l, p_l;
+    int i = 0, menu, point;
     
+    alloc_lag(&p2, point+1);
+
 menu:
     printf("\n1 - Dichotomy\n2 - Lagrange\n0 - Exit\n");
     scanf("%i", &menu);
@@ -19,20 +22,22 @@ menu:
     {
     case 1: // Dichotomy
         /* Dichotomy */
-        break;
+    break;// Dichotomy
     
     case 2: // Lagrange
-        make_lag();
+        receive_values(p2, x_l, y_l, point);
+        make_lag(p2, pl_l, yp_l, p_l);
         goto menu;
-        break;
+    break;// Lagrange
     
     case 0:
         exit(1);
+    break;// Exit
 
     default:
         printf("Command ERROR");
         goto menu;
-        break;
+    break;// Another Key
     }// Switch Menu
 
 }// Main
@@ -79,12 +84,11 @@ void alloc_lag(float **p2, int tam)
         printf("Not able to alloc");
         system("pause");
         exit(1);
-    }
+    }// If
 }//alloc_lag
 
-void make_lag()
+void receive_values(float *p2, float x[50], float y[50], int point)
 {
-    float x[50], y[50], pl, yp=0, p;
     int i, j, point, prov;
     char resp;
 
@@ -115,7 +119,44 @@ void make_lag()
       printf("f[x%d] = ", i);
       scanf("%f", &y[i]);
     }// For
-a:
+
+}
+
+void make_lag(float *p2, float pl, float yp, float p, int point)
+{
+    int i, j, point, prov;
+    char resp;
+
+    alloc_lag(&p2, point+1);
+
+    /*printf("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n+++++++++++++++++Numerical methods: Lagrange+++++++++++++++++\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+    printf("Enter the number of points from the table x and f(x):\n");
+    scanf("%i", &point);
+
+    while(point < 1 || point > 5)
+    {
+        printf("Enter a integer value between 1 and 5\n");
+        scanf("%i", &point);
+    }//while
+
+    printf("Enter the values of x:\n");
+
+    for(i = 0; i < point; i++)
+    {
+      printf("x[%d] = ", i);
+      scanf("%f", &x[i]);
+    }// For
+    i--;
+    prov = i;
+
+    printf("Enter the values of f(x):\n");
+
+    for(i = 0;i < point; i++)
+    {
+      printf("f[x%d] = ", i);
+      scanf("%f", &y[i]);
+    }// For
+new_point:
     yp=0;
     printf("Enter the value of x to be interpolated:\n");
     scanf("%f", &pl);
@@ -124,7 +165,17 @@ a:
     {
         printf("Please type values of x between the ones assigned previously (DO NOT EXTRAPOLATE): ");
         scanf("%f", &pl);
-    }
+    }// While*/
+new_point:
+    yp=0;
+    printf("Enter the value of x to be interpolated:\n");
+    scanf("%f", &pl);
+
+    while(pl<x[0] || pl>x[prov])
+    {
+        printf("Please type values of x between the ones assigned previously (DO NOT EXTRAPOLATE): ");
+        scanf("%f", &pl);
+    }// While
 
     printf("+++++++++++++++++++++++++++++++++++++++++++++++\n+++++++++++++++++Interpolation+++++++++++++++++\n+++++++++++++++++++++++++++++++++++++++++++++++\n");
 
@@ -152,6 +203,6 @@ a:
     fflush(stdin);
     if (resp == 'y' || resp == 'Y')
     {
-        goto a;
-    }
+        goto new_point;
+    }// If
 }// make_lag
