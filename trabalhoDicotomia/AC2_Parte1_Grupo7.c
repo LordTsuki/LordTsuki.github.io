@@ -197,11 +197,11 @@ void receive_values(float *x, float *y, int point)
       scanf("%f", x + i);
     }// For
 
-    printf("Enter the values of f(x):\n");
+    printf("Enter the values of y:\n");
 
     for(i = 0;i < point; i++)
     {
-      printf("f[x%d] = ", i);
+      printf("y[%d] = ", i);
       scanf("%f", y + i);
     }// For
 
@@ -241,7 +241,7 @@ new_point:
         yp = yp + p * (*(y + i));
     }// For
     
-    printf("The point %.3f of f(x) is %.3f\n", pl, yp);
+    printf("The point %.3f of f(x) is %.5f\n", pl, yp);
     system("pause");
     system("cls");
     printf("Do you want to interpolate another point?: [y/n]\n");
