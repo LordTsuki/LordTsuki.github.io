@@ -43,8 +43,6 @@ int main()
             alloc_float(&u2, npoints);
             receive_values(x, y, npoints);
             save_values(x, u0, u1, u2, npoints);
-            //printf("%f\t%f\t%f\n%f\t%f\t%f\n%f\t%f\t%f", *y, *u0, *u1, *(y+1), *(u0+1), *(u1+1), *(y+2), *(u0+2), *(u1+2));
-            //printf("%f\t%f\t%f\n%f\t%f\t%f", *x, *(x+1), *(x+2), *y, *(y+1), *(y+2));
             equation:
             printf("\nChoose an option (1) Line Equation or (2) Parable Equation: ");
             scanf("%i", &equation);
@@ -53,7 +51,6 @@ int main()
             {
                 case 1:
                     print_gauss_elimination_line(y, u0, u1, npoints);
-                    //printf("%f\t%f\t%f\n%f\t%f\t%f\n%f\t%f\t%f", *y, *u0, *u1, *(y+1), *(u0+1), *(u1+1), *(y+2), *(u0+2), *(u1+2));
                     printf("Do you wish to calculate the same p(x) again? (y/n)");
                     scanf("%c", &decision);
                     if(toupper(decision) == 'Y')
@@ -175,8 +172,6 @@ void print_gauss_elimination_line(float *y, float *u_0, float *u_1, int tam)
         t6 = t6 + *(y+i)**(u_1+i);
     }
     aux = t4/t1;
-    //printf("%f", t1);
-    //system("pause");
     
     printf("---------building p(x)---------\n\nVectors\n y\tu0\tu1\n");
     for ( i = 0; i < tam; i++)
@@ -193,7 +188,6 @@ void print_gauss_elimination_line(float *y, float *u_0, float *u_1, int tam)
     t6=t6-(t3*(aux));
     
     printf("%.2f   %.2f   %.2f\n%.2f   %.2f   %.2f\n\n", t1,t2, t3, t4, t5, t6);
-    //system("pause");
 
     a1 = t6/t5;
     a0 = (t3-(t2*a1))/t1;
@@ -280,7 +274,6 @@ void receive_values_trapeze(float *p, int tam, float *inicial, float *final)
         printf("Warning - Altered Range\nCorrected Order: ");
         printf("[a]=%.2f and [b]=%.2f", *inicial, *final);
     }
-    //getch();
 }
 
 float calculateF(float *p, int tam, float x)
@@ -305,7 +298,6 @@ void print_trapezoidal_rule(float *p, float *fx, int tam, float *inicial, float 
     for (i = 0; i < *ndivisions+1; i++)
     {
         *(fx+i) = calculateF(p, tam, h*i + *inicial);
-        //printf("%f", *(fx+i));
     }
     printf("h = (%.4f - %.4f) / %i\n\n", *inicial, *final, *ndivisions);
     printf("h: %.4f\n\n", h);
@@ -319,7 +311,6 @@ void print_trapezoidal_rule(float *p, float *fx, int tam, float *inicial, float 
     for (i = 1; i < *ndivisions; i++)
     {
         itr = itr + *(fx+i);
-        //printf("%f\n", *(fx+i));
     }
     itr = (h/2)*(2*itr + *fx + *(fx+*ndivisions));
     printf("\nITR = %.4f", itr);
