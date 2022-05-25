@@ -12,16 +12,20 @@ NOME: MARCOS VINICIUS FOLENA RA: 204115
 #include <ctype.h>
 
 void alloc_float(float **p, int tam);
+void alloc_int(int **p, int tam);
 void receive_values(float *x, float *y, int tam);
 void save_values(float *x, float *u_0, float *u_1, float *u_2, int tam);
-void print_gauss_elimination_line(float *x, float *y, float *u_0, float *u_1, int tam);
-void print_gauss_elimination_parable(float *x, float *y, float *u_0, float *u_1, float *u_2, int tam);
+void print_gauss_elimination_line(float *y, float *u_0, float *u_1, int tam);
+void print_gauss_elimination_parable(float *y, float *u_0, float *u_1, float *u_2, int tam);
+void receive_values_trapeze(float *p, int tam, float *inicial, float *final);
+float calculateF(float *p, int tam, float x);
+void print_trapezoidal_rule(float *p, float *fx, int tam, float *inicial, float *final, int *ndivisions);
 
 int main()
 {
     char decision;
-    float *x = NULL, *y = NULL, *u0 = NULL,*u1 = NULL, *u2 = NULL;
-    int menu, npoints, equation;
+    float *x = NULL, *y = NULL, *u0 = NULL,*u1 = NULL, *u2 = NULL, *coef = NULL, *a = NULL, *b = NULL, *f_x = NULL;
+    int menu, npoints, equation, degree, *divisions = NULL;
     menu:
     printf("\n1 - MMQ\n2 - REGRA DOS TRAPEZIOS\n0 - Exit\n");
     scanf("%i", &menu);
@@ -48,7 +52,7 @@ int main()
             switch(equation)
             {
                 case 1:
-                    print_gauss_elimination_line(x, y, u0, u1, npoints);
+                    print_gauss_elimination_line(y, u0, u1, npoints);
                     //printf("%f\t%f\t%f\n%f\t%f\t%f\n%f\t%f\t%f", *y, *u0, *u1, *(y+1), *(u0+1), *(u1+1), *(y+2), *(u0+2), *(u1+2));
                     printf("Do you wish to calculate the same p(x) again? (y/n)");
                     scanf("%c", &decision);
@@ -59,8 +63,8 @@ int main()
                 break;
                 
                 case 2:
-                    print_gauss_elimination_parable(x, y, u0, u1, u2, npoints);
-                    printf("Do you wish to calculate the same p(x) again? (y/n)");
+                    print_gauss_elimination_parable(y, u0, u1, u2, npoints);
+                    printf("\nDo you wish to calculate the same p(x) again (y/n)?: ");
                     scanf("%c", &decision);
                     if(toupper(decision) == 'Y')
                     {
@@ -72,7 +76,23 @@ int main()
         break;
 
         case 2:
-
+            printf("\nType the degree of the polynomial[0-10]: ");
+            scanf("%i", &degree);
+            fflush(stdin);
+            alloc_float(&coef, degree+1);
+            alloc_float(&a, 1);
+            alloc_float(&b, 1);
+            alloc_int(&divisions, 1);
+            alloc_float(&f_x, *divisions+1);
+            receive_values_trapeze(coef, degree, a, b);
+            divisions:
+            print_trapezoidal_rule(coef, f_x, degree, a, b, divisions);
+            printf("\nDo you wish to calculate with anoter number of trapezoidals (y/n)?: ");
+            scanf("%c", &decision);
+            if(toupper(decision) == 'Y')
+            {
+                goto divisions;
+            }
             goto menu;
         break;
 
@@ -90,6 +110,16 @@ int main()
 void alloc_float(float **p, int tam)
 {
 	if( (*p=(float *)realloc(*p,(tam)*sizeof(float)) )==NULL)
+	{
+		printf("Error in the allocation!");
+		exit(1);
+	}
+	//printf("Espaco alocado com sucesso! End= %u\n",*p);
+}//alocaFloat
+
+void alloc_int(int **p, int tam)
+{
+	if( (*p=(int *)realloc(*p,(tam)*sizeof(int)) )==NULL)
 	{
 		printf("Error in the allocation!");
 		exit(1);
@@ -131,7 +161,7 @@ void save_values(float *x, float *u_0, float *u_1, float *u_2, int tam)
     
 }
 
-void print_gauss_elimination_line(float *x, float *y, float *u_0, float *u_1, int tam)
+void print_gauss_elimination_line(float *y, float *u_0, float *u_1, int tam)
 {
     int i;
     float t1=0, t2=0, t3=0, t4=0, t5=0, t6=0, aux, a0, a1;
@@ -172,7 +202,7 @@ void print_gauss_elimination_line(float *x, float *y, float *u_0, float *u_1, in
     printf("The line that best aproximates the function from the table is p(x)=%.3f+%.3fx\n", a0, a1);
 }
 
-void print_gauss_elimination_parable(float *x, float *y, float *u_0, float *u_1, float *u_2, int tam)
+void print_gauss_elimination_parable(float *y, float *u_0, float *u_1, float *u_2, int tam)
 {
     int i;
     float t1=0, t2=0, t3=0, t4=0, t5=0, t6=0,t7=0, t8=0, t9=0, t10=0, t11=0, t12=0, aux, aux1, aux2, a0, a1, a2;
@@ -224,4 +254,73 @@ void print_gauss_elimination_parable(float *x, float *y, float *u_0, float *u_1,
 
     printf("Answer:\na0=%.3f\na1=%.3f\na2=%.3f\n\n", a0, a1, a2);
     printf("The line that best aproximates the function from the table is p(x)=%.3f+%.3fx+%.3fx^2\n", a0, a1, a2);
+}
+
+void receive_values_trapeze(float *p, int tam, float *inicial, float *final)
+{
+    int i;
+    float aux;
+    for(i=0; i < tam+1; i++)
+    {
+        printf("Type the coefficient of x^%i: ", i);
+        scanf("%f", p+i);
+        fflush(stdin);
+    }
+    printf("\nType the value of a: ");
+    scanf("%f", inicial);
+    fflush(stdin);
+    printf("\nType the value of b: ");
+    scanf("%f", final);
+    fflush(stdin);
+    if(*inicial>*final)
+    {
+        aux = *inicial;
+        *inicial = *final;
+        *final = aux;
+        printf("Warning - Altered Range\nCorrected Order: ");
+        printf("[a]=%.2f and [b]=%.2f", *inicial, *final);
+    }
+    //getch();
+}
+
+float calculateF(float *p, int tam, float x)
+{
+    float valfunc = 0;
+    int i;
+    for(i=0; i<tam+1; i++)
+    {
+        valfunc = valfunc + (pow((x), i))*(*(p+i));
+    }
+    return valfunc;
+}
+
+void print_trapezoidal_rule(float *p, float *fx, int tam, float *inicial, float *final, int *ndivisions)
+{
+    int i;
+    float h, itr = 0;
+    printf("\nType the number of division from the interval: ");
+    scanf("%i", ndivisions);
+    fflush(stdin);
+    h =((*final)-(*inicial))/(*ndivisions);
+    for (i = 0; i < *ndivisions+1; i++)
+    {
+        *(fx+i) = calculateF(p, tam, h*i + *inicial);
+        //printf("%f", *(fx+i));
+    }
+    printf("h = (%.4f - %.4f) / %i\n\n", *inicial, *final, *ndivisions);
+    printf("h: %.4f\n\n", h);
+    getch();
+    printf("Values Table\n\n  x     f(x)\n");
+    for ( i = 0; i < *ndivisions+1; i++)
+    {
+        printf("%.4f  %.4f\n", *(inicial) + h*i, *(fx+i));
+    }
+    getch();
+    for (i = 1; i < *ndivisions; i++)
+    {
+        itr = itr + *(fx+i);
+        //printf("%f\n", *(fx+i));
+    }
+    itr = (h/2)*(2*itr + *fx + *(fx+*ndivisions));
+    printf("\nITR = %.4f", itr);
 }
